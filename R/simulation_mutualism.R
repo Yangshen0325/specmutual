@@ -1,5 +1,5 @@
 # simulation
-# sim_mutualism(simtime = 3, mutualism_pars = mutualism_pars)
+# sim_mutualism(simtime = 1, mutualism_pars = mutualism_pars)
 sim_mutualism <- function(simtime, mutualism_pars){
   #### Initialization ####
   timeval <- 0

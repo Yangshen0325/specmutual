@@ -33,7 +33,7 @@ create_mutualism_pars <- function(lac_pars,
   testit::assert(laa_pars >= 0.0)
   testit::assert(qgain >= 0.0 & qgain <= 1.0)
   testit::assert(qloss >= 0.0 & qloss <= 1.0)
-  testit::assert(lambda0 >= 0.0 & lambda0 <= 1.0)
+  testit::assert(lambda0 >= 0.0)
   testit::assert(transprob >= 0.0 & transprob <= 1.0 )
   list(lac_pars = lac_pars,
        mu_pars = mu_pars,

@@ -12,6 +12,7 @@ create_island_mutualism <- function(stt_table,
                    stac = 0,
                    missing_species = 0)
   } else {
+
     cnames <- c("Species",
                 "Mainland Ancestor",
                 "Colonisation time (BP)",
@@ -34,10 +35,19 @@ create_island_mutualism <- function(stt_table,
     } else if (mainland_n > 1){
       ### number of colonists present
       island_spec_plant <- island_spec[which(island_spec[, 8] == "plant"), ]
-      island_spec_animal <- island_spec[which(island_spec[, 8] == "animal"), ]
+      if (!is.matrix(island_spec_plant)) {
+        island_spec_plant <- rbind(island_spec_plant[1:8])
+        colnames(island_spec_plant) <- cnames
+      }
       present_plant <- sort(as.numeric(unique(island_spec_plant[, "Mainland Ancestor"])))
-      present_animal <- sort(as.numeric(unique(island_spec_animal[, "Mainland Ancestor"])))
       num_present_plant <- length(present_plant)
+
+      island_spec_animal <- island_spec[which(island_spec[, 8] == "animal"), ]
+      if (!is.matrix(island_spec_animal)) {
+        island_spec_animal <- rbind(island_spec_animal[1:8])
+        colnames(island_spec_animal) <- cnames
+      }
+      present_animal <- sort(as.numeric(unique(island_spec_animal[, "Mainland Ancestor"])))
       num_present_animal <- length(present_animal)
 
       island_clades_info_plant <- list()

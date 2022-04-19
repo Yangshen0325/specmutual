@@ -288,7 +288,7 @@ sim_update_state_mutualism <- function(timeval,
 
     ind1 <- intersect(which(island_spec[, 1] == cospec_plant),
                       which(island_spec[, 8] == "plant"))
-    ind2 <- intersect(which(island_spec[, 1] == cospec_plant),
+    ind2 <- intersect(which(island_spec[, 1] == cospec_animal),
                       which(island_spec[, 8] == "animal"))
 
     # for plant species
