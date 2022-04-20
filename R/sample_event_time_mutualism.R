@@ -18,6 +18,7 @@ sample_event_mutualism <- function(rates){
   output <- reshape2::melt(setNames(rates, seq_along(rates)))
   cnames <- c("plant", "animal", "rate", "event")
   colnames(output) <- cnames
+  output$event <-as.integer(output$event)
   output$animal[output$event<9 & output$event > 4] <-
     output$plant[output$event<9 & output$event > 4]
 

@@ -21,7 +21,9 @@ test_that("rates are feasible", {
     )
   )
 })
-
+# I set four types of rate only for plant with lac=2, mu=2, gam=1, laa=3 and without mutualism, DD,
+# and set the same only for animal species, expecting them the same output.
+# Mt is random generated but have to make nrow(Mt)=ncol(Mt).
 test_that("four rates for plant equals to that that for animal without mutualism
           and DD", {
   expect_equal(
