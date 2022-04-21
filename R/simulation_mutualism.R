@@ -1,5 +1,5 @@
 # simulation
-# sim_mutualism(simtime = 1, mutualism_pars = mutualism_pars)
+# sim_mutualism(simtime = 1.5, mutualism_pars = mutualism_pars)
 sim_mutualism <- function(simtime, mutualism_pars){
   #### Initialization ####
   timeval <- 0
@@ -59,10 +59,11 @@ sim_mutualism <- function(simtime, mutualism_pars){
                        stt_table[nrow(stt_table), 5],
                        stt_table[nrow(stt_table), 6],
                        stt_table[nrow(stt_table), 7]))
+  #return(stt_table)
 
-  island <- create_island_mutualism(stt_table = stt_table,
-                                    simtime = simtime,
-                                    island_spec = island_spec,
-                                      M0 = M0)
-  return(island)
+island <- create_island_mutualism(stt_table = stt_table,
+                                  simtime = simtime,
+                                  island_spec = island_spec,
+                                    M0 = M0)
+return(island)
 }

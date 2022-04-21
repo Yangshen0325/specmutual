@@ -21,6 +21,7 @@ sample_event_mutualism <- function(rates){
   output$event <-as.integer(output$event)
   output$animal[output$event<9 & output$event > 4] <-
     output$plant[output$event<9 & output$event > 4]
+  output$plant[output$event<9 & output$event > 4] <- 1
 
   x <- sample(1:dim(output)[1],
               size = 1,

@@ -31,10 +31,10 @@ create_mutualism_pars <- function(lac_pars,
   testit::assert(K_pars >= 0.0)
   testit::assert(gam_pars >= 0.0)
   testit::assert(laa_pars >= 0.0)
-  testit::assert(qgain >= 0.0 & qgain <= 1.0)
-  testit::assert(qloss >= 0.0 & qloss <= 1.0)
+  testit::assert(qgain >= 0.0)
+  testit::assert(qloss >= 0.0)
   testit::assert(lambda0 >= 0.0)
-  testit::assert(transprob >= 0.0 & transprob <= 1.0 )
+  testit::assert(transprob >= 0.0 & transprob <= 1.0)
   list(lac_pars = lac_pars,
        mu_pars = mu_pars,
        K_pars = K_pars,
@@ -59,27 +59,27 @@ are_mutualism_pars <- function(mutualism_pars){
   if (!"lambda0" %in% names(mutualism_pars)) return (FALSE)
   if (!"M0" %in% names(mutualism_pars)) return (FALSE)
   if (!"transprob" %in% names(mutualism_pars)) return (FALSE)
-  if (prod(mutualism_pars$lac_pars) < 0.0) return (FALSE)
-  if (prod(mutualism_pars$mu_pars) < 0.0) return (FALSE)
-  if (prod(mutualism_pars$K_pars) < 0.0) return (FALSE)
-  if (prod(mutualism_pars$gam_pars) < 0.0) return (FALSE)
-  if (prod(mutualism_pars$laa_pars) < 0.0) return (FALSE)
+  if (any(mutualism_pars$lac_pars < 0.0)) return (FALSE)
+  if (any(mutualism_pars$mu_pars < 0.0)) return (FALSE)
+  if (any(mutualism_pars$K_pars < 0.0)) return (FALSE)
+  if (any(mutualism_pars$gam_pars < 0.0)) return (FALSE)
+  if (any(mutualism_pars$laa_pars < 0.0)) return (FALSE)
   if (mutualism_pars$qgain < 0.0) return (FALSE)
   if (mutualism_pars$qloss < 0.0) return (FALSE)
   if (mutualism_pars$lambda0 < 0.0) return (FALSE)
   if (!is.array(mutualism_pars$M0)) return (FALSE)
   if (mutualism_pars$transprob < 0.0) return (FALSE)
-  TRUE
+  return(TRUE)
 }
 
 
-mutualism_pars <- create_mutualism_pars(lac_pars = c(1, 1),
-                                        mu_pars = c(2, 2, 0, 0),
-                                        K_pars = c(Inf, Inf, Inf, Inf),
-                                        gam_pars = c(1, 2),
-                                        laa_pars = c(1, 1.5, 0, 0),
-                                        qgain = 0.1,
-                                        qloss = 0.99,
-                                        lambda0 = 0.5,
-                                        M0 = {set.seed(1);matrix(sample(c(0,1),20,replace = TRUE),ncol=5,nrow=4)},
-                                        transprob = 1)
+# mutualism_pars <- create_mutualism_pars(lac_pars = c(0.5, 0),
+#                                         mu_pars = c(0, 0, 0, 0),
+#                                         K_pars = c(Inf, Inf, Inf, Inf),
+#                                         gam_pars = c(1, 0),
+#                                         laa_pars = c(0, 0, 0, 0),
+#                                         qgain = 0,
+#                                         qloss = 0,
+#                                         lambda0 = 0,
+#                                         M0 = {set.seed(1);matrix(sample(c(0,1),20,replace = TRUE),ncol=5,nrow=4)},
+#                                         transprob = 1)
