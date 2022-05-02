@@ -67,7 +67,7 @@ are_mutualism_pars <- function(mutualism_pars){
   if (mutualism_pars$qgain < 0.0) return (FALSE)
   if (mutualism_pars$qloss < 0.0) return (FALSE)
   if (mutualism_pars$lambda0 < 0.0) return (FALSE)
-  if (!is.array(mutualism_pars$M0)) return (FALSE)
+  if (!is.array(mutualism_pars$M0) | !is.matrix(mutualism_pars$M0)) return (FALSE)
   if (mutualism_pars$transprob < 0.0) return (FALSE)
   return(TRUE)
 }

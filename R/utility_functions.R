@@ -7,14 +7,14 @@ get_pans_cmps <- function(Mt,
   pans_p <- Mt %*% status_a
   pans_a <- tMt %*% status_p
 
-  cmps_p <- matrix()
-  cmps_a <- matrix()
+  cmps_p <- c()
+  cmps_a <- c()
   for (x in seq(NROW(Mt))){
-    cmps_p[x] <- sum((colSums(tMt[ ,x] * tMt[ ,-x] * as.numeric(status_a)) >= 1)
+    cmps_p[x] <- sum((colSums(tMt[, x] * tMt[, -x] * as.numeric(status_a)) >= 1)
                      * status_p[-x, ])
   }
   for (x in seq(NCOL(Mt))){
-    cmps_a[x] <- sum((colSums(Mt[ ,x] * Mt[ ,-x] * as.numeric(status_p)) >= 1)
+    cmps_a[x] <- sum((colSums(Mt[, x] * Mt[, -x] * as.numeric(status_p)) >= 1)
                      * status_a[-x, ])
   }
 
