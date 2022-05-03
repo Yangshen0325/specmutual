@@ -24,6 +24,25 @@ get_pans_cmps <- function(Mt,
                          cmps_a = cmps_a)
   return(pans_cmps_list)
 }
+# test the format
+test_format_pans_cmps <- function(pans_cmps_list,
+                             status_p,
+                             status_a) {
+  if (!all(sapply(pans_cmps_list, is.numeric))) return(FALSE)
+  if (!"pans_p" %in% names(pans_cmps_list)) return(FALSE)
+  if (!"pans_a" %in% names(pans_cmps_list)) return(FALSE)
+  if (!"cmps_p" %in% names(pans_cmps_list)) return(FALSE)
+  if (!"cmps_a" %in% names(pans_cmps_list)) return(FALSE)
+  if (any(pans_cmps_list$pans_p < 0.0)) return(FALSE)
+  if (any(pans_cmps_list$pans_a < 0.0)) return(FALSE)
+  if (any(pans_cmps_list$cmps_p < 0.0)) return(FALSE)
+  if (any(pans_cmps_list$cmps_a < 0.0)) return(FALSE)
+  if (length(pans_cmps_list$pans_p) != length(status_p)) return(FALSE)
+  if (length(pans_cmps_list$pans_a) != length(status_a)) return(FALSE)
+  if (length(pans_cmps_list$cmps_p) != length(status_p)) return(FALSE)
+  if (length(pans_cmps_list$cmps_a) != length(status_a)) return(FALSE)
+  return(TRUE)
+}
 
 # get N/K
 get_nk <- function(Mt,
@@ -43,6 +62,19 @@ get_nk <- function(Mt,
   nk_list <- list(nk_p = nk_p,
                   nk_a = nk_a)
   return(nk_list)
+}
+# test the format
+test_format_nk <- function(nk_list,
+                           status_p,
+                           status_a) {
+  if (!all(sapply(nk_list, is.numeric))) return(FALSE)
+  if (!"nk_p" %in% names(nk_list)) return(FALSE)
+  if (!"nk_a" %in% names(nk_list)) return(FALSE)
+  if (any(nk_list$nk_p < 0.0)) return(FALSE)
+  if (any(nk_list$nk_a < 0.0)) return(FALSE)
+  if (length(nk_list$nk_p) != length(status_p)) return(FALSE)
+  if (length(nk_list$nk_a) != length(status_a)) return(FALSE)
+  return(TRUE)
 }
 
 # get a new matrix when cladogenesis happens
