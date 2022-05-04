@@ -29,7 +29,7 @@ create_island_mutualism <- function(stt_table,
       as.numeric(island_spec[, "Colonisation time (BP)"])
 
     if (mainland_n == 1){
-      island <- DAISIE_ONEcolonist(time = simtime,
+      island <- DAISIE:::DAISIE_ONEcolonist(time = simtime,
                                    island_spec = island_spec,
                                    stt_table = stt_table)
     } else if (mainland_n > 1){
@@ -59,7 +59,7 @@ create_island_mutualism <- function(stt_table,
             subset_island_plant <- rbind(subset_island_plant[1:8])
             colnames(subset_island_plant) <- cnames
           }
-          island_clades_info_plant[[i]] <- DAISIE_ONEcolonist(
+          island_clades_info_plant[[i]] <- DAISIE:::DAISIE_ONEcolonist(
             time = simtime,
             island_spec = subset_island_plant,
             stt_table = NULL)
@@ -76,7 +76,7 @@ create_island_mutualism <- function(stt_table,
             subset_island_animal <- rbind(subset_island_animal[1:8])
             colnames(subset_island_animal) <- cnames
           }
-          island_clades_info_animal[[i]] <- DAISIE_ONEcolonist(
+          island_clades_info_animal[[i]] <- DAISIE:::DAISIE_ONEcolonist(
             time = simtime,
             island_spec = subset_island_animal,
             stt_table = NULL)
