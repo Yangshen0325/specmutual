@@ -223,6 +223,6 @@ are_rates <- function(rates){
   if (prod(rates$cospec_rate) < 0.0) return (FALSE)
   if (prod(rates$gain_rate) < 0.0) return (FALSE)
   if (prod(rates$loss_rate) < 0.0) return (FALSE)
-  TRUE
+  return (TRUE)
 }
 
