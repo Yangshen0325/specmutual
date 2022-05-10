@@ -1,8 +1,8 @@
 # I set four types of rate only for plant with lac=2, mu=2, gam=1, laa=3 and without mutualism, DD,
-# and set the same only for animal species, expecting sampled the same ID.
-# M0 is random generated but have to make nrow(M0)=ncol(M0).
+# and set the same only for animal species, expecting the same stt_table.
+
 test_that("same stt_stable for system only has plant rates or animal rates", {
-mutualism_pars1 = create_mutualism_pars(
+mutualism_pars1 <- create_mutualism_pars(
   lac_pars = c(2, 0),
   mu_pars = c(2, 0, 0, 0),
   K_pars = c(Inf, Inf, Inf, Inf),
@@ -11,10 +11,10 @@ mutualism_pars1 = create_mutualism_pars(
   qgain = 0,
   qloss = 0,
   lambda0 = 0,
-  M0 = matrix(sample(c(0, 1), 25, replace = TRUE), ncol=5, nrow=5),
+  M0 = {set.seed(123); matrix(sample(c(0, 1), 25, replace = TRUE), ncol = 5, nrow = 5)},
   transprob = 0)
 
-mutualism_pars2 = create_mutualism_pars(
+mutualism_pars2 <- create_mutualism_pars(
   lac_pars = c(0, 2),
   mu_pars = c(0, 2, 0, 0),
   K_pars = c(Inf, Inf, Inf, Inf),
@@ -23,7 +23,7 @@ mutualism_pars2 = create_mutualism_pars(
   qgain = 0,
   qloss = 0,
   lambda0 = 0,
-  M0 = matrix(sample(c(0, 1), 25, replace = TRUE), ncol=5, nrow=5),
+  M0 = {set.seed(123); matrix(sample(c(0, 1), 25, replace = TRUE), ncol = 5, nrow = 5)},
   transprob = 0)
 
 sim1_mutualism <- function(simtime, mutualism_pars){
@@ -64,8 +64,8 @@ sim1_mutualism <- function(simtime, mutualism_pars){
                   size = 1,
                   replace = FALSE,
                   prob = unlist(testrates))
-      possible_event <- onlyplant[x,]
-      #print(c(possible_event$event, possible_event$plant))
+      possible_event <- onlyplant[x, ]
+      print(c(possible_event$event, possible_event$plant))
       # next state based on event
       updated_state <- sim_update_state_mutualism(timeval = timeval,
                                                   simtime = simtime,
@@ -84,9 +84,7 @@ sim1_mutualism <- function(simtime, mutualism_pars){
       maxplantID <- updated_state$maxplantID
       maxanimalID <- updated_state$maxanimalID
       island_spec <- updated_state$island_spec
-      #print(island_spec)
       stt_table <- updated_state$stt_table
-      #print(stt_table)
     }
   }
   #### Finalize STT ####
@@ -113,7 +111,7 @@ sim2_mutualism <- function(simtime, mutualism_pars){
   island_spec <- c()
   stt_table <- matrix(ncol = 7)
   colnames(stt_table) <- c("Time", "nIp", "nAp", "nCp", "nIa", "nAa", "nCa")
-  stt_table[1, ] <- c(1, 0, 0, 0, 0, 0, 0)
+  stt_table[1, ] <- c(simtime, 0, 0, 0, 0, 0, 0)
 
   #### Start Monte Carlo iterations ####
   while (timeval < simtime){
@@ -140,7 +138,7 @@ sim2_mutualism <- function(simtime, mutualism_pars){
                   replace = FALSE,
                   prob = unlist(testrates))
       possible_event <- onlyanimal[x, ]
-      #print(c(possible_event$event, possible_event$animal))
+      print(c(possible_event$event, possible_event$animal))
       # next state based on event
       updated_state <- sim_update_state_mutualism(timeval = timeval,
                                                   simtime = simtime,

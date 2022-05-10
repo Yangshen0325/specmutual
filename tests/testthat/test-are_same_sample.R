@@ -16,7 +16,7 @@ test_that("sampled species with same ID for plant and animal", {
       qgain = 0,
       qloss = 0,
       lambda0 = 0,
-      M0 = {set.seed(1); matrix(sample(c(0, 1), 25, replace = TRUE), ncol=5, nrow=5)},
+      M0 = matrix(sample(c(0, 1), 25, replace = TRUE), ncol=5, nrow=5),
       transprob = 0),
     island_spec = c())
   rates2 <- update_rates_mutualism(
@@ -32,7 +32,7 @@ test_that("sampled species with same ID for plant and animal", {
       qgain = 0,
       qloss = 0,
       lambda0 = 0,
-      M0 = {set.seed(1); matrix(sample(c(0, 1), 25, replace = TRUE), ncol=5, nrow=5)},
+      M0 = matrix(sample(c(0, 1), 25, replace = TRUE), ncol=5, nrow=5),
       transprob = 0),
     island_spec = c())
 
@@ -70,6 +70,8 @@ test_that("sampled species with same ID for plant and animal", {
   possible_event2 <- possible_event[[2]]
   expect_equal(
     possible_event1$plant, possible_event2$animal)
+  expect_equal(
+    possible_event1$event + 4, possible_event2$event)
 })
 
 
