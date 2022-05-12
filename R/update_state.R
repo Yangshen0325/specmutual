@@ -73,14 +73,23 @@ sim_update_state_mutualism <- function(timeval,
           sistermostrecentspl <- "A"
         }
         motiftoind <- paste(substring(island_spec[ind, 5], 1, numberofsplits - 1),
-                            sistermostrecentspl, seq = "")
+                            sistermostrecentspl, sep = "")
+        print(sistermostrecentspl)
+        print(substring(island_spec[ind, 5], 1, numberofsplits - 1))
+        print(motiftoind)
         possiblesister <- survivors[which(substring(island_spec[survivors, 5], 1,
                                                     numberofsplits) == motiftoind)]
         if (mostrecentspl == "A"){
           # change the splitting data of the sister species so that it inherits the early
           # splitting that used to belong to A
+          print(is.null(possiblesister))
+          print(possiblesister)
+          print(island_spec[possiblesister, 6])
+           print(which(island_spec[possiblesister, 6] ==
+                        min(as.numeric(island_spec[possiblesister, 6]))))
           tochange <- possiblesister[which(island_spec[possiblesister, 6] ==
                                              min(as.numeric(island_spec[possiblesister, 6])))]
+
           island_spec[tochange, 6] <- island_spec[ind, 6]
         }
         island_spec[possiblesister, 5] <- paste(substring(island_spec[possiblesister, 5],
@@ -88,7 +97,7 @@ sim_update_state_mutualism <- function(timeval,
                                                 substring(island_spec[possiblesister, 5],
                                                           numberofsplits + 1,
                                                           nchar(island_spec[possiblesister, 5])),
-                                                          seq = "")
+                                                          sep = "")
         island_spec <- island_spec[-ind, ]
       }
     }
@@ -110,12 +119,12 @@ sim_update_state_mutualism <- function(timeval,
       # for daughter A
       island_spec[ind, 1] <- maxplantID + 1
       oldstatus <- island_spec[ind, 5]
-      island_spec[ind, 5] <- paste(oldstatus, "A", seq = "")
+      island_spec[ind, 5] <- paste(oldstatus, "A", sep = "")
       island_spec[ind, 6] <- timeval
       island_spec[ind, 7] <- NA
       # for daughter B
       island_spec <- rbind(island_spec, c(maxplantID + 2, island_spec[ind, 2],
-                           island_spec[ind, 3], "C", paste(oldstatus, "B", seq = ""),
+                           island_spec[ind, 3], "C", paste(oldstatus, "B", sep = ""),
                            timeval, NA, "plant"))
       maxplantID <- maxplantID + 2
     } else {
@@ -198,7 +207,7 @@ sim_update_state_mutualism <- function(timeval,
           sistermostrecentspl <- "A"
         }
         motiftoind <- paste(substring(island_spec[ind, 5], 1, numberofsplits - 1),
-                            sistermostrecentspl, seq = "")
+                            sistermostrecentspl, sep = "")
         possiblesister <- survivors[which(substring(island_spec[survivors, 5], 1,
                                                     numberofsplits) == motiftoind)]
         if (mostrecentspl == "A"){
@@ -213,7 +222,7 @@ sim_update_state_mutualism <- function(timeval,
                                                 substring(island_spec[possiblesister, 5],
                                                           numberofsplits + 1,
                                                           nchar(island_spec[possiblesister, 5])),
-                                                seq = "")
+                                                sep = "")
         island_spec <- island_spec[-ind, ]
       }
     }
@@ -235,12 +244,12 @@ sim_update_state_mutualism <- function(timeval,
       # for daughter A
       island_spec[ind, 1] <- maxanimalID + 1
       oldstatus <- island_spec[ind, 5]
-      island_spec[ind, 5] <- paste(oldstatus, "A", seq = "")
+      island_spec[ind, 5] <- paste(oldstatus, "A", sep = "")
       island_spec[ind, 6] <- timeval
       island_spec[ind, 7] <- NA
       # for daughter B
       island_spec <- rbind(island_spec, c(maxanimalID + 2, island_spec[ind, 2],
-                                          island_spec[ind, 3], "C", paste(oldstatus, "B", seq = ""),
+                                          island_spec[ind, 3], "C", paste(oldstatus, "B", sep = ""),
                                           timeval, NA, "animal"))
       maxanimalID <- maxanimalID + 2
     } else {
@@ -296,12 +305,12 @@ sim_update_state_mutualism <- function(timeval,
       # for daughter A
       island_spec[ind1, 1] <- maxplantID + 1
       oldstatus <- island_spec[ind1, 5]
-      island_spec[ind1, 5] <- paste(oldstatus, "A", seq = "")
+      island_spec[ind1, 5] <- paste(oldstatus, "A", sep = "")
       island_spec[ind1, 6] <- timeval
       island_spec[ind1, 7] <- NA
       # for daughter B
       island_spec <- rbind(island_spec, c(maxplantID + 2, island_spec[ind1, 2],
-                                          island_spec[ind1, 3], "C", paste(oldstatus, "B", seq = ""),
+                                          island_spec[ind1, 3], "C", paste(oldstatus, "B", sep = ""),
                                           timeval, NA, "plant"))
       maxplantID <- maxplantID + 2
     } else {
@@ -322,12 +331,12 @@ sim_update_state_mutualism <- function(timeval,
       # for daughter A
       island_spec[ind2, 1] <- maxanimalID + 1
       oldstatus <- island_spec[ind2, 5]
-      island_spec[ind2, 5] <- paste(oldstatus, "A", seq = "")
+      island_spec[ind2, 5] <- paste(oldstatus, "A", sep = "")
       island_spec[ind2, 6] <- timeval
       island_spec[ind2, 7] <- NA
       # for daughter B
       island_spec <- rbind(island_spec, c(maxanimalID + 2, island_spec[ind2, 2],
-                                          island_spec[ind2, 3], "C", paste(oldstatus, "B", seq = ""),
+                                          island_spec[ind2, 3], "C", paste(oldstatus, "B", sep = ""),
                                           timeval, NA, "animal"))
       maxanimalID <- maxanimalID + 2
     } else {
