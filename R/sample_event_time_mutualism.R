@@ -27,7 +27,7 @@ sample_event_mutualism <- function(rates){
               size = 1,
               replace = FALSE,
               prob = unlist(rates))
-  possible_event <- output[x,]
+  possible_event <- output[x, ]
 
   return(possible_event)
 }

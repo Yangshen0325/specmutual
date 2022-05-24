@@ -73,13 +73,4 @@ are_mutualism_pars <- function(mutualism_pars){
 }
 
 
-# mutualism_pars <- create_mutualism_pars(lac_pars = c(0.5, 0),
-#                                         mu_pars = c(0, 0, 0, 0),
-#                                         K_pars = c(Inf, Inf, Inf, Inf),
-#                                         gam_pars = c(1, 0),
-#                                         laa_pars = c(0, 0, 0, 0),
-#                                         qgain = 0,
-#                                         qloss = 0,
-#                                         lambda0 = 0,
-#                                         M0 = {set.seed(1);matrix(sample(c(0,1),20,replace = TRUE),ncol=5,nrow=4)},
-#                                         transprob = 1)
+
