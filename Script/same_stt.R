@@ -34,7 +34,7 @@ mutualism_pars_animal <- list(
   transprob = 0
 )
 
-stt_list <- simulation_test(
+stt_list <- specmutual::simulation_test(
   simtime = 1.5,
   mutualism_pars1 = mutualism_pars_plant,
   mutualism_pars2 = mutualism_pars_animal
