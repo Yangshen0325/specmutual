@@ -1,6 +1,10 @@
 # simulation
-# sim_mutualism(simtime = 1.5, mutualism_pars = mutualism_pars)
-sim_mutualism <- function(simtime, mutualism_pars){
+set.seed(123)
+ result1 <- sim_mutualism_test(simtime = 1.5, mutualism_pars = mutualism_pars_plant)
+ set.seed(123)
+ result2 <- sim_mutualism_test(simtime = 1.5, mutualism_pars = mutualism_pars_animal)
+
+sim_mutualism_test <- function(simtime, mutualism_pars){
   #### Initialization ####
   timeval <- 0
   M0 <- mutualism_pars$M0
@@ -15,6 +19,11 @@ sim_mutualism <- function(simtime, mutualism_pars){
   colnames(stt_table) <- c("Time", "nIp", "nAp", "nCp", "nIa", "nAa", "nCa")
   stt_table[1, ] <- c(simtime, 0, 0, 0, 0, 0, 0)
 
+  # record
+  rates_list <- list()
+  timeval_list <- list()
+  possible_event_list <- list()
+  updated_state_list <- list()
   #### Start Monte Carlo iterations ####
   while (timeval < simtime){
     rates <- update_rates_mutualism(Mt = Mt,
@@ -22,13 +31,16 @@ sim_mutualism <- function(simtime, mutualism_pars){
                                     status_a = status_a,
                                     mutualism_pars = mutualism_pars,
                                     island_spec = island_spec)
+    rates_list[[length(rates_list) + 1]] <- rates
     # next time
     timeval_and_dt <- calc_next_timeval_mutualism(rates = rates, timeval = timeval)
     timeval <- timeval_and_dt$timeval
+    timeval_list[[length(timeval_list) + 1]] <- timeval
 
     if (timeval <= simtime){
       # next event
       possible_event <- sample_event_mutualism(rates = rates)
+      possible_event_list[[length(possible_event_list) + 1]] <- possible_event
       # next state based on event
       updated_state <- sim_update_state_mutualism(timeval = timeval,
                                                   simtime = simtime,
@@ -48,22 +60,12 @@ sim_mutualism <- function(simtime, mutualism_pars){
       maxanimalID <- updated_state$maxanimalID
       island_spec <- updated_state$island_spec
       stt_table <- updated_state$stt_table
+
+      updated_state_list[[length(updated_state_list) + 1]] <- updated_state
     }
   }
- #### Finalize STT ####
-  stt_table <- rbind(stt_table,
-                     c(0,
-                       stt_table[nrow(stt_table), 2],
-                       stt_table[nrow(stt_table), 3],
-                       stt_table[nrow(stt_table), 4],
-                       stt_table[nrow(stt_table), 5],
-                       stt_table[nrow(stt_table), 6],
-                       stt_table[nrow(stt_table), 7]))
-  #return(stt_table)
-
-island <- create_island_mutualism(stt_table = stt_table,
-                                  simtime = simtime,
-                                  island_spec = island_spec,
-                                    M0 = M0)
-return(island)
+  return(list(rates_list = rates_list,
+              timeval_list = timeval_list,
+              possible_event_list = possible_event_list,
+              updated_state_list = updated_state_list))
 }

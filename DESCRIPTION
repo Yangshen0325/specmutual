@@ -1,14 +1,23 @@
-Package: specmutual
 Type: Package
-Title: What the Package Does (Title Case)
+Package: specmutual
+Title: Evolution of Mutualism Based on Speciation, Immigration and Extinction 
 Version: 0.1.0
-Author: Who wrote it
+Author@R: person(given = "Yang",
+                 family = "Shen",
+                 emal = "yang.shen@rug.nl",
+                 role = "aut",
+                 comment = c(ORCID = "0000-0002-0600-5852"))
 Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Description: Simulate island biota assembly within mutualism though speciation,
+              immigration and extinction.
 License: What license is it under?
-Encoding: UTF-8
-LazyData: true
+Imports: 
+    DAISIE,
+    reshape2
 Suggests: 
+    knitr,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.2
