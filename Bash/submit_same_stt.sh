@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --time=00:20:00
+#SBATCH --time=03:20:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --job-name=same_stt
