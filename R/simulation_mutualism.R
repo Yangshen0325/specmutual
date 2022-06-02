@@ -53,18 +53,14 @@ sim_mutualism <- function(simtime, mutualism_pars){
       updated_state$maxplantID <- NULL
       updated_state$maxanimalID <- NULL
       updated_state$island_spec <- NULL
+      updated_state$stt_table <- NULL
       updated_state_list(length(updated_state_list) + 1) <- updated_state
     }
   }
  #### Finalize STT ####
   stt_table <- rbind(stt_table,
-                     c(0,
-                       stt_table[nrow(stt_table), 2],
-                       stt_table[nrow(stt_table), 3],
-                       stt_table[nrow(stt_table), 4],
-                       stt_table[nrow(stt_table), 5],
-                       stt_table[nrow(stt_table), 6],
-                       stt_table[nrow(stt_table), 7]))
+                     c(0, stt_table[nrow(stt_table), 2:7]))
+
   #return(stt_table)
 
 island <- create_island_mutualism(stt_table = stt_table,
