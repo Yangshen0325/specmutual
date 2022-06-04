@@ -54,7 +54,7 @@ sim_mutualism <- function(simtime, mutualism_pars){
       updated_state$maxanimalID <- NULL
       updated_state$island_spec <- NULL
       updated_state$stt_table <- NULL
-      updated_state_list(length(updated_state_list) + 1) <- updated_state
+      updated_state_list[[length(updated_state_list) + 1]] <- updated_state
     }
   }
  #### Finalize STT ####
