@@ -11,4 +11,4 @@ ml R
 
 Rscript -e "devtools::install_github('Yangshen0325/specmutual')"
 
-Rscript ~/specmutual/Script/same_stt.R
+Rscript ~/specmutual/script/same_stt.R

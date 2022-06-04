@@ -74,19 +74,13 @@ sim_update_state_mutualism <- function(timeval,
         }
         motiftoind <- paste(substring(island_spec[ind, 5], 1, numberofsplits - 1),
                             sistermostrecentspl, sep = "")
-        print(sistermostrecentspl)
-        print(substring(island_spec[ind, 5], 1, numberofsplits - 1))
-        print(motiftoind)
+
         possiblesister <- survivors[which(substring(island_spec[survivors, 5], 1,
                                                     numberofsplits) == motiftoind)]
         if (mostrecentspl == "A"){
           # change the splitting data of the sister species so that it inherits the early
           # splitting that used to belong to A
-          print(is.null(possiblesister))
-          print(possiblesister)
-          print(island_spec[possiblesister, 6])
-           print(which(island_spec[possiblesister, 6] ==
-                        min(as.numeric(island_spec[possiblesister, 6]))))
+
           tochange <- possiblesister[which(island_spec[possiblesister, 6] ==
                                              min(as.numeric(island_spec[possiblesister, 6])))]
 

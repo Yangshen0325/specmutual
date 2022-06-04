@@ -1,5 +1,6 @@
 # simulation
 # sim_mutualism(simtime = 1.5, mutualism_pars = mutualism_pars)
+# profvis::profvis({sim_mutualism(simtime = 1, mutualism_pars = mutualism_pars)})
 sim_mutualism <- function(simtime, mutualism_pars){
   #### Initialization ####
   timeval <- 0
@@ -16,6 +17,7 @@ sim_mutualism <- function(simtime, mutualism_pars){
   stt_table[1, ] <- c(simtime, 0, 0, 0, 0, 0, 0)
 
   #### Start Monte Carlo iterations ####
+  updated_state_list <- list()
   while (timeval < simtime){
     rates <- update_rates_mutualism(Mt = Mt,
                                     status_p = status_p,
@@ -48,22 +50,23 @@ sim_mutualism <- function(simtime, mutualism_pars){
       maxanimalID <- updated_state$maxanimalID
       island_spec <- updated_state$island_spec
       stt_table <- updated_state$stt_table
+      updated_state$maxplantID <- NULL
+      updated_state$maxanimalID <- NULL
+      updated_state$island_spec <- NULL
+      updated_state$stt_table <- NULL
+      updated_state_list[[length(updated_state_list) + 1]] <- updated_state
     }
   }
  #### Finalize STT ####
   stt_table <- rbind(stt_table,
-                     c(0,
-                       stt_table[nrow(stt_table), 2],
-                       stt_table[nrow(stt_table), 3],
-                       stt_table[nrow(stt_table), 4],
-                       stt_table[nrow(stt_table), 5],
-                       stt_table[nrow(stt_table), 6],
-                       stt_table[nrow(stt_table), 7]))
+                     c(0, stt_table[nrow(stt_table), 2:7]))
+
   #return(stt_table)
 
 island <- create_island_mutualism(stt_table = stt_table,
                                   simtime = simtime,
                                   island_spec = island_spec,
                                     M0 = M0)
-return(island)
+return(list(updated_state_list = updated_state_list,
+            island = island))
 }
