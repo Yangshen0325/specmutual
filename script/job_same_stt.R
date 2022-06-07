@@ -1,5 +1,6 @@
 
-
+# This is I set for testing with a large matrix, would the model with
+# only plant or only animal get the same stt. 50*50 takes 20 minutes.
 mutualism_pars_plant <- list(
   lac_pars = c(0.2, 0),
   mu_pars = c(0.2, 0, 0, 0),
