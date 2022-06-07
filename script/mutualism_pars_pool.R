@@ -75,16 +75,13 @@ mutualism_pars_set4 <- list(
   transprob = 0.5
 )
 
-mutualism_pars_pool <- rbind(
+mutualism_pars_pool <- list(
   mutualism_pars_set1,
   mutualism_pars_set2,
   mutualism_pars_set3,
   mutualism_pars_set4
 )
 
-write.csv2(
-  mutualism_pars_pool,
-  "data/mutualism_pars_pool.csv",
-  row.names = FALSE
-)
+
+save(mutualism_pars_pool, file = "data/mutualism_pars_pool.RData")
 
