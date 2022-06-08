@@ -1,3 +1,5 @@
+args <- commandArgs(TRUE)
+param_set <- as.numeric(args[1])
 
 ## create input parameter sets
 # set1 with 500 initial carrying capacity for each guilds.
@@ -17,7 +19,6 @@ mutualism_pars_set1 <- list(
   ),
   transprob = 0.5
 )
-
 
 # set2 with 100 initial carrying capacity for each guilds.
 mutualism_pars_set2 <- list(
@@ -82,6 +83,16 @@ mutualism_pars_pool <- list(
   mutualism_pars_set4
 )
 
+out_sim_mutualism <- function(param_set){
+  message("Running param set: ", param_set)
+  sim_pars <- mutualism_pars_pool[[param_set]]
+  out <- specmutual::sim_mutualism(simtime = 2,
+                                   replicates = 20,
+                                   mutualism_pars = sim_pars)
 
-save(mutualism_pars_pool, file = "data/mutualism_pars_pool.RData")
+  return (out)
+}
 
+out <- out_sim_mutualism(param_set = param_set)
+path <- paste0("result/out_", param_set, ".RData")
+save(out, file = path)
