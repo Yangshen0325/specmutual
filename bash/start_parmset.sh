@@ -13,5 +13,5 @@ Rscript -e "devtools::install_github('Yangshen0325/specmutual')"
 
 for (( param_set = 1; param_set <= 4; param_set++ ))
 do
-sbatch specmutual/bash/job_parm_set.sh ${param_set}
+sbatch ~/specmutual/bash/job_parm_set.sh ${param_set}
 done
