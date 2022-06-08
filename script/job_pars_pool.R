@@ -86,7 +86,7 @@ mutualism_pars_pool <- list(
 out_sim_mutualism <- function(param_set){
   message("Running param set: ", param_set)
   sim_pars <- mutualism_pars_pool[[param_set]]
-  out <- specmutual:::sim_mutualism(simtime = 2,
+  out <- specmutual::sim_mutualism(simtime = 2,
                                    replicates = 20,
                                    mutualism_pars = sim_pars)
 
@@ -94,5 +94,5 @@ out_sim_mutualism <- function(param_set){
 }
 
 out <- out_sim_mutualism(param_set = param_set)
-path <- paste0("result/out_", param_set, ".RData")
+path <- paste0("~/specmutual/result/out_", param_set, ".RData")
 save(out, file = path)
