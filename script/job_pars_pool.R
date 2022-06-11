@@ -152,28 +152,28 @@ mutualism_pars_set8 <- list(
   transprob = 0.5
 )
 
-# set9 with 1.0 anagenesis for each guilds
-# compare with set6 with 0.2
-mutualism_pars_set9 <- list(
-  lac_pars = c(0.1, 0.1),
-  mu_pars = c(0.2, 0.2, 0.5, 0.5),
-  K_pars = c(50, 50, 0.5, 0.5),
-  gam_pars = c(0.3, 0.3),
-  laa_pars = c(1.0, 1.0, 0.5, 0.5),
-  qgain = 0.5,
-  qloss = 0.5,
-  lambda0 = 0.3,
-  M0 = matrix(
-    sample(c(0, 1), 2500, replace = TRUE),
-    ncol = 50,
-    nrow = 50
-  ),
-  transprob = 0.5
-)
+# # set9 with 1.0 anagenesis for each guilds
+# # compare with set6 with 0.2
+# mutualism_pars_set9 <- list(
+#   lac_pars = c(0.1, 0.1),
+#   mu_pars = c(0.2, 0.2, 0.5, 0.5),
+#   K_pars = c(50, 50, 0.5, 0.5),
+#   gam_pars = c(0.3, 0.3),
+#   laa_pars = c(1.0, 1.0, 0.5, 0.5),
+#   qgain = 0.5,
+#   qloss = 0.5,
+#   lambda0 = 0.3,
+#   M0 = matrix(
+#     sample(c(0, 1), 2500, replace = TRUE),
+#     ncol = 50,
+#     nrow = 50
+#   ),
+#   transprob = 0.5
+# )
 
-# set10 with 1.0 immigration for each guilds
+# set9 with 1.0 immigration for each guilds
 # compare with set6 with 0.3
-mutualism_pars_set10 <- list(
+mutualism_pars_set9 <- list(
   lac_pars = c(0.1, 0.1),
   mu_pars = c(0.2, 0.2, 0.5, 0.5),
   K_pars = c(50, 50, 0.5, 0.5),
@@ -190,9 +190,9 @@ mutualism_pars_set10 <- list(
   transprob = 0.5
 )
 
-# set11 with 1.0 extinction for each guilds
+# set10 with 1.0 extinction for each guilds
 # compare with set6 with 0.2
-mutualism_pars_set11 <- list(
+mutualism_pars_set10 <- list(
   lac_pars = c(0.1, 0.1),
   mu_pars = c(1.0, 1.0, 0.5, 0.5),
   K_pars = c(50, 50, 0.5, 0.5),
@@ -209,9 +209,9 @@ mutualism_pars_set11 <- list(
   transprob = 0.5
 )
 
-# set12 with 1.0 cladogenesis per capita rate for plant
+# set11 with 1.0 cladogenesis per capita rate for plant
 # compare with set6 with 0.1
-mutualism_pars_set12 <- list(
+mutualism_pars_set11 <- list(
   lac_pars = c(1, 0.1),
   mu_pars = c(0.2, 0.2, 0.5, 0.5),
   K_pars = c(50, 50, 0.5, 0.5),
@@ -228,9 +228,9 @@ mutualism_pars_set12 <- list(
   transprob = 0.5
 )
 
-# set13 with 1.0 immigration for plant
+# set12 with 1.0 immigration for plant
 # compare with set6 with 0.3
-mutualism_pars_set13 <- list(
+mutualism_pars_set12 <- list(
   lac_pars = c(0.1, 0.1),
   mu_pars = c(0.2, 0.2, 0.5, 0.5),
   K_pars = c(50, 50, 0.5, 0.5),
@@ -247,9 +247,9 @@ mutualism_pars_set13 <- list(
   transprob = 0.5
 )
 
-# set14 with 1.0 extinction for plant
+# set13 with 1.0 extinction for plant
 # compare with set6 with 0.2
-mutualism_pars_set14 <- list(
+mutualism_pars_set13 <- list(
   lac_pars = c(0.1, 0.1),
   mu_pars = c(1.0, 0.2, 0.5, 0.5),
   K_pars = c(50, 50, 0.5, 0.5),
@@ -271,11 +271,11 @@ mutualism_pars_pool <- list(
   mutualism_pars_set6,
   mutualism_pars_set7,
   mutualism_pars_set8,
+  mutualism_pars_set9,
   mutualism_pars_set10,
   mutualism_pars_set11,
   mutualism_pars_set12,
-  mutualism_pars_set13,
-  mutualism_pars_set14
+  mutualism_pars_set13
 )
 
 out_sim_mutualism <- function(param_set){
