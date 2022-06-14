@@ -18,11 +18,13 @@
   # par(mfrow = c(1, 1))
   #
 
-# sim_out <- list(out_1, out_2, out_3, out_4)
-# species_mean <-  matrix(nrow = 4, ncol = 6)
+# sim_out <- list(out_5, out_6, out_7, out_8,
+#                 out_9, out_10, out_11, out_12, out_13)
+# nIp <- nAp <- nCp <- nIa <- nAa <- nCa <- NULL
+# species_mean <-  matrix(nrow = 9, ncol = 6)
 # colnames(species_mean) <- c("nIp", "nAp", "nCp", "nIa", "nAa", "nCa")
-# for (j in 1:4){
-#   for (i in 1:20){
+# for (j in 1:9){ # have 9 sets
+#   for (i in 1:50){# 50 reps
 #     stt_table <- sim_out[[j]][[i]][["island"]][["stt_table"]]
 #     nIp <- floor(mean(c(nIp, stt_table[nrow(stt_table), 2])))
 #     nAp <- floor(mean(c(nAp, stt_table[nrow(stt_table), 3])))
@@ -33,5 +35,58 @@
 #   }
 #   species_mean[j, ] <- c(nIp, nAp, nCp, nIa, nAa, nCa)
 # }
-
+#
+#
+# out <- out_13
+# par(mfrow = c(2, 3))
+# #### number of plant immigrants ####
+# plot(0, 0, xlim = c(0,5), ylim = c(0,30), type = "l",
+#      xlab = "Time", ylab = "richness", main = "number of plant immigrants")
+# cl <- rainbow(50)
+# for (i in 1:50){
+#   stt_table <- out[[i]][["island"]][["stt_table"]]
+#   lines(stt_table[, 1], stt_table[, 2], col = cl[i], type = 'l')
+# }
+# #### number of plant anagenesis ####
+# plot(0, 0, xlim = c(0,5), ylim = c(0,30), type = "l",
+#      xlab = "Time", ylab = "richness", main = "number of plant anagenesis")
+# cl <- rainbow(50)
+# for (i in 1:50){
+#   stt_table <- out[[i]][["island"]][["stt_table"]]
+#   lines(stt_table[, 1], stt_table[, 3], col = cl[i], type = 'l')
+# }
+# #### number of plant cladogenesis ####
+# plot(0, 0, xlim = c(0,5), ylim = c(0,30), type = "l",
+#      xlab = "Time", ylab = "richness", main = "number of plant cladogenesis")
+# cl <- rainbow(50)
+# for (i in 1:50){
+#   stt_table <- out[[i]][["island"]][["stt_table"]]
+#   lines(stt_table[, 1], stt_table[, 4], col = cl[i], type = 'l')
+# }
+# #### number of animal immigrants ####
+# plot(0, 0, xlim = c(0,5), ylim = c(0,30), type = "l",
+#      xlab = "Time", ylab = "richness", main = "number of animal immigrants")
+# cl <- rainbow(50)
+# for (i in 1:50){
+#   stt_table <- out[[i]][["island"]][["stt_table"]]
+#   lines(stt_table[, 1], stt_table[, 5], col = cl[i], type = 'l')
+# }
+# #### number of animal anagenesis ####
+# plot(0, 0, xlim = c(0,5), ylim = c(0,30), type = "l",
+#      xlab = "Time", ylab = "richness", main = "number of animal anagenesis")
+# cl <- rainbow(50)
+# for (i in 1:50){
+#   stt_table <- out[[i]][["island"]][["stt_table"]]
+#   lines(stt_table[, 1], stt_table[, 6], col = cl[i], type = 'l')
+# }
+# #### number of animal cladogenesis ####
+# plot(0, 0, xlim = c(0,5), ylim = c(0,30), type = "l",
+#      xlab = "Time", ylab = "richness", main = "number of animal cladogenesis")
+# cl <- rainbow(50)
+# for (i in 1:50){
+#   stt_table <- out[[i]][["island"]][["stt_table"]]
+#   lines(stt_table[, 1], stt_table[, 7], col = cl[i], type = 'l')
+# }
+#
+# par(mfrow = c(1, 1))
 
