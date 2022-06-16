@@ -28,8 +28,8 @@ create_mutualism_pars <- function(lac_pars,
   testit::assert(is.numeric(transprob))
   testit::assert(lac_pars >= 0.0)
   testit::assert(mu_pars >= 0.0)
-  testit::assert(K_pars >= 0.0)
-  testit::assert(gam_pars >= 0.0)
+  testit::assert(K_pars > 0.0) # can't be zero. would be gam * Inf, means no
+  testit::assert(gam_pars >= 0.0) #immigration anymore
   testit::assert(laa_pars >= 0.0)
   testit::assert(qgain >= 0.0)
   testit::assert(qloss >= 0.0)
