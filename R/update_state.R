@@ -28,9 +28,9 @@ sim_update_state_mutualism <- function(timeval,
   if (possible_event$event == 1){
     colonist <- possible_event$plant
     status_p[colonist] <- 1
-    if (length(island_spec[ ,1] != 0)){
-      isitthere <- intersect(which(island_spec[ ,1] == colonist),
-                             which(island_spec[ ,8] == "plant"))
+    if (length(island_spec[, 1] != 0)){
+      isitthere <- intersect(which(island_spec[, 1] == colonist),
+                             which(island_spec[, 8] == "plant"))
     } else {
       isitthere <- c()
     }
@@ -40,6 +40,9 @@ sim_update_state_mutualism <- function(timeval,
                                           NA, NA, NA, "plant"))
     } else {
       island_spec[isitthere, ] <- c(colonist, colonist, timeval, "I", NA, NA, NA, "plant")
+      Mt[colonist, which(M0[colonist, ] == 1)] <- M0[colonist, which(M0[colonist, ] == 1)]
+      # if the colonist recolonize,
+      # any links linked with the colonist should be restored.
     } # only use the most recent time for the same colonist
   }
 
@@ -48,20 +51,20 @@ sim_update_state_mutualism <- function(timeval,
     extinct <- possible_event$plant
     status_p[extinct] <- 0
 
-    ind <- intersect(which(island_spec[ ,1] == extinct),
-                     which(island_spec[ ,8] == "plant"))
+    ind <- intersect(which(island_spec[, 1] == extinct),
+                     which(island_spec[, 8] == "plant"))
     typeofspecies <- island_spec[ind, 4]
     if (typeofspecies == "I" | typeofspecies == "A"){
       island_spec <- island_spec[-ind, ]
     }
     if (typeofspecies == "C"){
       # first find species with same ancestor and arrival time
-      sisters <- intersect(which(island_spec[ ,2] == island_spec[ind, 2]),
-                           which(island_spec[ ,3] == island_spec[ind, 3]))
+      sisters <- intersect(which(island_spec[, 2] == island_spec[ind, 2]),
+                           which(island_spec[, 3] == island_spec[ind, 3]))
       survivors <- sisters[which(sisters != ind)]
       if (length(sisters) == 2){ # survivors status becomes anagenetic
         island_spec[survivors, 4] <- "A"
-        island_spec[survivors, c(5,6)] <- c(NA, NA)
+        island_spec[survivors, c(5, 6)] <- c(NA, NA)
         island_spec[survivors, 7] <- "Clado_extinct"
         island_spec <- island_spec[-ind, ]
       } else {
@@ -107,8 +110,8 @@ sim_update_state_mutualism <- function(timeval,
                       possible_event = possible_event,
                       mutualism_pars = mutualism_pars)
 
-    ind <- intersect(which(island_spec[ ,1] == tosplit),
-                     which(island_spec[ ,8] == "plant"))
+    ind <- intersect(which(island_spec[, 1] == tosplit),
+                     which(island_spec[, 8] == "plant"))
     if (island_spec[ind, 4] == "C"){
       # for daughter A
       island_spec[ind, 1] <- maxplantID + 1
@@ -144,8 +147,8 @@ sim_update_state_mutualism <- function(timeval,
                     possible_event = possible_event,
                     mutualism_pars = mutualism_pars)
 
-    ind <- intersect(which(island_spec[ ,1] == anagenesis),
-                     which(island_spec[ ,8] == "plant"))
+    ind <- intersect(which(island_spec[, 1] == anagenesis),
+                     which(island_spec[, 8] == "plant"))
     island_spec[ind, 1] <- maxplantID + 1
     island_spec[ind, 4] <- "A"
     island_spec[ind, 7] <- "Immig_parent"
@@ -156,9 +159,9 @@ sim_update_state_mutualism <- function(timeval,
   if (possible_event$event == 5){
     colonist <- possible_event$animal
     status_a[colonist] <- 1
-    if (length(island_spec[ ,1] != 0)){
-      isitthere <- intersect(which(island_spec[ ,1] == colonist),
-                             which(island_spec[ ,8] == "animal"))
+    if (length(island_spec[, 1] != 0)){
+      isitthere <- intersect(which(island_spec[, 1] == colonist),
+                             which(island_spec[, 8] == "animal"))
     } else {
       isitthere <- c()
     }
@@ -168,6 +171,9 @@ sim_update_state_mutualism <- function(timeval,
                                           NA, NA, NA, "animal"))
     } else {
       island_spec[isitthere, ] <- c(colonist, colonist, timeval, "I", NA, NA, NA, "animal")
+      Mt[which(M0[, colonist] == 1), colonist] <- M0[which(M0[, colonist] == 1), colonist]
+      # if the colonist recolonize,
+      # any links linked with the colonist should be restored.
     } # only use the most recent time for the same colonist
   }
 
@@ -176,20 +182,20 @@ sim_update_state_mutualism <- function(timeval,
     extinct <- possible_event$animal
     status_a[extinct] <- 0
 
-    ind <- intersect(which(island_spec[ ,1] == extinct),
-                     which(island_spec[ ,8] == "animal"))
+    ind <- intersect(which(island_spec[, 1] == extinct),
+                     which(island_spec[, 8] == "animal"))
     typeofspecies <- island_spec[ind, 4]
     if (typeofspecies == "I" | typeofspecies == "A"){
       island_spec <- island_spec[-ind, ]
     }
     if (typeofspecies == "C"){
       # first find species with same ancestor and arrival time
-      sisters <- intersect(which(island_spec[ ,2] == island_spec[ind, 2]),
-                           which(island_spec[ ,3] == island_spec[ind, 3]))
+      sisters <- intersect(which(island_spec[, 2] == island_spec[ind, 2]),
+                           which(island_spec[, 3] == island_spec[ind, 3]))
       survivors <- sisters[which(sisters != ind)]
       if (length(sisters) == 2){ # survivors status becomes anagenetic
         island_spec[survivors, 4] <- "A"
-        island_spec[survivors, c(5,6)] <- c(NA, NA)
+        island_spec[survivors, c(5, 6)] <- c(NA, NA)
         island_spec[survivors, 7] <- "Clado_extinct"
         island_spec <- island_spec[-ind, ]
       } else {
@@ -232,8 +238,8 @@ sim_update_state_mutualism <- function(timeval,
                       possible_event = possible_event,
                       mutualism_pars = mutualism_pars))
 
-    ind <- intersect(which(island_spec[ ,1] == tosplit),
-                     which(island_spec[ ,8] == "animal"))
+    ind <- intersect(which(island_spec[, 1] == tosplit),
+                     which(island_spec[, 8] == "animal"))
     if (island_spec[ind, 4] == "C"){
       # for daughter A
       island_spec[ind, 1] <- maxanimalID + 1
@@ -269,8 +275,8 @@ sim_update_state_mutualism <- function(timeval,
                     possible_event = possible_event,
                     mutualism_pars = mutualism_pars))
 
-    ind <- intersect(which(island_spec[ ,1] == anagenesis),
-                     which(island_spec[ ,8] == "animal"))
+    ind <- intersect(which(island_spec[, 1] == anagenesis),
+                     which(island_spec[, 8] == "animal"))
     island_spec[ind, 1] <- maxanimalID + 1
     island_spec[ind, 4] <- "A"
     island_spec[ind, 7] <- "Immig_parent"
