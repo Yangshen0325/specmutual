@@ -90,3 +90,34 @@
 #
 # par(mfrow = c(1, 1))
 
+#  write.csv(net1, "D:/Desktop/net1.csv")
+
+# Mt <- out_5[[1]][["state_list"]][[2]][["Mt"]]
+# status_p <- out_5[[1]][["state_list"]][[2]][["status_p"]]
+# status_a <- out_5[[1]][["state_list"]][[2]][["status_a"]]
+# delete_p <- which(status_p == 0)
+# delete_a <- which(status_a == 0)
+# Mt <- Mt[-delete_p, -delete_a]
+# net1 <- as.data.frame(Mt)
+
+# out <- out_5
+# network <- data.frame()
+# for (i in 1:50){
+#   M0 <- out[[i]][["state_list"]][[1]]
+#   Mt <- out[[i]][["state_list"]][[2]][["Mt"]]
+#   status_p <- out[[i]][["state_list"]][[2]][["status_p"]]
+#   status_a <- out[[i]][["state_list"]][[2]][["status_a"]]
+#
+#   links_p0 <- rowSums(M0)
+#   links_a0 <- colSums(M0)
+#
+#   links_p <- rowSums(Mt)
+#   links_p[which(status_p == 0)] <- NA
+#   links_a <- colSums(Mt)
+#   links_a[which(status_a == 0)] <- NA
+#
+#   links_all <- qpcR:::cbind.na(links_p0, links_p, links_a0, links_a)
+#   net <- data.frame(links_all)
+#   network <- (network, net)
+#   write.csv(net, "D:/Desktop/network.csv", row.names = FALSE)
+# }
