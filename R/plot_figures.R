@@ -121,3 +121,32 @@
 #   network <- (network, net)
 #   write.csv(net, "D:/Desktop/network.csv", row.names = FALSE)
 # }
+
+
+# set.seed(12)
+# M0 = matrix(
+#   sample(c(0, 1), 25, replace = TRUE),
+#   ncol = 5,
+#   nrow = 5)
+# M0[4, ]
+## M0[4, ] whould be
+##  0 1 0 1 1
+# set.seed(2)
+# Mt = matrix(
+#   sample(c(0, 1), 48, replace = TRUE),
+#   ncol = 6,
+#   nrow = 8)
+# Mt[4, ]
+## Mt[4, ] would be
+##  1 0 1 0 1 1
+
+#### explaination
+## M0[4, ]: 0 1 0 1 1
+## Mt[4, ]: 1 0 1 0 1 1
+## M_41, M_43 gained links, but M_42 and M_44 lost links because of random loss
+## event (plant species 4 was there, but because of "qloss*Mij*Pi*Aj". Here Mij
+## intends to M[1:nrow(M0), 1:ncol(M0)] as it's immigration event). Suppose it
+## colonizes again, colonization time should be refreshed but also links with it
+## should still be the same as the original, which means M_42 = 1 and M_44 = 1.
+## The idea behind it is...
+
