@@ -24,6 +24,7 @@ sim_update_state_mutualism <- function(timeval,
                                        island_spec,
                                        stt_table,
                                        mutualism_pars){
+  M0 <- mutualism_pars$M0
   # [1] plant species: Immigration
   if (possible_event$event == 1){
     colonist <- possible_event$plant
