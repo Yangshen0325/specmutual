@@ -1,8 +1,9 @@
 
-sim_ana_pp <- function(simtime, Mt, mutualism_pars){
+sim_ana_pp <- function(simtime, mutualism_pars){
   #### Initialization ####
   timeval <- 0
   M0 <- mutualism_pars$M0
+  Mt <- M0
   maxplantID <- NROW(M0)
   maxanimalID <- NCOL(M0)
   status_p <- matrix(1, nrow = NROW(M0), ncol = 1) #all plant are present and immigrants
@@ -57,7 +58,23 @@ sim_ana_pp <- function(simtime, Mt, mutualism_pars){
               timeval_list = timeval_list))
 }
 
-M0 <- matrix(sample(c(0, 1), 100, replace = TRUE), nrow = 10, ncol = 10)
+M0 <- matrix(sample(c(0, 1), 40, replace = TRUE), nrow = 4, ncol = 10)
+qgain_list <- seq(0, 2, 0.5)
+for (x in 1:5){
+mutualism_pars <- list(
+  lac_pars = c(0, 0),
+  mu_pars = c(0, 0, 0, 0),
+  K_pars = c(Inf, 100, Inf, 0.5),
+  gam_pars = c(0, 0), # so focus on extinction rates
+  qgain = qgain_list[x],
+  qloss = 0,
+  laa_pars = c(0.3, 0, 1.0, 0),
+  lambda0 = 0,
+  M0 = M0,
+  transprob = 0)
+results[[x]] <- sim_ana_pp()
+}
+
 Mt <- M0
 for (x in 1:10){
   M[x, 1:x] <- 1 -  M0[x, 1:x]
