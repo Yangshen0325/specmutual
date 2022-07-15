@@ -20,7 +20,6 @@ sim_ana_gpp <- function(simtime, mutualism_pars) {
     c("Time", "nIp", "nAp", "nCp", "nIa", "nAa", "nCa")
   stt_table[1,] <- c(simtime, 0, 0, 0, 0, 0, 0)
   #### Start Monte Carlo iterations ####
-  if (!is.na(timeval)) {
     while (timeval < simtime) {
       rates <- update_rates_mutualism(
         Mt = Mt,
@@ -29,13 +28,18 @@ sim_ana_gpp <- function(simtime, mutualism_pars) {
         mutualism_pars = mutualism_pars,
         island_spec = island_spec
       )
+      if (sum(unlist(rates)) == 0) {
+        break        # M_ij is becoming 1 gradually so Qgain would be 0s,
+        # species would become anagenesis eventually so ana_p would be 0s.
+        # Hence, no rates at all, timeval would be NaN.
+      }
       ana_p <- rates[["ana_p"]]
       ana_rs[[length(ana_rs) + 1]] <- ana_p
       # next time
       timeval_and_dt <-
         calc_next_timeval_mutualism(rates = rates, timeval = timeval)
       timeval <- timeval_and_dt$timeval
-      if (!is.na(timeval)) {
+
         if (timeval <= simtime) {
           # next event
           possible_event <- sample_event_mutualism(rates = rates)
@@ -63,8 +67,6 @@ sim_ana_gpp <- function(simtime, mutualism_pars) {
           Mt_list[[length(Mt_list) + 1]] <- Mt
         }
       }
-    }
-  }
   return(list(ana_rs = ana_rs,
               Mt_list = Mt_list))
 }
