@@ -79,7 +79,7 @@ mutualism_pars <- list(
   lac_pars = c(0, 0),
   mu_pars = c(0, 0, 0, 0),
   K_pars = c(Inf, 100, Inf, 0.5),
-  gam_pars = c(0, 0), # so focus on extinction rates
+  gam_pars = c(0, 0), # so focus on gain rates
   qgain = qgain_list[x],
   qloss = 0,
   laa_pars = c(0.3, 0, 1.0, 0),
