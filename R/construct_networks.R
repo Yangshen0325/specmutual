@@ -26,26 +26,38 @@ flower <- round(runif(1, min = 10, max = 160))
 pollinator <- round(45.573-0.8082* flower + 0.047 * flower^2)
 vi1 <- runif(pollinator, 0, 1)
 vi2 <- runif(pollinator, 0, 1)
+
+vi3 <- runif(pollinator, 0, 1)
+vi4 <- runif(pollinator, 0, 1)
 wj1 <- runif(flower, 0, 1)
 wj2 <- runif(flower, 0, 1)
+wj3 <- runif(flower, 0, 1)
+wj4 <- runif(flower, 0, 1)
 delta_vi1 <- runif(pollinator, 0, 0.25)
 delta_vi2 <- runif(pollinator, 0, 0.25)
 delta_wj1 <- runif(flower, 0, 0.25)
 delta_wj2 <- runif(flower, 0, 0.25)
-
+complemd_k1 <- matrix(nrow = pollinator, ncol = flower)
+complemd_k2 <- matrix(nrow = pollinator, ncol = flower)
+barriermd_k3 <- matrix(nrow = pollinator, ncol = flower)
+barriermd_k4 <- matrix(nrow = pollinator, ncol = flower)
 for (i in 1:pollinator){
   for (j in 1:flower){
-    complemd_k1[i, j] <- abs(vi1[i] - wj1[j]) - 0.5 * (delta_vi1 + delta_wj1)
-
+    complemd_k1[i, j] <- abs(vi1[i] - wj1[j]) - 0.5 * (delta_vi1[i] + delta_wj1[j])
+    complemd_k2[i, j] <- abs(vi2[i] - wj2[j]) - 0.5 * (delta_vi2[i] + delta_wj2[j])
+    barriermd_k3[i, j] <- vi3[i] -wj3[j]
+    barriermd_k4[i, j] <- vi4[i] -wj4[j]
   }
 }
+complemd_k1 <- complemd_k1 < 0
+complemd_k2 <- complemd_k2 < 0
+barriermd_k3 <- barriermd_k3 > 0
+barriermd_k4 <- barriermd_k4 > 0
 
-
-
-
-
-
-
+network <- matrix(nrow = dim(complemd_k1)[1], ncol = dim(complemd_k1)[2])
+network[which(complemd_k1 + complemd_k2 + barriermd_k3 + barriermd_k4 == 4)] <- 1
+network[which(complemd_k1 + complemd_k2 + barriermd_k3 + barriermd_k4 != 4)] <- 0
+M0 <- t(network)
 
 
 
