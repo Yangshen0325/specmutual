@@ -19,6 +19,8 @@ for (i in 1:pollinator){
                             prob = c(nonlink[i, j], link[i, j]))
   }
 }
+
+network <- network[which(rowSums(network) != 0), which(rowSums(netwrk) != 0)]
 M0 <- t(network)
 
 # model2: Mixed model, mixed narrow-complementarity model with barrier model
@@ -57,6 +59,7 @@ barriermd_k4 <- barriermd_k4 > 0
 network <- matrix(nrow = dim(complemd_k1)[1], ncol = dim(complemd_k1)[2])
 network[which(complemd_k1 + complemd_k2 + barriermd_k3 + barriermd_k4 == 4)] <- 1
 network[which(complemd_k1 + complemd_k2 + barriermd_k3 + barriermd_k4 != 4)] <- 0
+network <- network[which(rowSums(network) != 0), which(rowSums(netwrk) != 0)]
 M0 <- t(network)
 
 
