@@ -29,9 +29,10 @@ sim_ana_gpp <- function(simtime, mutualism_pars) {
         island_spec = island_spec
       )
       if (sum(unlist(rates)) == 0) {
-        break        # M_ij is becoming 1 gradually so Qgain would be 0s,
-        # species would become anagenesis eventually so ana_p would be 0s.
-        # Hence, no rates at all, timeval would be NaN.
+        break        # M_ij is becoming 1 gradually so Qgain=qgain * (1- M_ij)P_iA_j
+                     # would be 0s,
+                     # species would become anagenesis eventually so ana_p would be 0s.
+                     # Hence, no rates at all, timeval would be NaN.
       }
       ana_p <- rates[["ana_p"]]
       ana_rs[[length(ana_rs) + 1]] <- ana_p
