@@ -2,8 +2,9 @@
 # Luis Santamatia et. al (2007) Linkage rules for plant-pollinator networks:
 # trait complementary of exploitation barriers?
 # model1: Lognormal neutral model
-flower <- round(runif(1, min = 10, max = 160))
+# flower <- round(runif(1, min = 10, max = 160))
 # P = 45.573 - 0.8082 * F + 0.047 * F*F
+flower <- 20
 pollinator <- round(45.573-0.8082* flower + 0.047 * flower^2)
 # vi and wj are independent random variates with lognormal distribution
 wj <- rlnorm(flower)
@@ -24,11 +25,11 @@ network <- network[which(rowSums(network) != 0), which(colSums(network) != 0)]
 M0 <- t(network)
 
 # model2: Mixed model, mixed narrow-complementarity model with barrier model
-flower <- round(runif(1, min = 10, max = 160))
+# flower <- round(runif(1, min = 10, max = 160))
+flower <- 20
 pollinator <- round(45.573-0.8082* flower + 0.047 * flower^2)
 vi1 <- runif(pollinator, 0, 1)
 vi2 <- runif(pollinator, 0, 1)
-
 vi3 <- runif(pollinator, 0, 1)
 vi4 <- runif(pollinator, 0, 1)
 wj1 <- runif(flower, 0, 1)
@@ -61,7 +62,7 @@ network[which(complemd_k1 + complemd_k2 + barriermd_k3 + barriermd_k4 == 4)] <- 
 network[which(complemd_k1 + complemd_k2 + barriermd_k3 + barriermd_k4 != 4)] <- 0
 network <- network[which(rowSums(network) != 0), which(colSums(network) != 0)]
 M0 <- t(network)
-
+# save(M0, file = "X:/YSPhD_Aca/specmutual/trial/M0.RData")
 
 
 
