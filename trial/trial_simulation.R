@@ -66,14 +66,16 @@ trial_sim <- function(simtime, mutualism_pars){
     }
   }
   return(list(Mt = Mt,
+              island_spec = island_spec,
               rates_list = rates_list,
               timeval_list = timeval_list))
 
 }
 results <- trial_sim(simtime = 3, mutualism_pars = mutualism_pars)
 
-rates_list <- results[[2]]
-timeval_list <- results[[3]]
+rates_list <- results[[3]]
+timeval_list <- results[[4]]
+timeval_list[[length(timeval_list)]] <- NULL
 # Test all animal rates, cospeciation, gain and loss are zeros.
 for (i in 1:length(rates_list)){
   rep <- rates_list[[i]]
@@ -82,10 +84,13 @@ for (i in 1:length(rates_list)){
       print("In this case, we can only get plant rates")
     }
   }
+  rep <- rep[-c(5:11)] # cut pointless data off
+  for (j in 1:4){
+    rep[[j]] <- rep[[j]][c(1:NROW(M0))] # focus on all species from mainland
+  }
+  rates_list[[i]] <- rep
 }
-# I need to know island_spec
-immig_p <- rep[[1]]
-ext_p <- rep[[2]]
+rates_list <- matrix(unlist(rates_list), nrow = NROW(M0), ncol = NCOL(M0))
 
 
 
