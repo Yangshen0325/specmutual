@@ -1,15 +1,15 @@
 load("X:/YSPhD_Aca/specmutual/trial/M0.RData")
 mutualism_pars <- create_mutualism_pars(
-  lac_pars = c(0.5, 0), # c(lac_plant, lac_animal)
-  mu_pars = c(0.2, 0, 0.5, 0.5), # c(mu_P0, mu_A0, mu_P1, mu_A1)
-  K_pars = c(500, 1.0, 1.0, 1.0), # c(K_P0, K_A0, K_P1, K_A1)
-  gam_pars = c(0.1, 0), # (gam_plant, gam_animal)
-  qgain = 0,
-  qloss = 0,
-  laa_pars = c(0.3, 0, 0, 0), # c(laa_P0, laa_A0, laa_P1, laa_A1)
-  lambda0 = 0,
+  lac_pars = c(0.5, 0.5), # c(lac_plant, lac_animal)
+  mu_pars = c(0.2, 0.2, 1.0, 1.0), # c(mu_P0, mu_A0, mu_P1, mu_A1)
+  K_pars = c(Inf, Inf, 1.0, 1.0), # c(K_P0, K_A0, K_P1, K_A1)
+  gam_pars = c(0.1, 0.1), # (gam_plant, gam_animal)
+  qgain = 1.0,
+  qloss = 1.0,
+  laa_pars = c(0.3, 0.3, 1.0, 1.0), # c(laa_P0, laa_A0, laa_P1, laa_A1)
+  lambda0 = 1.0,
   M0 = M0,
-  transprob = 1)
+  transprob = 1.0) # the possibility to inherit links from parents
 
 trial_sim <- function(simtime, mutualism_pars){
   #### Initialization ####
@@ -65,32 +65,27 @@ trial_sim <- function(simtime, mutualism_pars){
       stt_table <- updated_state$stt_table
     }
   }
-  return(list(Mt = Mt,
-              island_spec = island_spec,
+  timeval_list[[length(timeval_list)]] <- NULL
+  return(list(updated_state = updated_state,
               rates_list = rates_list,
               timeval_list = timeval_list))
 
 }
-results <- trial_sim(simtime = 3, mutualism_pars = mutualism_pars)
+results <- trial_sim(simtime = 5, mutualism_pars = mutualism_pars)
 
-rates_list <- results[[3]]
-timeval_list <- results[[4]]
-timeval_list[[length(timeval_list)]] <- NULL
-# Test all animal rates, cospeciation, gain and loss are zeros.
+rates_list <- results[["rates_list"]]
+timeval_list <- results[["timeval_list"]]
+
+
 for (i in 1:length(rates_list)){
-  rep <- rates_list[[i]]
-  for (j in 5:11){# from the 5th element to the end
-    if (sum(as.double(rep[[j]])) != 0){
-      print("In this case, we can only get plant rates")
-    }
-  }
-  rep <- rep[-c(5:11)] # cut pointless data off
-  for (j in 1:4){
-    rep[[j]] <- rep[[j]][c(1:NROW(M0))] # focus on all species from mainland
-  }
-  rates_list[[i]] <- rep
+  rep <- rates_list[[1]]
+  immig_p <- rep[["immig_p"]]
+  immig_a <- rep[["immig_a"]]
+  ana_p <- rep[["ana_p"]]
+  ana_a <- rep[["ana_a"]]
+  ext_p <- rep[["ext_p"]]
+  ext_a <- rep[["ext_a"]]
+  clado_p <- rep[["clado_p"]]
+  clado_a <- rep[["clado_a"]]
 }
-rates_list <- matrix(unlist(rates_list), nrow = NROW(M0), ncol = NCOL(M0))
-
-
 
