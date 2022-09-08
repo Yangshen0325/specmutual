@@ -75,10 +75,14 @@ results <- trial_sim(simtime = 5, mutualism_pars = mutualism_pars)
 
 rates_list <- results[["rates_list"]]
 timeval_list <- results[["timeval_list"]]
+updated_state <- results[["updated_state"]]
 
-
+immig_plant <- c()
+immig_animal <- c()
+ana_plant <- c()
+ana_animal <- c()
 for (i in 1:length(rates_list)){
-  rep <- rates_list[[1]]
+  rep <- rates_list[[i]]
   immig_p <- rep[["immig_p"]]
   immig_a <- rep[["immig_a"]]
   ana_p <- rep[["ana_p"]]
@@ -87,5 +91,41 @@ for (i in 1:length(rates_list)){
   ext_a <- rep[["ext_a"]]
   clado_p <- rep[["clado_p"]]
   clado_a <- rep[["clado_a"]]
+  immig_plant <- cbind(immig_plant, immig_p)
+  immig_animal <- cbind(immig_animal, immig_a)
+  ana_plant <- cbind(ana_plant, ana_p)
+  ana_animal <- cbind(ana_animal, ana_a)
 }
 
+par(mfrow = c(2, 2))
+plot(timeval_list, immig_plant[1, ], ylim = c(0.0, 0.5), type = "l", lwd = 3,
+     ylab = "plant immigration rates")
+for (k in 2:NROW(M0)){
+  lines(timeval_list, immig_plant[k, ], lwd = 3)
+}
+
+plot(timeval_list, immig_animal[1, ], ylim = c(0.0, 0.5), type = "l", lwd = 3,
+     ylab = "animal immigration rates")
+for (k in 2:NCOL(M0)){
+  lines(timeval_list, immig_animal[k, ], lwd = 3)
+}
+
+plot(timeval_list, ana_plant[1, ], type = "l", lwd = 3,
+     ylab = "plant anagenesis rates")
+for (k in 2:NROW(M0)){
+  lines(timeval_list, ana_plant[k, ], lwd = 3)
+}
+
+plot(timeval_list, ana_animal[1, ], type = "l", lwd = 3,
+     ylab = "animal anegensis rates")
+for (k in 2:NCOL(M0)){
+  lines(timeval_list, ana_animal[k, ], lwd = 3)
+}
+par(mfrow = c(1, 1))
+
+Mt <- updated_state[["Mt"]]
+status_p <- updated_state[["status_p"]]
+status_a <- updated_state[["status_a"]]
+plotweb(M0, method = "normal", )
+plotweb(Mt)
+Mt_true <- Mt[which(status_p == 1), which(status_a == 1)]
