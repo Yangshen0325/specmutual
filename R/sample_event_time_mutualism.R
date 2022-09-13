@@ -15,10 +15,13 @@
 #library(reshape2)
 sample_event_mutualism <- function(rates){
 
+  testit::assert(are_rates(rates))
+
   output <- reshape2::melt(setNames(rates, seq_along(rates)))
   cnames <- c("plant", "animal", "rate", "event")
   colnames(output) <- cnames
   output$event <-as.integer(output$event)
+  #event 5,7,6,8 related to animal
   output$animal[output$event<9 & output$event > 4] <-
     output$plant[output$event<9 & output$event > 4]
   output$plant[output$event<9 & output$event > 4] <- 1
@@ -35,6 +38,8 @@ sample_event_mutualism <- function(rates){
 # Calculates when the next timestep will be.
 
 calc_next_timeval_mutualism <- function(rates, timeval){
+
+  testit::assert(are_rates(rates))
 
   output <- reshape2::melt(setNames(rates,seq_along(rates)))
   cnames <- c("plant", "animal", "rate", "event")

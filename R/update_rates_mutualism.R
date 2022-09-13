@@ -4,6 +4,8 @@ update_rates_mutualism <- function(Mt,
                                    status_a,
                                    mutualism_pars,
                                    island_spec){
+  testit::assert(are_mutualism_pars(mutualism_pars))
+
   immig_rate <- get_immig_rate(
     Mt = Mt,
     status_p = status_p,
@@ -83,8 +85,8 @@ get_immig_rate <- function(Mt,
   immig_p <- gam_pars[1] * nk_list[[1]]
   immig_a <- gam_pars[2] * nk_list[[2]]
 
-  immig_list <- list(immig_p = as.matrix(immig_p[1:NROW(M0)]),
-                     immig_a = as.matrix(immig_a[1:NCOL(M0)]))
+  immig_list <- list(immig_p = as.matrix(immig_p[1:nrow(M0)]),
+                     immig_a = as.matrix(immig_a[1:ncol(M0)]))
   return(immig_list)
 }
 
@@ -113,8 +115,8 @@ get_ana_rate <- function(Mt,
   laa_pars <- mutualism_pars$laa_pars
   M0 <- mutualism_pars$M0
 
-  possible_ana_p <- matrix(0, nrow = NROW(M0), ncol = 1)
-  possible_ana_a <- matrix(0, nrow = NCOL(M0), ncol = 1)
+  possible_ana_p <- matrix(0, nrow = nrow(M0), ncol = 1)
+  possible_ana_a <- matrix(0, nrow = ncol(M0), ncol = 1)
   index_p <- as.numeric(island_spec[intersect(which(island_spec[ ,4] == "I"),
                                               which(island_spec[ ,8] == "plant")),1])
   index_a <- as.numeric(island_spec[intersect(which(island_spec[ ,4] == "I"),
@@ -122,10 +124,10 @@ get_ana_rate <- function(Mt,
   possible_ana_p[index_p] <- 1
   possible_ana_a[index_a] <- 1
 
-  ana_p <- (laa_pars[1] + laa_pars[3] * abs(Mt[1:NROW(M0), 1:NCOL(M0)] - M0)
-                      %*% status_a[1:NCOL(M0)]) * status_p[1:NROW(M0)] * possible_ana_p
-  ana_a <- (laa_pars[2] + laa_pars[4] * t(abs(Mt[1:NROW(M0), 1:NCOL(M0)] - M0))
-            %*% status_p[1:NROW(M0)]) * status_a[1:NCOL(M0)] * possible_ana_a
+  ana_p <- (laa_pars[1] + laa_pars[3] * abs(Mt[1:nrow(M0), 1:ncol(M0)] - M0)
+                      %*% status_a[1:ncol(M0)]) * status_p[1:nrow(M0)] * possible_ana_p
+  ana_a <- (laa_pars[2] + laa_pars[4] * t(abs(Mt[1:nrow(M0), 1:ncol(M0)] - M0))
+            %*% status_p[1:nrow(M0)]) * status_a[1:ncol(M0)] * possible_ana_a
 
   ana_list <- list(ana_p = ana_p,
                    ana_a = ana_a)
@@ -165,8 +167,8 @@ get_cospec_rate <- function(Mt,
                                       status_a = status_a)
   cospec_rate <-
     lambda0 * Mt * expd_status_list[[1]] * expd_status_list[[2]] *
-    do.call("cbind", rep(list(nk_list[[1]]), NCOL(Mt))) *
-    do.call("rbind", rep(list(nk_list[[2]]), NROW(Mt)))
+    do.call("cbind", rep(list(nk_list[[1]]), ncol(Mt))) *
+    do.call("rbind", rep(list(nk_list[[2]]), nrow(Mt)))
   return(cospec_rate)
 }
 

@@ -12,3 +12,5 @@ sim_mutualism <- function(simtime,
   }
   return (island_replicates)
 }
+# replicates means how many times I wanna repeat the code, not the same meaning
+# from DAISIE running two different macro-evolutionary processes.

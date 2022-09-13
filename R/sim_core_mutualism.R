@@ -6,10 +6,10 @@ sim_core_mutualism <- function(simtime, mutualism_pars){
   timeval <- 0
   M0 <- mutualism_pars$M0
   Mt <- M0
-  maxplantID <- NROW(M0)
-  maxanimalID <- NCOL(M0)
-  status_p <- matrix(0, nrow = NROW(M0), ncol = 1)
-  status_a <- matrix(0, nrow = NCOL(M0), ncol = 1)
+  maxplantID <- nrow(M0)
+  maxanimalID <- ncol(M0)
+  status_p <- matrix(0, nrow = nrow(M0), ncol = 1)
+  status_a <- matrix(0, nrow = ncol(M0), ncol = 1)
 
   island_spec <- c()
   stt_table <- matrix(ncol = 7)
@@ -23,6 +23,7 @@ sim_core_mutualism <- function(simtime, mutualism_pars){
                                     status_a = status_a,
                                     mutualism_pars = mutualism_pars,
                                     island_spec = island_spec)
+    testit::assert(are_rates(rates))
     # next time
     timeval_and_dt <- calc_next_timeval_mutualism(rates = rates, timeval = timeval)
     timeval <- timeval_and_dt$timeval

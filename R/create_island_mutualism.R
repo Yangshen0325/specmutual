@@ -1,4 +1,4 @@
-# Converts simulation output into island outland
+# Converts simulation output into island output
 create_island_mutualism <- function(stt_table,
                                     simtime,
                                     island_spec,
@@ -12,7 +12,6 @@ create_island_mutualism <- function(stt_table,
                    stac = 0,
                    missing_species = 0)
   } else {
-
     cnames <- c("Species",
                 "Mainland Ancestor",
                 "Colonisation time (BP)",

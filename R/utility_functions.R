@@ -9,11 +9,11 @@ get_pans_cmps <- function(Mt,
 
   cmps_p <- c()
   cmps_a <- c()
-  for (x in seq(NROW(Mt))){
+  for (x in seq(nrow(Mt))){
     cmps_p[x] <- sum((colSums(tMt[, x] * tMt[, -x] * as.numeric(status_a)) >= 1)
                      * status_p[-x, ])
   }
-  for (x in seq(NCOL(Mt))){
+  for (x in seq(ncol(Mt))){
     cmps_a[x] <- sum((colSums(Mt[, x] * Mt[, -x] * as.numeric(status_p)) >= 1)
                      * status_a[-x, ])
   }
@@ -92,7 +92,7 @@ newMt_clado <- function(M,
                                          prob = c(transprob,
                                                  (1-transprob) / 2,
                                                  (1-transprob) / 2))
-  newrows <- matrix(unlist(newrows), nrow = 2, ncol = NCOL(M))
+  newrows <- matrix(unlist(newrows), nrow = 2, ncol = ncol(M))
   M <- rbind(M, newrows)
   return(M)
 }
@@ -110,7 +110,7 @@ newMt_ana <- function(M,
                                         replace = TRUE,
                                         prob = c(transprob,
                                                  1-transprob))
-  newrows <- matrix(unlist(newrows), nrow = 1, ncol = NCOL(M))
+  newrows <- matrix(unlist(newrows), nrow = 1, ncol = ncol(M))
   M <- rbind(M, newrows)
   return(M)
 }
@@ -133,7 +133,7 @@ newMt_cospec <- function(M,
                                         prob = c(transprob,
                                                  (1-transprob) / 2,
                                                  (1-transprob) / 2))
-  newrows <- matrix(unlist(newrows), nrow = 2, ncol = NCOL(M))
+  newrows <- matrix(unlist(newrows), nrow = 2, ncol = ncol(M))
   newrows <- cbind(newrows, diag(1,2,2))
 
   newcols[which(M[ ,y] == 0)] <- list(c(0,0))
@@ -143,7 +143,7 @@ newMt_cospec <- function(M,
                                         prob = c(transprob,
                                                  (1-transprob) / 2,
                                                  (1-transprob) / 2))
-  newcols <- t(matrix(unlist(newcols), nrow = 2, ncol = NROW(M)))
+  newcols <- t(matrix(unlist(newcols), nrow = 2, ncol = nrow(M)))
   M <- rbind(cbind(M, newcols), newrows)
   return(M)
 }
@@ -152,8 +152,8 @@ newMt_cospec <- function(M,
 get_expd_status <- function(Mt,
                             status_p,
                             status_a){
-  expd_status_p <- do.call("cbind", rep(list(status_p), NCOL(Mt)))
-  expd_status_a <- do.call("rbind", rep(list(t(status_a)), NROW(Mt)))
+  expd_status_p <- do.call("cbind", rep(list(status_p), ncol(Mt)))
+  expd_status_a <- do.call("rbind", rep(list(t(status_a)), nrow(Mt)))
 
   expd_status_list <- list(expd_status_p = expd_status_p,
                            expd_status_a = expd_status_a)
