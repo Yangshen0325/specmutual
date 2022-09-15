@@ -1,5 +1,6 @@
-# load("X:/YSPhD_Aca/specmutual/result/out_5.RData")
+# load("D:/PhD_Yang/specmutual/result/out_5.RData")
 # islands <- out_5
+# island_replicates_1 <-
 
 
 format_stt <- function(islands,
