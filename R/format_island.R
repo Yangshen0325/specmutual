@@ -15,17 +15,17 @@
 #   transprob = 1.0) # the possibility to inherit links from parents
 #  load("X:/YSPhD_Aca/specmutual/trial/island_replicates.RData")
 
-state_list_all <- list()
-island_list_all <- list()
-for (i in 1:length(island_replicates)){
-  state_list_all[[i]] <- island_replicates[[i]][["state_list"]]
-  island_list_all[[i]] <- island_replicates[[i]][["island"]]
-}
 
-format_island <- function(island_list_all,
+format_island <- function(island_replicates,
                        simtime,
                        sample_freq,
                        mutualism_pars){
+  state_list_all <- list()
+  island_list_all <- list()
+  for (i in 1:length(island_replicates)){
+    state_list_all[[i]] <- island_replicates[[i]][["state_list"]]
+    island_list_all[[i]] <- island_replicates[[i]][["island"]]
+  }
   M0 <- mutualism_pars$M0
   Mtotal <- nrow(M0) + ncol(M0)
   several_islands <- list()
