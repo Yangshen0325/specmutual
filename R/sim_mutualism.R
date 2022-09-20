@@ -2,13 +2,23 @@
 #' @export sim_mutualism
 sim_mutualism <- function(simtime,
                           replicates,
-                          mutualism_pars){
+                          mutualism_pars,
+                          sample_freq,
+                          plot_sims = TRUE){
   island_replicates <- list()
   for (rep in 1:replicates){
     island_replicates[[rep]] <- sim_core_mutualism(
       simtime = simtime,
       mutualism_pars = mutualism_pars
     )
+  }
+  several_islands <- format_island(island_replicates = island_replicates,
+                                   simtime = simtime,
+                                   sample_freq = sample_freq,
+                                   mutualism_pars = mutualism_pars)
+  if (plot_sims == TRUE){
+    plot_stt(several_islands = several_islands,
+             simtime = simtime)
   }
   return (island_replicates)
 }
