@@ -1,4 +1,22 @@
-# get mutualistic partners and competitors for plant and animal species respectively
+#' @title Calculating mutualistic partners and competitors
+#'
+#' @param Mt Matrix with plant species on the row and animal species on the column.
+#' Mt is the matrix on the island having the same size as \code{M0} at \code{
+#' timeval = 0 }, yet it constantly keeps changing as events (immigration, extinction
+#' and speciation) happening.
+#' @param status_p,status_a Matrix indicating species status on the island, with 0
+#' meaning absent, 1 meaning present.
+#'
+#' @return A list containing the number of reciprocal partners and competitors:
+#'   \itemize{
+#'     \item{\code{$pans_p}: A numeric vector about the number of partners of
+#'     plant species}
+#'     \item{\code{$pans_a}: A numeric vector about the number of partners of
+#'     plant species}
+#'     \item{\code{cmps_p}: A numeric vector about the number of competitors of
+#'     plant species}
+#'     \item{\code{cmps_a}: A numeric vector about the number of competitors of
+#'     animal species}
 
 get_pans_cmps <- function(Mt,
                           status_p,

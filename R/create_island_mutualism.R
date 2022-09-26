@@ -1,4 +1,11 @@
-# Converts simulation output into island output
+#' @title Converts simulation output into island output
+#'
+#' @inheritParams default_params_doc
+#'
+#' @return list with the island information, composed stt table,
+#' branching times of extant species, status of species on
+#' the island and number of missing species.
+
 create_island_mutualism <- function(stt_table,
                                     simtime,
                                     island_spec,

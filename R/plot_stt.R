@@ -1,3 +1,19 @@
+#' @title Plot species through time (stt) plots on island
+#'
+#' @description plot_stt() plots three figures based on total species, plant species and animal
+#' species on island. Each of them has the total, endemic and non-endemic with the
+#' simulated entire time span. 2.5-97.5th percentiles are plotted in light grey,
+#' 25-75th percentiles plotted in dark grey.
+#'
+#' @param several_islands
+#' @param simtime
+#'
+#' @return R plot with a row of three figures.
+#' @export
+#'
+#' @examples
+#' plot_stt(several_island = several_island,
+#'      simtime = simtime)
 plot_stt <- function(several_islands,
                      simtime){
   plot_list <- get_plot_list(several_islands = several_islands)

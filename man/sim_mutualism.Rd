@@ -4,7 +4,13 @@
 \alias{sim_mutualism}
 \title{sim_mutualism}
 \usage{
-sim_mutualism(simtime, replicates, mutualism_pars)
+sim_mutualism(
+  simtime,
+  replicates,
+  mutualism_pars,
+  sample_freq,
+  plot_sims = TRUE
+)
 }
 \description{
 sim_mutualism
