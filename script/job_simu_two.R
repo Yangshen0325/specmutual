@@ -1,3 +1,5 @@
+
+M0 <- {set.seed(122); specmutual::get_M0(plant = 40)}
 mutualism_pars <- create_mutualism_pars(
   lac_pars = c(0.5, 0.5), # c(lac_plant, lac_animal)
   mu_pars = c(0.2, 0.2, 2.0, 2.0), # c(mu_P0, mu_A0, mu_P1, mu_A1)
@@ -13,6 +15,6 @@ output_two <- specmutual::sim_mutualism(simtime = 5,
                                         replicates = 500,
                                         mutualism_pars = mutualism_pars,
                                         sample_freq = 25,
-                                        plot_sims = TRUE)
-dir.create("result")
+                                        plot_sims = FALSE)
+# dir.create("result")
 save(output_two, file = "result/output_two.RData")
