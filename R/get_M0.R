@@ -26,6 +26,14 @@
 
 ## model2: Mixed model, mixed narrow-complementarity model with barrier model
 ## flower <- round(runif(1, min = 10, max = 160))
+
+#' Title
+#'
+#' @param plant
+#'
+#' @return
+#' @export get_M0
+
 get_M0 <- function(plant){
   animal <- round(45.573-0.8082* plant + 0.047 * plant^2)
   vi1 <- runif(animal, 0, 1)
