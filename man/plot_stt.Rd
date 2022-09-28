@@ -2,12 +2,14 @@
 % Please edit documentation in R/plot_stt.R
 \name{plot_stt}
 \alias{plot_stt}
-\title{Plot species though time (stt) plots on island}
+\title{Plot species through time (stt) plots on island}
 \usage{
 plot_stt(several_islands, simtime)
 }
 \arguments{
-\item{simtime}{}
+\item{several_islands}{islands' information}
+
+\item{simtime}{simulation time}
 }
 \value{
 R plot with a row of three figures.
@@ -17,4 +19,8 @@ plot_stt() plots three figures based on total species, plant species and animal
 species on island. Each of them has the total, endemic and non-endemic with the
 simulated entire time span. 2.5-97.5th percentiles are plotted in light grey,
 25-75th percentiles plotted in dark grey.
+}
+\examples{
+plot_stt(several_island = several_island,
+     simtime = simtime)
 }

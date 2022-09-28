@@ -6,6 +6,8 @@
 # gam_pars <- c(gam_plant, gam_animal)
 # laa_pars <- c(laa_P0, laa_A0, laa_P1, laa_A1)
 
+#' Title
+#' @export create_mutualism_pars
 create_mutualism_pars <- function(lac_pars,
                                   mu_pars,
                                   K_pars,

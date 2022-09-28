@@ -17,6 +17,7 @@
 #'     plant species}
 #'     \item{\code{cmps_a}: A numeric vector about the number of competitors of
 #'     animal species}
+#'     }
 
 get_pans_cmps <- function(Mt,
                           status_p,

@@ -5,8 +5,8 @@
 #' simulated entire time span. 2.5-97.5th percentiles are plotted in light grey,
 #' 25-75th percentiles plotted in dark grey.
 #'
-#' @param several_islands
-#' @param simtime
+#' @param several_islands islands' information
+#' @param simtime simulation time
 #'
 #' @return R plot with a row of three figures.
 #' @export
