@@ -16,5 +16,5 @@ output_two <- specmutual::sim_mutualism(simtime = 5,
                                         mutualism_pars = mutualism_pars,
                                         sample_freq = 25,
                                         plot_sims = FALSE)
-# dir.create("result")
-save(output_two, file = "result/output_two.RData")
+ #dir.create("result")
+save(output_two, file = "outputs/output_two.RData")
