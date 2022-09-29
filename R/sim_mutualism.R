@@ -20,7 +20,8 @@ sim_mutualism <- function(simtime,
     plot_stt(several_islands = several_islands,
              simtime = simtime)
   }
-  return (island_replicates)
+  return (list(island_replicates = island_replicates,
+               several_islands = several_islands))
 }
 # replicates means how many times I wanna repeat the code, not the same meaning
 # from DAISIE running two different macro-evolutionary processes.
