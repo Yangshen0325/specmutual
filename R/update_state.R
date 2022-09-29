@@ -13,6 +13,8 @@
 # [11]: loss links event between pairs
 
 #Update state of island given sampled event
+#' Title
+#' @export sim_update_state_mutualism
 sim_update_state_mutualism <- function(timeval,
                                        simtime,
                                        possible_event,
