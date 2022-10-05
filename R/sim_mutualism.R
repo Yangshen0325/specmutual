@@ -7,6 +7,7 @@ sim_mutualism <- function(simtime,
                           plot_sims = TRUE){
   island_replicates <- list()
   for (rep in 1:replicates){
+    print(rep)
     island_replicates[[rep]] <- sim_core_mutualism(
       simtime = simtime,
       mutualism_pars = mutualism_pars
