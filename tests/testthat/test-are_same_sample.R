@@ -3,8 +3,9 @@ test_that("sampled species with same ID for plant and animal", {
   # I set four types of rate only for plant with lac=2, mu=2, gam=1, laa=3 and without mutualism, DD,
   # and set the same only for animal species, expecting sampled the same ID.
   # Mt is random generated but have to make nrow(Mt)=ncol(Mt).
+  M0 = matrix(sample(c(0, 1), 25, replace = TRUE), ncol=5, nrow=5)
   rates1 <- update_rates_mutualism(
-    Mt = matrix(sample(c(0, 1), 25, replace = TRUE), ncol=5, nrow=5),
+    Mt = M0,
     status_p = matrix(1, ncol = 1, nrow = 5),
     status_a = matrix(1, ncol = 1, nrow = 5),
     mutualism_pars = create_mutualism_pars(
@@ -16,7 +17,7 @@ test_that("sampled species with same ID for plant and animal", {
       qgain = 0,
       qloss = 0,
       lambda0 = 0,
-      M0 = matrix(sample(c(0, 1), 25, replace = TRUE), ncol=5, nrow=5),
+      M0 = M0,
       transprob = 0),
     island_spec = c())
   rates2 <- update_rates_mutualism(

@@ -29,13 +29,22 @@ get_pans_cmps <- function(Mt,
   cmps_p <- c()
   cmps_a <- c()
   for (x in seq(nrow(Mt))){
-    cmps_p[x] <- sum((colSums(tMt[, x] * tMt[, -x] * as.numeric(status_a)) >= 1)
-                     * status_p[-x, ])
+    copartner <- tMt[, x] * tMt[, -x] * as.numeric(status_a) # think of 2*2 network
+    if (is.null(dim(copartner))){
+      cmps_p[x] <- sum((copartner >= 1) * status_p[-x, ])
+    } else {
+    cmps_p[x] <- sum((colSums(copartner) >= 1) * status_p[-x, ])
+    }
   }
   for (x in seq(ncol(Mt))){
-    cmps_a[x] <- sum((colSums(Mt[, x] * Mt[, -x] * as.numeric(status_p)) >= 1)
-                     * status_a[-x, ])
+    copartner <- Mt[, x] * Mt[, -x] * as.numeric(status_p) # think of 2*2 network
+    if (is.null(dim(copartner))){
+      cmps_a[x] <- sum((copartner >= 1) * status_a[-x, ])
+    } else {
+     cmps_a[x] <- sum((colSums(copartner) >= 1) * status_a[-x, ])
+    }
   }
+
 
   pans_cmps_list <- list(pans_p = as.numeric(pans_p),
                          pans_a = as.numeric(pans_a),
