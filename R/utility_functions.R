@@ -45,7 +45,6 @@ get_pans_cmps <- function(Mt,
     }
   }
 
-
   pans_cmps_list <- list(pans_p = as.numeric(pans_p),
                          pans_a = as.numeric(pans_a),
                          cmps_p = cmps_p,
@@ -76,11 +75,10 @@ test_format_pans_cmps <- function(pans_cmps_list,
 get_nk <- function(Mt,
                    status_p,
                    status_a,
-                   mutualism_pars){
+                   K_pars){
   pans_cmps_list <- get_pans_cmps(Mt = Mt,
                                   status_p = status_p,
                                   status_a = status_a)
-  K_pars <- mutualism_pars$K_pars
   nk_p <- exp(-(sum(status_p) / K_pars[1] + pans_cmps_list[[3]] / (K_pars[3] * pans_cmps_list[[1]])))
   nk_a <- exp(-(sum(status_a) / K_pars[2] + pans_cmps_list[[4]] / (K_pars[4] * pans_cmps_list[[2]])))
   # if there is no mutualistic partners on the island, N/K should be exp(-N/K).
@@ -108,8 +106,7 @@ test_format_nk <- function(nk_list,
 # get a new matrix when cladogenesis happens
 newMt_clado <- function(M,
                         possible_event,
-                        mutualism_pars){
-  transprob <- mutualism_pars$transprob
+                        transprob){
   x <- possible_event$plant
   newrows <- list()
   possible_output <- list(c(1,1), c(1,0), c(0,1))
@@ -128,8 +125,7 @@ newMt_clado <- function(M,
 # get a new matrix when anagenesis happens
 newMt_ana <- function(M,
                       possible_event,
-                      mutualism_pars){
-  transprob <- mutualism_pars$transprob
+                      transprob){
   x <- possible_event$plant
   newrows <- list()
   newrows[which(M[x, ] == 0)] <- 0
@@ -146,8 +142,7 @@ newMt_ana <- function(M,
 # get a new matrix if cospeciation happens
 newMt_cospec <- function(M,
                          possible_event,
-                         mutualism_pars){
-  transprob <- mutualism_pars$transprob
+                         transprob){
   x <- possible_event$plant
   y <- possible_event$animal
   newrows <- list()

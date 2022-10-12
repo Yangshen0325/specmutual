@@ -19,13 +19,33 @@ sim_core_mutualism <- function(simtime, mutualism_pars){
   colnames(stt_table) <- c("Time", "nIp", "nAp", "nCp", "nIa", "nAa", "nCa")
   stt_table[1, ] <- c(simtime, 0, 0, 0, 0, 0, 0)
   state_list <- list()
-  #### Start Monte Carlo iterations ####
 
+  lac_pars <- mutualism_pars$lac_pars
+  mu_pars <- mutualism_pars$mu_pars
+  K_pars <-  mutualism_pars$K_pars
+  gam_pars <-  mutualism_pars$gam_pars
+  laa_pars <-  mutualism_pars$laa_pars
+  qgain <-  mutualism_pars$qgain
+  qloss <-  mutualism_pars$qloss
+  lambda0 <-  mutualism_pars$lambda0
+  M0 <-  mutualism_pars$M0
+  transprob <-  mutualism_pars$transprob
+
+  #### Start Monte Carlo iterations ####
   while (timeval < simtime){
     rates <- update_rates_mutualism(Mt = Mt,
                                     status_p = status_p,
                                     status_a = status_a,
-                                    mutualism_pars = mutualism_pars,
+                                    lac_pars = lac_pars,
+                                    mu_pars = mu_pars,
+                                    K_pars = K_pars,
+                                    gam_pars = am_pars,
+                                    laa_pars = laa_pars,
+                                    qgain = qgain,
+                                    qloss = qloss,
+                                    lambda0 = lambda0,
+                                    M0 = M0,
+                                    transprob = transprob,
                                     island_spec = island_spec)
     testit::assert(are_rates(rates))
     # next time

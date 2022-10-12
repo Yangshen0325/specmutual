@@ -1,12 +1,12 @@
 test_that("get_pans_cmps has the right format", {
   expect_true(
     test_format_pans_cmps(
-      pans_cmps_list = get_pans_cmps(
+      pans_cmps_list <- get_pans_cmps(
         Mt = matrix(sample(c(0,1), 20, replace = TRUE), ncol = 4, nrow = 5),
         status_p = matrix(1, ncol = 1, nrow = 5),
         status_a = matrix(1, ncol = 1, nrow = 4)),
-      status_p = matrix(1, ncol = 1, nrow = 5),
-      status_a = matrix(1, ncol = 1, nrow = 4))
+      status_p <- matrix(1, ncol = 1, nrow = 5),
+      status_a <- matrix(1, ncol = 1, nrow = 4))
   )
 })
 
