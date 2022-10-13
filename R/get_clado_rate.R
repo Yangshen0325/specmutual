@@ -2,7 +2,8 @@
 get_clado_rate <- function(Mt,
                            status_p,
                            status_a,
-                           lac_pars){
+                           lac_pars,
+                           K_pars){
   nk_list <- get_nk(Mt = Mt,
                     status_p = status_p,
                     status_a = status_a,

@@ -2,7 +2,8 @@
 get_cospec_rate <- function(Mt,
                             status_p,
                             status_a,
-                            lambda0){
+                            lambda0,
+                            K_pars){
   nk_list <- get_nk(Mt = Mt,
                     status_p = status_p,
                     status_a = status_a,
