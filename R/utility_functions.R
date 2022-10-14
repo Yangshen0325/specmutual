@@ -172,14 +172,14 @@ newMt_cospec <- function(M,
 }
 
 # get status_p and status_a expanded
-get_expd_status <- function(Mt,
-                            status_p,
-                            status_a){
-  expd_status_p <- do.call("cbind", rep(list(status_p), ncol(Mt)))
-  expd_status_a <- do.call("rbind", rep(list(t(status_a)), nrow(Mt)))
-
-  expd_status_list <- list(expd_status_p = expd_status_p,
-                           expd_status_a = expd_status_a)
-
-  return(expd_status_list)
-}
+# get_expd_status <- function(Mt,
+#                             status_p,
+#                             status_a){
+#   expd_status_p <- do.call("cbind", rep(list(status_p), ncol(Mt)))
+#   expd_status_a <- do.call("rbind", rep(list(t(status_a)), nrow(Mt)))
+#
+#   expd_status_list <- list(expd_status_p = expd_status_p,
+#                            expd_status_a = expd_status_a)
+#
+#   return(expd_status_list)
+# }
