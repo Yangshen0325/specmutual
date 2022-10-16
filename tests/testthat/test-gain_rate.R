@@ -7,17 +7,13 @@ gain_rate <- get_gain_rate(Mt = Mt,
                            status_a = status_a,
                            status_p = status_p,
                            qgain = 1.0)
-A <- which(Mt == 0)
-B <- which(gain_rate !=0)
-
-
-C <- which((status_p %*% t(status_a)) == 1)
- match(B, A) == match(B,C)
-
 
 test_that("Pairs that didn't have a link could gain a new link if they both are
           on the island", {
-            expect_equal(which((both_shown * Mt) == 1),
-                         which(gain_rate != 0))
-
+            rates_pos <- which(gain_rate != 0, arr.ind = TRUE)
+            expect_true(sum(Mt[rates_pos]) == 0)
+            expect_equal(sort(unique(rates_pos[, 1])),
+                         which(status_p == 1))
+            expect_equal(sort(unique(rates_pos[, 2])),
+                         which(status_a == 1))
           })
