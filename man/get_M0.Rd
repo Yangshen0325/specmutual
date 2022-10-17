@@ -9,9 +9,6 @@ get_M0(plant)
 \arguments{
 \item{plant}{}
 }
-\value{
-
-}
 \description{
 Title
 }
