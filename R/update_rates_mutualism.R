@@ -1,4 +1,12 @@
-# calculate algorithm rates
+#' Calculates algorithm rates
+#'
+#' @description Internal function that updates the all the rates and
+#' max extinction horizon at time t.
+#'
+#' @return
+#' @export
+#'
+#' @examples
 update_rates_mutualism <- function(Mt,
                                    status_p,
                                    status_a,
