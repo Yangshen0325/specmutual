@@ -12,12 +12,13 @@
 # [10]: gain links event between pairs
 # [11]: loss links event between pairs
 
-#Update state of island given sampled event
-#' Title
+
+#' Update state of island given sampled event
 #' @export sim_update_state_mutualism
 sim_update_state_mutualism <- function(timeval,
                                        simtime,
                                        possible_event,
+                                       M0,
                                        Mt,
                                        status_p,
                                        status_a,
@@ -25,8 +26,7 @@ sim_update_state_mutualism <- function(timeval,
                                        maxanimalID,
                                        island_spec,
                                        stt_table,
-                                       mutualism_pars){
-  M0 <- mutualism_pars$M0
+                                       transprob){
   # [1] plant species: Immigration
   if (possible_event$event == 1){
     colonist <- possible_event$plant
@@ -111,7 +111,7 @@ sim_update_state_mutualism <- function(timeval,
     status_p <- rbind(status_p, 1 ,1)
     Mt <- newMt_clado(M = Mt,
                       possible_event = possible_event,
-                      mutualism_pars = mutualism_pars)
+                      transprob = transprob)
 
     ind <- intersect(which(island_spec[, 1] == tosplit),
                      which(island_spec[, 8] == "plant"))
@@ -148,7 +148,7 @@ sim_update_state_mutualism <- function(timeval,
     status_p <- rbind(status_p, 1)
     Mt <- newMt_ana(M = Mt,
                     possible_event = possible_event,
-                    mutualism_pars = mutualism_pars)
+                    transprob = transprob)
 
     ind <- intersect(which(island_spec[, 1] == anagenesis),
                      which(island_spec[, 8] == "plant"))
@@ -239,7 +239,7 @@ sim_update_state_mutualism <- function(timeval,
     status_a <- rbind(status_a, 1 ,1)
     Mt <- t(newMt_clado(M = t(Mt),
                       possible_event = possible_event,
-                      mutualism_pars = mutualism_pars))
+                      transprob = transprob))
 
     ind <- intersect(which(island_spec[, 1] == tosplit),
                      which(island_spec[, 8] == "animal"))
@@ -276,7 +276,7 @@ sim_update_state_mutualism <- function(timeval,
     status_a <- rbind(status_a, 1)
     Mt <- t(newMt_ana(M = t(Mt),
                     possible_event = possible_event,
-                    mutualism_pars = mutualism_pars))
+                    transprob = transprob))
 
     ind <- intersect(which(island_spec[, 1] == anagenesis),
                      which(island_spec[, 8] == "animal"))
@@ -296,7 +296,7 @@ sim_update_state_mutualism <- function(timeval,
     status_a <- rbind(status_a, 1, 1)
     Mt <- newMt_cospec(M = Mt,
                        possible_event = possible_event,
-                       mutualism_pars = mutualism_pars)
+                       transprob = transprob)
 
     ind1 <- intersect(which(island_spec[, 1] == cospec_plant),
                       which(island_spec[, 8] == "plant"))

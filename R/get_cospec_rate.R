@@ -8,12 +8,8 @@ get_cospec_rate <- function(Mt,
                     status_p = status_p,
                     status_a = status_a,
                     K_pars = K_pars)
-  expd_status_list <- get_expd_status(Mt = Mt,
-                                      status_p = status_p,
-                                      status_a = status_a)
+
   cospec_rate <-
-    lambda0 * Mt * expd_status_list[[1]] * expd_status_list[[2]] *
-    do.call("cbind", rep(list(nk_list[[1]]), ncol(Mt))) *
-    do.call("rbind", rep(list(nk_list[[2]]), nrow(Mt)))
+    lambda0 * Mt * (status_p %*% t(status_a)) * (nk_list[[1]] %*% t(nk_list[[2]]))
   return(cospec_rate)
 }

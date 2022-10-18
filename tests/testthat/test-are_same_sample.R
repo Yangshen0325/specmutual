@@ -1,83 +1,59 @@
-# without mutualism, should sample the same ID for plant and animal species
+M0 <- matrix(sample(c(0, 1), 25, replace = TRUE), ncol=5, nrow=5)
+island_spec <- matrix(NA, nrow = nrow(M0) + ncol(M0), ncol =8)
+island_spec[1:nrow(M0), 8] <- "plant"
+island_spec[(nrow(M0) +1):(nrow(M0) + ncol(M0)), 8] <- "animal"
+island_spec[, 4] <- "I"
+island_spec[, 1] <- rep(c(1:5), 2)
+
+rates1 <- update_rates_mutualism(M0 = M0,
+                                Mt = M0,
+                                status_p = matrix(1, ncol = 1, nrow = nrow(M0)),
+                                status_a = matrix(1, ncol = 1, nrow = ncol(M0)),
+                                lac_pars = c(2.0, 0.0),
+                                mu_pars = c(0.5, 0.0, 0.0, 0.0),
+                                K_pars = c(Inf, Inf, Inf, Inf),
+                                gam_pars = c(0.05, 0.0),
+                                laa_pars = c(0.3, 0.0, 0.0, 0.0),
+                                qgain = 0.0,
+                                qloss = 0.0,
+                                lambda0 = 0.0,
+                                transprob = 0.0,
+                                island_spec = island_spec)
+rates2 <- update_rates_mutualism(M0 = M0,
+                                 Mt = M0,
+                                 status_p = matrix(1, ncol = 1, nrow = nrow(M0)),
+                                 status_a = matrix(1, ncol = 1, nrow = ncol(M0)),
+                                 lac_pars = c(0.0, 2.0),
+                                 mu_pars = c(0.0, 0.5, 0.0, 0.0),
+                                 K_pars = c(Inf, Inf, Inf, Inf),
+                                 gam_pars = c(0.0, 0.05),
+                                 laa_pars = c(0.0, 0.3, 0.0, 0.0),
+                                 qgain = 0.0,
+                                 qloss = 0.0,
+                                 lambda0 = 0.0,
+                                 transprob = 0.0,
+                                 island_spec = island_spec)
 test_that("sampled species with same ID for plant and animal", {
-  # I set four types of rate only for plant with lac=2, mu=2, gam=1, laa=3 and without mutualism, DD,
-  # and set the same only for animal species, expecting sampled the same ID.
-  # Mt is random generated but have to make nrow(Mt)=ncol(Mt).
-  M0 = matrix(sample(c(0, 1), 25, replace = TRUE), ncol=5, nrow=5)
-  rates1 <- update_rates_mutualism(
-    Mt = M0,
-    status_p = matrix(1, ncol = 1, nrow = 5),
-    status_a = matrix(1, ncol = 1, nrow = 5),
-    mutualism_pars = create_mutualism_pars(
-      lac_pars = c(2, 0),
-      mu_pars = c(2, 0, 0, 0),
-      K_pars = c(Inf, Inf, Inf, Inf),
-      gam_pars = c(1, 0),
-      laa_pars = c(3, 0, 0, 0),
-      qgain = 0,
-      qloss = 0,
-      lambda0 = 0,
-      M0 = M0,
-      transprob = 0),
-    island_spec = c())
-  rates2 <- update_rates_mutualism(
-    Mt = matrix(sample(c(0, 1), 25, replace = TRUE), ncol=5, nrow=5),
-    status_p = matrix(1, ncol = 1, nrow = 5),
-    status_a = matrix(1, ncol = 1, nrow = 5),
-    mutualism_pars = create_mutualism_pars(
-      lac_pars = c(0, 2),
-      mu_pars = c(0, 2, 0, 0),
-      K_pars = c(Inf, Inf, Inf, Inf),
-      gam_pars = c(0, 1),
-      laa_pars = c(0, 3, 0, 0),
-      qgain = 0,
-      qloss = 0,
-      lambda0 = 0,
-      M0 = matrix(sample(c(0, 1), 25, replace = TRUE), ncol=5, nrow=5),
-      transprob = 0),
-    island_spec = c())
-
-  possible_event <- function(plantrates, animalrates){
-    testrates1 <- plantrates[-c(5:11)]
-    testrates2 <- animalrates[c(5:8)]
-    output1 <- reshape2::melt(setNames(plantrates, seq_along(plantrates)))
-    output2 <- reshape2::melt(setNames(animalrates, seq_along(animalrates)))
-    cnames <- c("plant", "animal", "rate", "event")
-    colnames(output1) <- cnames
-    colnames(output2) <- cnames
-    output1$event <-as.integer(output1$event)
-    output2$event <-as.integer(output2$event)
-    onlyplant <- output1[which(output1$event < 5), ]
-    onlyanimal <- output2[which(output2$event > 4 & output2$event < 9), ]
-    onlyanimal$animal <- onlyanimal$plant
-    set.seed(123)
-    x <- sample(1:dim(onlyplant)[1],
+  plant_exclu <- sum(unlist(rates1[c(5:11)]))
+  animal_exclu <- sum(unlist(rates2[c(1:4)])) + sum(unlist(rates2[c(9:11)]))
+  if (plant_exclu != 0 | animal_exclu != 0){
+    print("incorrect")
+  } else {
+    rates1 <- rates1[-c(5:11)]
+    rates2 <- rates2[c(5:8)]
+    event <- function(rates){
+      output <- reshape2::melt(setNames(rates, seq_along(rates)))
+    x <- sample(1:dim(output)[1],
                 size = 1,
                 replace = FALSE,
-                prob = unlist(testrates1))
-    possible_event1 <- onlyplant[x, ]
-    set.seed(123)
-    y <- sample(1:dim(onlyanimal)[1],
-                size = 1,
-                replace = FALSE,
-                prob = unlist(testrates2))
-    possible_event2 <- onlyanimal[y, ]
+                prob = unlist(rates))
+    possible_event <- output[x, ]
 
-    return(list(possible_event1 = possible_event1,
-                possible_event2 = possible_event2))
+    return(possible_event)
   }
-  possible_event <- possible_event(plantrates = rates1, animalrates = rates2)
-  possible_event1 <- possible_event[[1]]
-  possible_event2 <- possible_event[[2]]
-  expect_equal(
-    possible_event1$plant, possible_event2$animal)
-  expect_equal(
-    possible_event1$event + 4, possible_event2$event)
+  expect_equal({set.seed(123); event(rates = rates1)},
+               {set.seed(123); event(rates = rates2)})
+  }
 })
-
-
-
-
-
 
 

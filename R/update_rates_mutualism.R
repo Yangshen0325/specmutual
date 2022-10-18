@@ -1,13 +1,26 @@
 #' Calculates algorithm rates
 #'
-#' @description Internal function that updates the all the rates and
-#' max extinction horizon at time t.
+#' @description Internal function that updates the all the rates at time t.
 #'
-#' @return
-#' @export
+#' @return a named list with the updated rates.
 #'
 #' @examples
-update_rates_mutualism <- function(Mt,
+#' rates <- update_rates_mutualism(M0 = matrix(1, 20, ncol = 5, nrow = 4),
+#' Mt = Mt,
+#' status_p = matrix(0, ncol = 1, nrow = nrow(Mt)),
+#' status_a = matrix(0, ncol = 1, nrow = ncol(Mt)),
+#' lac_pars = c(0.5, 0.5),
+#' mu_pars = c(0.2, 0.2, 1.0, 1.0),
+#' K_pars = c(Inf, Inf, Inf, Inf),
+#' gam_pars = c(0.05, 0.02),
+#' laa_pars =  c(0.2, 0.1, 1.0, 2.0),
+#' qgain = 1.0,
+#' qloss = 1.0,
+#' lambda0 = 2.0,
+#' transprob = 1.0,
+#' island_spec = NULL)
+update_rates_mutualism <- function(M0,
+                                   Mt,
                                    status_p,
                                    status_a,
                                    lac_pars,
@@ -18,14 +31,13 @@ update_rates_mutualism <- function(Mt,
                                    qgain,
                                    qloss,
                                    lambda0,
-                                   M0,
                                    transprob,
                                    island_spec){
-  testit::assert(are_mutualism_pars(mutualism_pars))
 
   immig_rate <- get_immig_rate(
     M0 = M0,
     Mt = Mt,
+    K_pars = K_pars,
     status_p = status_p,
     status_a = status_a,
     gam_pars = gam_pars
@@ -50,14 +62,16 @@ update_rates_mutualism <- function(Mt,
     Mt = Mt,
     status_p = status_p,
     status_a = status_a,
-    lac_pars = lac_pars
+    lac_pars = lac_pars,
+    K_pars = K_pars
   )
 
   cospec_rate <- get_cospec_rate(
     Mt = Mt,
     status_p = status_p,
     status_a = status_a,
-    lambda0 = lambda0
+    lambda0 = lambda0,
+    K_pars = K_pars
   )
 
   gain_rate <- get_gain_rate(

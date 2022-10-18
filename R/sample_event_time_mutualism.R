@@ -12,7 +12,12 @@
 # [10]: gain links event between pairs
 # [11]: loss links event between pairs
 
-#library(reshape2)
+#' Samples what event will happen next
+#'
+#' @param rates a list with every event rates
+#'
+#' @return a dataframe indicating which species undergoing which event
+
 sample_event_mutualism <- function(rates){
 
   testit::assert(are_rates(rates))
@@ -22,9 +27,9 @@ sample_event_mutualism <- function(rates){
   colnames(output) <- cnames
   output$event <-as.integer(output$event)
   #event 5,7,6,8 related to animal
-  output$animal[output$event<9 & output$event > 4] <-
-    output$plant[output$event<9 & output$event > 4]
-  output$plant[output$event<9 & output$event > 4] <- 1
+  output$animal[output$event < 9 & output$event > 4] <-
+    output$plant[output$event < 9 & output$event > 4]
+  output$plant[output$event < 9 & output$event > 4] <- 1
 
   x <- sample(1:dim(output)[1],
               size = 1,
@@ -35,7 +40,13 @@ sample_event_mutualism <- function(rates){
   return(possible_event)
 }
 
-# Calculates when the next timestep will be.
+#' Calculates when the next timestep will be
+#'
+#' @param rates a list with every event rates
+#' @param timeval current time of simulation
+#'
+#' @return named list with numeric vector containing the time of the next
+#' timestep and the change in time.
 
 calc_next_timeval_mutualism <- function(rates, timeval){
 

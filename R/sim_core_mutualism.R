@@ -1,11 +1,12 @@
 # simulation
 # sim_mutualism(simtime = 1.5, mutualism_pars = mutualism_pars)
 # profvis::profvis({sim_mutualism(simtime = 1, mutualism_pars = mutualism_pars)})
-#' Title
-#' @export sim_core_mutualism
+#' Internal function of simulation
+#' @return a named list with island information
 
 sim_core_mutualism <- function(simtime, mutualism_pars){
   #### Initialization ####
+  testit::assert(are_mutualism_pars(mutualism_pars))
   timeval <- 0
   M0 <- mutualism_pars$M0
   Mt <- M0
@@ -28,23 +29,22 @@ sim_core_mutualism <- function(simtime, mutualism_pars){
   qgain <-  mutualism_pars$qgain
   qloss <-  mutualism_pars$qloss
   lambda0 <-  mutualism_pars$lambda0
-  M0 <-  mutualism_pars$M0
   transprob <-  mutualism_pars$transprob
 
   #### Start Monte Carlo iterations ####
   while (timeval < simtime){
-    rates <- update_rates_mutualism(Mt = Mt,
+    rates <- update_rates_mutualism(M0 = M0,
+                                    Mt = Mt,
                                     status_p = status_p,
                                     status_a = status_a,
                                     lac_pars = lac_pars,
                                     mu_pars = mu_pars,
                                     K_pars = K_pars,
-                                    gam_pars = am_pars,
+                                    gam_pars = gam_pars,
                                     laa_pars = laa_pars,
                                     qgain = qgain,
                                     qloss = qloss,
                                     lambda0 = lambda0,
-                                    M0 = M0,
                                     transprob = transprob,
                                     island_spec = island_spec)
     testit::assert(are_rates(rates))
@@ -60,13 +60,14 @@ sim_core_mutualism <- function(simtime, mutualism_pars){
                                                   simtime = simtime,
                                                   possible_event = possible_event,
                                                   Mt = Mt,
+                                                  M0 = M0,
                                                   status_p = status_p,
                                                   status_a = status_a,
                                                   maxplantID = maxplantID,
                                                   maxanimalID = maxanimalID,
                                                   island_spec = island_spec,
                                                   stt_table = stt_table,
-                                                  mutualism_pars = mutualism_pars)
+                                                  transprob = transprob)
       Mt <- updated_state$Mt
       status_p <- updated_state$status_p
       status_a <- updated_state$status_a
