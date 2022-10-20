@@ -34,7 +34,7 @@ sample_event_mutualism <- function(rates){
   x <- sample(1:dim(output)[1],
               size = 1,
               replace = FALSE,
-              prob = unlist(rates))
+              prob = output$rate)
   possible_event <- output[x, ]
 
   return(possible_event)
