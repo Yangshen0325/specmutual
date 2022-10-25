@@ -31,7 +31,7 @@ sim_update_state_mutualism <- function(timeval,
   if (possible_event$event == 1){
     colonist <- possible_event$plant
     status_p[colonist] <- 1
-    if (length(island_spec[, 1] != 0)){
+    if (length(island_spec[, 1]) != 0){
       isitthere <- intersect(which(island_spec[, 1] == colonist),
                              which(island_spec[, 8] == "plant"))
     } else {
@@ -162,7 +162,7 @@ sim_update_state_mutualism <- function(timeval,
   if (possible_event$event == 5){
     colonist <- possible_event$animal
     status_a[colonist] <- 1
-    if (length(island_spec[, 1] != 0)){
+    if (length(island_spec[, 1]) != 0){
       isitthere <- intersect(which(island_spec[, 1] == colonist),
                              which(island_spec[, 8] == "animal"))
     } else {
