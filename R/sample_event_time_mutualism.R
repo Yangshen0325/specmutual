@@ -26,10 +26,12 @@ sample_event_mutualism <- function(rates){
   cnames <- c("plant", "animal", "rate", "event")
   colnames(output) <- cnames
   output$event <-as.integer(output$event)
+  #events 1, 2, 3, 4 are related to plant
+  output$animal[output$event <= 4] <- NA
   #event 5,7,6,8 related to animal
   output$animal[output$event < 9 & output$event > 4] <-
     output$plant[output$event < 9 & output$event > 4]
-  output$plant[output$event < 9 & output$event > 4] <- 1
+  output$plant[output$event < 9 & output$event > 4] <- NA
 
   x <- sample(1:dim(output)[1],
               size = 1,
