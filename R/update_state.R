@@ -29,6 +29,7 @@ sim_update_state_mutualism <- function(timeval,
                                        transprob){
   # [1] plant species: Immigration
   if (possible_event$event == 1){
+    testit::assert(is.na(possible_event$animal))
     colonist <- possible_event$plant
     status_p[colonist] <- 1
     if (length(island_spec[, 1]) != 0){
@@ -51,6 +52,7 @@ sim_update_state_mutualism <- function(timeval,
 
   # [2] plant species: Extinction
   if (possible_event$event == 2){
+    testit::assert(is.na(possible_event$animal))
     extinct <- possible_event$plant
     status_p[extinct] <- 0
 
@@ -106,6 +108,7 @@ sim_update_state_mutualism <- function(timeval,
 
   # [3] plant species: Cladogenesis
   if (possible_event$event == 3){
+    testit::assert(is.na(possible_event$animal))
     tosplit <- possible_event$plant
     status_p[tosplit] <- 0
     status_p <- rbind(status_p, 1 ,1)
@@ -143,6 +146,7 @@ sim_update_state_mutualism <- function(timeval,
 
   # [4] plant species: Anagenesis
   if (possible_event$event == 4){
+    testit::assert(is.na(possible_event$animal))
     anagenesis <- possible_event$plant
     status_p[anagenesis] <- 0
     status_p <- rbind(status_p, 1)
@@ -160,6 +164,7 @@ sim_update_state_mutualism <- function(timeval,
 
   # [5] animal species: Immigration
   if (possible_event$event == 5){
+    testit::assert(is.na(possible_event$plant))
     colonist <- possible_event$animal
     status_a[colonist] <- 1
     if (length(island_spec[, 1]) != 0){
@@ -182,6 +187,7 @@ sim_update_state_mutualism <- function(timeval,
 
   # [6] animal species: Extinction
   if (possible_event$event == 6){
+    testit::assert(is.na(possible_event$plant))
     extinct <- possible_event$animal
     status_a[extinct] <- 0
 
@@ -234,6 +240,7 @@ sim_update_state_mutualism <- function(timeval,
 
   # [7] animal species: Cladogenesis
   if (possible_event$event == 7){
+    testit::assert(is.na(possible_event$plant))
     tosplit <- possible_event$animal
     status_a[tosplit] <- 0
     status_a <- rbind(status_a, 1 ,1)
@@ -248,7 +255,6 @@ sim_update_state_mutualism <- function(timeval,
       island_spec[ind, 1] <- maxanimalID + 1
       oldstatus <- island_spec[ind, 5]
       island_spec[ind, 5] <- paste(oldstatus, "A", sep = "")
-      island_spec[ind, 6] <- timeval
       island_spec[ind, 7] <- NA
       # for daughter B
       island_spec <- rbind(island_spec, c(maxanimalID + 2, island_spec[ind, 2],
@@ -271,6 +277,7 @@ sim_update_state_mutualism <- function(timeval,
 
   # [8] animal species: Anagenesis
   if (possible_event$event == 8){
+    testit::assert(is.na(possible_event$plant))
     anagenesis <- possible_event$animal
     status_a[anagenesis] <- 0
     status_a <- rbind(status_a, 1)

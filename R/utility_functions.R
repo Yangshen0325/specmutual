@@ -107,7 +107,11 @@ test_format_nk <- function(nk_list,
 newMt_clado <- function(M,
                         possible_event,
                         transprob){
-  x <- possible_event$plant
+  if(is.na(possible_event$plant)){
+    x <- possible_event$animal
+  } else {
+    x <- possible_event$plant
+  }
   newrows <- list()
   possible_output <- list(c(1,1), c(1,0), c(0,1))
   newrows[which(M[x, ] == 0)] <- list(c(0,0))
@@ -126,7 +130,11 @@ newMt_clado <- function(M,
 newMt_ana <- function(M,
                       possible_event,
                       transprob){
-  x <- possible_event$plant
+  if(is.na(possible_event$plant)){
+    x <- possible_event$animal
+  } else {
+    x <- possible_event$plant
+  }
   newrows <- list()
   newrows[which(M[x, ] == 0)] <- 0
   newrows[which(M[x, ] == 1)] <- sample(c(1, 0),
