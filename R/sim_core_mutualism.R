@@ -55,6 +55,7 @@ sim_core_mutualism <- function(simtime, mutualism_pars){
     if (timeval <= simtime){
       # next event
       possible_event <- sample_event_mutualism(rates = rates)
+      print(possible_event$event)
       # next state based on event
       updated_state <- sim_update_state_mutualism(timeval = timeval,
                                                   simtime = simtime,

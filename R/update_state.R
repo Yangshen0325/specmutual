@@ -123,7 +123,6 @@ sim_update_state_mutualism <- function(timeval,
       island_spec[ind, 1] <- maxplantID + 1
       oldstatus <- island_spec[ind, 5]
       island_spec[ind, 5] <- paste(oldstatus, "A", sep = "")
-      island_spec[ind, 6] <- timeval
       island_spec[ind, 7] <- NA
       # for daughter B
       island_spec <- rbind(island_spec, c(maxplantID + 2, island_spec[ind, 2],
@@ -316,7 +315,6 @@ sim_update_state_mutualism <- function(timeval,
       island_spec[ind1, 1] <- maxplantID + 1
       oldstatus <- island_spec[ind1, 5]
       island_spec[ind1, 5] <- paste(oldstatus, "A", sep = "")
-      island_spec[ind1, 6] <- timeval
       island_spec[ind1, 7] <- NA
       # for daughter B
       island_spec <- rbind(island_spec, c(maxplantID + 2, island_spec[ind1, 2],
@@ -342,7 +340,6 @@ sim_update_state_mutualism <- function(timeval,
       island_spec[ind2, 1] <- maxanimalID + 1
       oldstatus <- island_spec[ind2, 5]
       island_spec[ind2, 5] <- paste(oldstatus, "A", sep = "")
-      island_spec[ind2, 6] <- timeval
       island_spec[ind2, 7] <- NA
       # for daughter B
       island_spec <- rbind(island_spec, c(maxanimalID + 2, island_spec[ind2, 2],
