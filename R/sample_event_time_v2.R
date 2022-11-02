@@ -25,7 +25,7 @@ sample_event_v2 <- function(rates) {
   return(possible_event)
 }
 
-sample_time_v2 <- function(rates) {
+sample_time_v2 <- function(rates, timeval) {
 
   totalrate <- sum(unlist(rates))
   dt <- stats::rexp(1, totalrate)

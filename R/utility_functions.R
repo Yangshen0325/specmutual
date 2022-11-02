@@ -125,6 +125,23 @@ newMt_clado <- function(M,
   M <- rbind(M, newrows)
   return(M)
 }
+# the second version
+newMt_clado_v2 <- function(M,
+                           tosplit,
+                           transprob) {
+  newrows <- list()
+  possible_output <- list(c(1,1), c(1,0), c(0,1))
+  newrows[which(M[tosplit, ] == 0)] <- list(c(0,0))
+  newrows[which(M[tosplit, ] == 1)] <- sample(possible_output,
+                                        size = length(which(M[tosplit, ] == 1)),
+                                        replace = TRUE,
+                                        prob = c(transprob,
+                                                 (1-transprob) / 2,
+                                                 (1-transprob) / 2))
+  newrows <- matrix(unlist(newrows), nrow = 2, ncol = ncol(M))
+  M <- rbind(M, newrows)
+  return(M)
+}
 
 # get a new matrix when anagenesis happens
 newMt_ana <- function(M,
@@ -147,6 +164,20 @@ newMt_ana <- function(M,
   return(M)
 }
 
+
+newMt_ana_v2 <- function(M,
+                         anagenesis,
+                         transprob) {
+  newrows <- list()
+  newrows[which(M[anagenesis, ] == 0)] <- 0
+  newrows[which(M[anagenesis, ] == 1)] <- sample(c(1, 0),
+                                                 size = length(which(M[anagenesis, ] == 1)),
+                                                 replace = TRUE,
+                                                 prob = c(transprob, 1 - transprob))
+  newrows <- matrix(unlist(newrows), nrow = 1, ncol = ncol(M))
+  M <- rbind(M, newrows)
+  return(M)
+}
 # get a new matrix if cospeciation happens
 newMt_cospec <- function(M,
                          possible_event,
