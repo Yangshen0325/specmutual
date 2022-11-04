@@ -210,3 +210,33 @@ newMt_cospec <- function(M,
   return(M)
 }
 
+
+newMt_cospec_v2 <- function(M,
+                            cospec_plant,
+                            cospec_animal,
+                            transprob) {
+  newrows <- list()
+  newcols <- list()
+  possible_output <- list(c(1,1), c(1,0), c(0,1))
+
+  newrows[which(M[cospec_plant, ] == 0)] <- list(c(0,0))
+  newrows[which(M[cospec_plant, ] == 1)] <- sample(possible_output,
+                                        size = length(which(M[cospec_plant, ] == 1)),
+                                        replace = TRUE,
+                                        prob = c(transprob,
+                                                 (1-transprob) / 2,
+                                                 (1-transprob) / 2))
+  newrows <- matrix(unlist(newrows), nrow = 2, ncol = ncol(M))
+  newrows <- cbind(newrows, diag(1,2,2))
+
+  newcols[which(M[, cospec_animal] == 0)] <- list(c(0,0))
+  newcols[which(M[, cospec_animal] == 1)] <- sample(possible_output,
+                                        size = length(which(M[, cospec_animal] == 1)),
+                                        replace = TRUE,
+                                        prob = c(transprob,
+                                                 (1-transprob) / 2,
+                                                 (1-transprob) / 2))
+  newcols <- t(matrix(unlist(newcols), nrow = 2, ncol = nrow(M)))
+  M <- rbind(cbind(M, newcols), newrows)
+  return(M)
+}

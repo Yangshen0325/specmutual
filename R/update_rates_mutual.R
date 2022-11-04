@@ -19,20 +19,21 @@
 #' lambda0 = 2.0,
 #' transprob = 1.0,
 #' island_spec = NULL)
-update_rates_mutualism <- function(M0,
-                                   Mt,
-                                   status_p,
-                                   status_a,
-                                   lac_pars,
-                                   mu_pars,
-                                   K_pars,
-                                   gam_pars,
-                                   laa_pars,
-                                   qgain,
-                                   qloss,
-                                   lambda0,
-                                   transprob,
-                                   island_spec){
+update_rates_mutual <- function(M0,
+                                Mt,
+                                status_p,
+                                status_a,
+                                lac_pars,
+                                mu_pars,
+                                K_pars,
+                                gam_pars,
+                                laa_pars,
+                                qgain,
+                                qloss,
+                                lambda0,
+                                transprob,
+                                island_plant,
+                                island_animal){
 
   immig_rate <- get_immig_rate(
     M0 = M0,
@@ -55,7 +56,8 @@ update_rates_mutualism <- function(M0,
     status_p = status_p,
     status_a = status_a,
     laa_pars = laa_pars,
-    island_spec = island_spec
+    island_plant = island_plant,
+    island_animal = island_animal
   )
 
   clado_rate <- get_clado_rate(

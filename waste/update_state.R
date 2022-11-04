@@ -14,7 +14,7 @@
 
 
 #' Update state of island given sampled event
-#' @export sim_update_state_mutualism
+
 sim_update_state_mutualism <- function(timeval,
                                        simtime,
                                        possible_event,

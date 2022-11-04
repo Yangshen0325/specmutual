@@ -1,0 +1,166 @@
+#' @title Calculating mutualistic partners and competitors
+#'
+#' @param Mt Matrix with plant species on the row and animal species on the column.
+#' Mt is the matrix on the island having the same size as \code{M0} at \code{
+#' timeval = 0 }, yet it constantly keeps changing as events (immigration, extinction
+#' and speciation) happening.
+#' @param status_p,status_a Matrix indicating species status on the island, with 0
+#' meaning absent, 1 meaning present.
+#'
+#' @return A list containing the number of reciprocal partners and competitors:
+#'   \itemize{
+#'     \item{\code{$pans_p}: A numeric vector about the number of partners of
+#'     plant species}
+#'     \item{\code{$pans_a}: A numeric vector about the number of partners of
+#'     plant species}
+#'     \item{\code{cmps_p}: A numeric vector about the number of competitors of
+#'     plant species}
+#'     \item{\code{cmps_a}: A numeric vector about the number of competitors of
+#'     animal species}
+#'     }
+
+get_pans_cmps <- function(Mt,
+                          status_p,
+                          status_a){
+  tMt <- t(Mt)
+  pans_p <- Mt %*% status_a
+  pans_a <- tMt %*% status_p
+
+  cmps_p <- c()
+  cmps_a <- c()
+  for (x in seq(nrow(Mt))){
+    copartner <- tMt[, x] * tMt[, -x] * as.numeric(status_a) # think of 2*2 network
+    if (is.null(dim(copartner))){
+      cmps_p[x] <- sum((copartner >= 1) * status_p[-x, ])
+    } else {
+      cmps_p[x] <- sum((colSums(copartner) >= 1) * status_p[-x, ])
+    }
+  }
+  for (x in seq(ncol(Mt))){
+    copartner <- Mt[, x] * Mt[, -x] * as.numeric(status_p) # think of 2*2 network
+    if (is.null(dim(copartner))){
+      cmps_a[x] <- sum((copartner >= 1) * status_a[-x, ])
+    } else {
+      cmps_a[x] <- sum((colSums(copartner) >= 1) * status_a[-x, ])
+    }
+  }
+
+  pans_cmps_list <- list(pans_p = as.numeric(pans_p),
+                         pans_a = as.numeric(pans_a),
+                         cmps_p = cmps_p,
+                         cmps_a = cmps_a)
+  return(pans_cmps_list)
+}
+# test the format
+test_format_pans_cmps <- function(pans_cmps_list,
+                                  status_p,
+                                  status_a) {
+  if (!all(sapply(pans_cmps_list, is.numeric))) return(FALSE)
+  if (!"pans_p" %in% names(pans_cmps_list)) return(FALSE)
+  if (!"pans_a" %in% names(pans_cmps_list)) return(FALSE)
+  if (!"cmps_p" %in% names(pans_cmps_list)) return(FALSE)
+  if (!"cmps_a" %in% names(pans_cmps_list)) return(FALSE)
+  if (any(pans_cmps_list$pans_p < 0.0)) return(FALSE)
+  if (any(pans_cmps_list$pans_a < 0.0)) return(FALSE)
+  if (any(pans_cmps_list$cmps_p < 0.0)) return(FALSE)
+  if (any(pans_cmps_list$cmps_a < 0.0)) return(FALSE)
+  if (length(pans_cmps_list$pans_p) != length(status_p)) return(FALSE)
+  if (length(pans_cmps_list$pans_a) != length(status_a)) return(FALSE)
+  if (length(pans_cmps_list$cmps_p) != length(status_p)) return(FALSE)
+  if (length(pans_cmps_list$cmps_a) != length(status_a)) return(FALSE)
+  return(TRUE)
+}
+
+# get N/K
+get_nk <- function(Mt,
+                   status_p,
+                   status_a,
+                   K_pars){
+  pans_cmps_list <- get_pans_cmps(Mt = Mt,
+                                  status_p = status_p,
+                                  status_a = status_a)
+  nk_p <- exp(-(sum(status_p) / K_pars[1] + pans_cmps_list[[3]] / (K_pars[3] * pans_cmps_list[[1]])))
+  nk_a <- exp(-(sum(status_a) / K_pars[2] + pans_cmps_list[[4]] / (K_pars[4] * pans_cmps_list[[2]])))
+  # if there is no mutualistic partners on the island, N/K should be exp(-N/K).
+  nk_p[which(pans_cmps_list[[1]] == 0)] <- exp(-(sum(status_p) / K_pars[1]))
+  nk_a[which(pans_cmps_list[[2]] == 0)] <- exp(-(sum(status_a) / K_pars[2]))
+
+  nk_list <- list(nk_p = nk_p,
+                  nk_a = nk_a)
+  return(nk_list)
+}
+# test the format
+test_format_nk <- function(nk_list,
+                           status_p,
+                           status_a) {
+  if (!all(sapply(nk_list, is.numeric))) return(FALSE)
+  if (!"nk_p" %in% names(nk_list)) return(FALSE)
+  if (!"nk_a" %in% names(nk_list)) return(FALSE)
+  if (any(nk_list$nk_p < 0.0)) return(FALSE)
+  if (any(nk_list$nk_a < 0.0)) return(FALSE)
+  if (length(nk_list$nk_p) != length(status_p)) return(FALSE)
+  if (length(nk_list$nk_a) != length(status_a)) return(FALSE)
+  return(TRUE)
+}
+
+
+newMt_clado <- function(M,
+                        tosplit,
+                        transprob) {
+  newrows <- list()
+  possible_output <- list(c(1,1), c(1,0), c(0,1))
+  newrows[which(M[tosplit, ] == 0)] <- list(c(0,0))
+  newrows[which(M[tosplit, ] == 1)] <- sample(possible_output,
+                                              size = length(which(M[tosplit, ] == 1)),
+                                              replace = TRUE,
+                                              prob = c(transprob,
+                                                       (1-transprob) / 2,
+                                                       (1-transprob) / 2))
+  newrows <- matrix(unlist(newrows), nrow = 2, ncol = ncol(M))
+  M <- rbind(M, newrows)
+  return(M)
+}
+
+newMt_ana <- function(M,
+                      anagenesis,
+                      transprob) {
+  newrows <- list()
+  newrows[which(M[anagenesis, ] == 0)] <- 0
+  newrows[which(M[anagenesis, ] == 1)] <- sample(c(1, 0),
+                                                 size = length(which(M[anagenesis, ] == 1)),
+                                                 replace = TRUE,
+                                                 prob = c(transprob, 1 - transprob))
+  newrows <- matrix(unlist(newrows), nrow = 1, ncol = ncol(M))
+  M <- rbind(M, newrows)
+  return(M)
+}
+
+newMt_cospec <- function(M,
+                         cospec_plant,
+                         cospec_animal,
+                         transprob) {
+  newrows <- list()
+  newcols <- list()
+  possible_output <- list(c(1,1), c(1,0), c(0,1))
+
+  newrows[which(M[cospec_plant, ] == 0)] <- list(c(0,0))
+  newrows[which(M[cospec_plant, ] == 1)] <- sample(possible_output,
+                                                   size = length(which(M[cospec_plant, ] == 1)),
+                                                   replace = TRUE,
+                                                   prob = c(transprob,
+                                                            (1-transprob) / 2,
+                                                            (1-transprob) / 2))
+  newrows <- matrix(unlist(newrows), nrow = 2, ncol = ncol(M))
+  newrows <- cbind(newrows, diag(1,2,2))
+
+  newcols[which(M[, cospec_animal] == 0)] <- list(c(0,0))
+  newcols[which(M[, cospec_animal] == 1)] <- sample(possible_output,
+                                                    size = length(which(M[, cospec_animal] == 1)),
+                                                    replace = TRUE,
+                                                    prob = c(transprob,
+                                                             (1-transprob) / 2,
+                                                             (1-transprob) / 2))
+  newcols <- t(matrix(unlist(newcols), nrow = 2, ncol = nrow(M)))
+  M <- rbind(cbind(M, newcols), newrows)
+  return(M)
+}

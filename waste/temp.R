@@ -64,7 +64,7 @@
 # and set the same only for animal species, expecting the same stt_table.
 
 #' @title simulation_test
-#' @export simulation_test
+
 simulation_test <-
   function(simtime,
            mutualism_pars1,

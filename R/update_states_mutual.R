@@ -1,14 +1,24 @@
 # update the state on the island
-update_state_v2 <- function(M0,
-                            status_p,
-                            status_a,
-                            rates,
-                            possible_event) {
+update_states_mutual <- function(M0,
+                                Mt,
+                                status_p,
+                                status_a,
+                                maxplantID,
+                                maxanimalID,
+                                timeval,
+                                simtime,
+                                rates,
+                                possible_event,
+                                island_plant,
+                                island_animal,
+                                stt_plant,
+                                stt_animal,
+                                transprob) {
 
   ## [1] plant species: Immigration
   if(possible_event == 1) {
     immig_p <- rates$immig_p
-    colonist <- sample(1:length(immig_a),
+    colonist <- sample(1:length(immig_p),
                        size = 1,
                        replace = FALSE,
                        prob = immig_p)
@@ -31,23 +41,15 @@ update_state_v2 <- function(M0,
 
   ## [2] plant species: Extinction
   if(possible_event == 2) {
-    if (length(island_plant[, 1]) == 1) {
-      extinct <- as.integer(island_plant[, 1])
-      status_p[extinct] <- 0
-      island_plant <- c()
-    } else {
       ext_p <- rates$ext_p
-      ext_pool <- which(status_p == 1, arr.ind = TRUE)[, 1]
-      ext_pool_rates <- ext_p[ext_pool]
-      testit::assert(length(as.integer(island_plant[, 1])) == length(ext_pool))
-      extinct <- sample(ext_pool,
+      extinct <- sample(1:length(ext_p),
                         size = 1,
                         replace = FALSE,
-                        prob = ext_pool_rates)
-      ind <- which(island_plant[, 1] == extinct)
+                        prob = ext_p)
       status_p[extinct] <- 0
-      typeofspecies <- island_plant[ind, 4]
+      ind <- which(island_plant[, 1] == extinct)
 
+      typeofspecies <- island_plant[ind, 4]
       if (typeofspecies == "I" | typeofspecies == "A"){
       island_plant <- island_plant[-ind, ]
       }
@@ -94,7 +96,6 @@ update_state_v2 <- function(M0,
     }
       island_plant <- rbind(island_plant)
     }
-  }
 
   ## [3] plant species: Cladogenesis
   if (possible_event == 3) {
@@ -105,11 +106,11 @@ update_state_v2 <- function(M0,
                       prob = clado_p)
     status_p[tosplit] <- 0
     status_p <- rbind(status_p, 1 ,1)
-    Mt <- newMt_clado_v2(M = Mt,
-                         tosplit = tosplit,
-                         transprob = transprob)
-
+    Mt <- newMt_clado(M = Mt,
+                      tosplit = tosplit,
+                      transprob = transprob)
     ind <- which(island_plant[, 1] == tosplit)
+
     if (island_plant[ind, 4] == "C"){
       # for daughter A
       island_plant[ind, 1] <- maxplantID + 1
@@ -144,9 +145,9 @@ update_state_v2 <- function(M0,
                   prob = ana_p)
     status_p[anagenesis] <- 0
     status_p <- rbind(status_p, 1)
-    Mt <- newMt_ana_v2(M = Mt,
-                       anagenesis = anagenesis,
-                       transprob = transprob)
+    Mt <- newMt_ana(M = Mt,
+                    anagenesis = anagenesis,
+                    transprob = transprob)
     ind <- which(island_plant[, 1] == anagenesis)
 
     island_plant[ind, 1] <- maxplantID + 1
@@ -185,8 +186,8 @@ update_state_v2 <- function(M0,
                       replace = FALSE,
                       prob = ext_a)
     status_a[extinct] <- 0
-
     ind <- which(island_animal[, 1] == extinct)
+
     typeofspecies <- island_animal[ind, 4]
     if (typeofspecies == "I" | typeofspecies == "A"){
       island_animal <- island_animal[-ind, ]
@@ -204,11 +205,13 @@ update_state_v2 <- function(M0,
       } else {
         numberofsplits <- nchar(island_animal[ind, 5])
         mostrecentspl <- substring(island_animal[ind, 5], numberofsplits)
+
         if (mostrecentspl == "A"){
           sistermostrecentspl <- "B"
         } else {
           sistermostrecentspl <- "A"
         }
+
         motiftoind <- paste(substring(island_animal[ind, 5], 1, numberofsplits - 1),
                             sistermostrecentspl, sep = "")
         possiblesister <- survivors[which(substring(island_animal[survivors, 5], 1,
@@ -242,10 +245,10 @@ update_state_v2 <- function(M0,
     status_a[tosplit] <- 0
     status_a <- rbind(status_a, 1 ,1)
     Mt <- t(newMt_clado(M = t(Mt),
-                        possible_event = possible_event,
+                        tosplit = tosplit,
                         transprob = transprob))
-
     ind <- which(island_animal[, 1] == tosplit)
+
     if (island_animal[ind, 4] == "C"){
       # for daughter A
       island_animal[ind, 1] <- maxanimalID + 1
@@ -280,11 +283,11 @@ update_state_v2 <- function(M0,
                          prob = ana_a)
     status_a[anagenesis] <- 0
     status_a <- rbind(status_a, 1)
-    Mt <- t(newMt_ana_v2(M = t(Mt),
-                         anagenesis = anagenesis,
-                         transprob = transprob))
-
+    Mt <- t(newMt_ana(M = t(Mt),
+                      anagenesis = anagenesis,
+                      transprob = transprob))
     ind <- which(island_animal[, 1] == anagenesis)
+
     island_animal[ind, 1] <- maxanimalID + 1
     island_animal[ind, 4] <- "A"
     island_animal[ind, 7] <- "Immig_parent"
@@ -294,19 +297,125 @@ update_state_v2 <- function(M0,
   ## [9] Cospeciation
   if (possible_event == 9) {
     cospec_rate <- rates$cospec_rate
-    sample(1:length(cospec_rate),
-           size = 1,
-           replace = FALSE,
-           prob = cospec_rate)
-    %%
-    ceiling()
+    copairs <- sample(1:length(cospec_rate),
+                      size = 1,
+                      replace = FALSE,
+                      prob = cospec_rate)
+    cospec_plant <- 1 + (copairs - 1) %% nrow(cospec_rate)
+    cospec_animal <- 1 + floor((copairs - 1) / nrow(cospec_rate))
+    status_p[cospec_plant] <- 0
+    status_a[cospec_animal] <- 0
+    status_p <- rbind(status_p, 1, 1)
+    status_a <- rbind(status_a, 1, 1)
+    Mt <- newMt_cospec(M = Mt,
+                       cospec_plant = cospec_plant,
+                       cospec_animal = cospec_animal,
+                       transprob = transprob)
 
+    ind1 <- which(island_plant[, 1] == cospec_plant)
+    ind2 <- which(island_animal[, 1] == cospec_animal)
+
+    # for plant species
+    if (island_plant[ind1, 4] == "C") {
+      # for daughter A
+      island_plant[ind1, 1] <- maxplantID + 1
+      oldstatus <- island_plant[ind1, 5]
+      island_plant[ind1, 5] <- paste(oldstatus, "A", sep = "")
+      island_plant[ind1, 7] <- NA
+      # for daughter B
+      island_plant <- rbind(island_plant, c(maxplantID + 2, island_plant[ind1, 2],
+                            island_plant[ind1, 3], "C", paste(oldstatus, "B", sep = ""),
+                            timeval, NA))
+      maxplantID <- maxplantID + 2
+    } else {
+      # for daughter A
+      island_plant[ind1, 1] <- maxplantID + 1
+      island_plant[ind1, 4] <- "C"
+      island_plant[ind1, 5] <- "A"
+      island_plant[ind1, 6] <- island_plant[ind1, 3]
+      island_plant[ind1, 7] <- NA
+      # for daughter B
+      island_plant <- rbind(island_plant, c(maxplantID + 2, island_plant[ind1, 2],
+                            island_plant[ind1, 3], "C", "B", timeval, NA))
+
+      maxplantID <- maxplantID + 2
+    }
+    # for animal species
+    if (island_animal[ind2, 4] == "C") {
+      # for daughter A
+      island_animal[ind2, 1] <- maxanimalID + 1
+      oldstatus <- island_animal[ind2, 5]
+      island_animal[ind2, 5] <- paste(oldstatus, "A", sep = "")
+      island_animal[ind2, 7] <- NA
+      # for daughter B
+      island_animal <- rbind(island_animal, c(maxanimalID + 2, island_animal[ind2, 2],
+                             island_animal[ind2, 3], "C", paste(oldstatus, "B", sep = ""),
+                             timeval, NA))
+      maxanimalID <- maxanimalID + 2
+    } else {
+      # for daughter A
+      island_animal[ind2, 1] <- maxanimalID + 1
+      island_animal[ind2, 4] <- "C"
+      island_animal[ind2, 5] <- "A"
+      island_animal[ind2, 6] <- island_animal[ind2, 3]
+      island_animal[ind2, 7] <- NA
+      # for daughter B
+      island_animal <- rbind(island_animal, c(maxanimalID + 2, island_animal[ind2, 2],
+                             island_animal[ind2, 3], "C", "B", timeval, NA))
+      maxanimalID <- maxanimalID + 2
+    }
   }
 
+  ## [10] Gain links
+  if (possible_event == 10){
+    gain_rate <- rates$gain_rate
+    gainpairs <- sample(1:length(gain_rate),
+                        size = 1,
+                        replace = FALSE,
+                        prob = gain_rate)
+    togain_plant <- 1 + (gainpairs - 1) %% nrow(gain_rate)
+    togain_animal <- 1 + floor((gainpairs - 1) / nrow(gain_rate))
+    Mt[togain_plant, togain_animal] <- 1
+  }
 
+  ## [11] Lose links
+  if (possible_event == 11){
+    loss_rate <- rates$loss_rate
+    losspairs <- sample(1:length(loss_rate),
+                        size = 1,
+                        replace = FALSE,
+                        prob = loss_rate)
+    tolose_plant <- 1 + (losspairs - 1) %% nrow(loss_rate)
+    tolose_animal <- floor((losspairs - 1) / nrow(loss_rate))
+    Mt[tolose_plant, tolose_animal] <- 0
+  }
 
+  stt_plant <- rbind(stt_plant,
+                     c(simtime - timeval,
+                     length(which(island_plant[, 4] == "I")),
+                     length(which(island_plant[, 4] == "A")),
+                     length(which(island_plant[, 4] == "C"))
+                     )
+   )
 
+   stt_animal <- rbind(stt_animal,
+                       c(simtime - timeval,
+                         length(which(island_animal[, 4] == "I")),
+                         length(which(island_animal[, 4] == "A")),
+                         length(which(island_animal[, 4] == "C")))
 
+   )
+
+  update_states <- list(Mt = Mt,
+                        status_p = status_p,
+                        status_a = status_a,
+                        maxplantID = maxplantID,
+                        maxanimalID = maxanimalID,
+                        island_plant = island_plant,
+                        island_animal = island_animal,
+                        stt_plant = stt_plant,
+                        stt_animal = stt_animal)
+  return(update_states)
 }
 
 

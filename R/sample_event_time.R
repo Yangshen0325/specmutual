@@ -1,5 +1,5 @@
 # the second way to sample event
-sample_event_v2 <- function(rates) {
+sample_event_mutual <- function(rates) {
 
   testit::assert(are_rates(rates))
 
@@ -25,7 +25,7 @@ sample_event_v2 <- function(rates) {
   return(possible_event)
 }
 
-sample_time_v2 <- function(rates, timeval) {
+sample_time_mutual <- function(rates, timeval) {
 
   totalrate <- sum(unlist(rates))
   dt <- stats::rexp(1, totalrate)

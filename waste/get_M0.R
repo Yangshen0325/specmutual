@@ -32,7 +32,6 @@
 #' @param plant
 #'
 #' @return
-#' @export get_M0
 
 get_M0 <- function(plant){
   animal <- round(45.573-0.8082* plant + 0.047 * plant^2)
