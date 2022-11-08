@@ -70,10 +70,10 @@ update_states_mutual <- function(M0,
         mostrecentspl <- substring(island_plant[ind, 5], numberofsplits)
 
         if (mostrecentspl == "A") {
-          sistermostrecentspl < "B"
+          sistermostrecentspl <- "B"
         }
         if (mostrecentspl == "B") {
-          sistermostrecentspl < "A"
+          sistermostrecentspl <- "A"
         }
 
         motiftoind <- paste(substring(island_plant[ind, 5], 1, numberofsplits - 1),
