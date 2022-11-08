@@ -1,21 +1,39 @@
-sim_steptwo_mutual <- function(mutualism_pars,
-                               simtime,
-                               stt_plant,
-                               stt_animal,
-                               island_plant,
-                               island_animal) {
+# format island
+sim_steptwo_mutual <- function(total_time,
+                               mutualism_pars,
+                               replicates,
+                               sample_freq,
+                               verbose = TRUE) {
+  sim_stepone_mutual <- list()
+  plant_in_island <- list()
+  animal_in_island <- list()
+  for (i in 1:replicates) {
+    sim_stepone_mutual[[i]] <- sim_stepone_mutual(total_time = total_time,
+                                           mutualism_pars = mutualism_pars)
+    plant_in_island[[i]] <- sim_stepone_mutual[[i]]$plant_in_island
+    animal_in_island[[i]] <- sim_stepone_mutual[[i]]$animal_in_island
+    if (verbose == TRUE) {
+      print(paste("Island replicate ", i, sep = ""))
+    }
+  }
   M0 <- mutualism_pars$M0
-  mainland_n <- nrow(M0) + ncol(M0)
-  island_plant <- DAISIE:::DAISIE_create_island(stt_table = stt_plant,
-                                          total_time = simtime,
-                                          island_spec = island_plant,
-                                          mainland_n = mainland_n)
-  island_animal <- DAISIE:::DAISIE_create_island(stt_table = stt_animal,
-                                                 total_time = simtime,
-                                                 island_spec = island_animal,
-                                                 mainland_n = mainland_n)
+  M_totalspec <- nrow(M0) + ncol(M0)
 
-  return(list(island_plant = island_plant,
-              island_animal = island_animal))
+  plant_replicates <- DAISIE:::DAISIE_format_IW(
+    island_replicates = plant_in_island,
+    time = total_time,
+    M = M_totalspec,
+    sample_freq = sample_freq,
+    verbose = verbose)
+
+  animal_replicates <- DAISIE:::DAISIE_format_IW(
+    island_replicates = animal_in_island,
+    time = total_time,
+    M = M_totalspec,
+    sample_freq = sample_freq,
+    verbose = verbose)
+
+  return(list(plant_replicates = plant_replicates,
+              animal_replicates = animal_replicates))
 
 }

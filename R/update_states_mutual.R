@@ -59,13 +59,13 @@ update_states_mutual <- function(M0,
                            which(island_plant[, 3] == island_plant[ind, 3]))
       survivors <- sisters[which(sisters != ind)]
 
-      if (length(sisters) == 2){# survivors status becomes anagenetic
+      if (length(sisters) == 2) {# survivors status becomes anagenetic
         island_plant[survivors, 4] <- "A"
         island_plant[survivors, c(5, 6)] <- c(NA, NA)
         island_plant[survivors, 7] <- "Clado_extinct"
         island_plant <- island_plant[-ind, ]
       }
-      if (length(sisters) >= 3){
+      if (length(sisters) >= 3) {
         numberofsplits <- nchar(island_plant[ind, 5])
         mostrecentspl <- substring(island_plant[ind, 5], numberofsplits)
 
@@ -197,18 +197,20 @@ update_states_mutual <- function(M0,
       sisters <- intersect(which(island_animal[, 2] == island_animal[ind, 2]),
                            which(island_animal[, 3] == island_animal[ind, 3]))
       survivors <- sisters[which(sisters != ind)]
-      if (length(sisters) == 2){ # survivors status becomes anagenetic
+      if (length(sisters) == 2) { # survivors status becomes anagenetic
         island_animal[survivors, 4] <- "A"
         island_animal[survivors, c(5, 6)] <- c(NA, NA)
         island_animal[survivors, 7] <- "Clado_extinct"
         island_animal <- island_animal[-ind, ]
-      } else {
+      }
+      if (length(sisters) >= 3) {
         numberofsplits <- nchar(island_animal[ind, 5])
         mostrecentspl <- substring(island_animal[ind, 5], numberofsplits)
 
-        if (mostrecentspl == "A"){
+        if (mostrecentspl == "A") {
           sistermostrecentspl <- "B"
-        } else {
+        }
+        if (mostrecentspl == "B") {
           sistermostrecentspl <- "A"
         }
 
@@ -386,7 +388,7 @@ update_states_mutual <- function(M0,
                         replace = FALSE,
                         prob = loss_rate)
     tolose_plant <- 1 + (losspairs - 1) %% nrow(loss_rate)
-    tolose_animal <- floor((losspairs - 1) / nrow(loss_rate))
+    tolose_animal <- 1 + floor((losspairs - 1) / nrow(loss_rate))
     Mt[tolose_plant, tolose_animal] <- 0
   }
 

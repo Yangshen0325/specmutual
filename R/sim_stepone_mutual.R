@@ -91,12 +91,13 @@ sim_stepone_mutual <- function(total_time, mutualism_pars) {
   stt_animal <- rbind(stt_animal,
                       c(0, stt_animal[nrow(stt_animal), 2:4]))
 
+
   plant_in_island <- DAISIE:::DAISIE_create_island(stt_table = stt_plant,
-                                                   totaltime = total_time,
+                                                   total_time = total_time,
                                                    island_spec = island_plant,
                                                    mainland_n = mainland_n)
   animal_in_island <- DAISIE:::DAISIE_create_island(stt_table = stt_animal,
-                                                    totaltime = total_time,
+                                                    total_time = total_time,
                                                     island_spec = island_animal,
                                                     mainland_n = mainland_n)
 
