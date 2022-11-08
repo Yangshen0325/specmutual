@@ -1,19 +1,19 @@
 # update the state on the island
 update_states_mutual <- function(M0,
-                                Mt,
-                                status_p,
-                                status_a,
-                                maxplantID,
-                                maxanimalID,
-                                timeval,
-                                simtime,
-                                rates,
-                                possible_event,
-                                island_plant,
-                                island_animal,
-                                stt_plant,
-                                stt_animal,
-                                transprob) {
+                                 Mt,
+                                 status_p,
+                                 status_a,
+                                 maxplantID,
+                                 maxanimalID,
+                                 timeval,
+                                 total_time,
+                                 rates,
+                                 possible_event,
+                                 island_plant,
+                                 island_animal,
+                                 stt_plant,
+                                 stt_animal,
+                                 transprob) {
 
   ## [1] plant species: Immigration
   if(possible_event == 1) {
@@ -391,7 +391,7 @@ update_states_mutual <- function(M0,
   }
 
   stt_plant <- rbind(stt_plant,
-                     c(simtime - timeval,
+                     c(total_time - timeval,
                      length(which(island_plant[, 4] == "I")),
                      length(which(island_plant[, 4] == "A")),
                      length(which(island_plant[, 4] == "C"))
@@ -399,7 +399,7 @@ update_states_mutual <- function(M0,
    )
 
    stt_animal <- rbind(stt_animal,
-                       c(simtime - timeval,
+                       c(total_time - timeval,
                          length(which(island_animal[, 4] == "I")),
                          length(which(island_animal[, 4] == "A")),
                          length(which(island_animal[, 4] == "C")))
