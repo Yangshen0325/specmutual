@@ -32,8 +32,7 @@ update_rates_mutual <- function(M0,
                                 qloss,
                                 lambda0,
                                 transprob,
-                                island_plant,
-                                island_animal){
+                                island_spec) {
 
   immig_rate <- get_immig_rate(
     M0 = M0,
@@ -56,8 +55,7 @@ update_rates_mutual <- function(M0,
     status_p = status_p,
     status_a = status_a,
     laa_pars = laa_pars,
-    island_plant = island_plant,
-    island_animal = island_animal
+    island_spec = island_spec
   )
 
   clado_rate <- get_clado_rate(

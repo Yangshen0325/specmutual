@@ -1,4 +1,15 @@
 # update the state on the island
+# [1]: immigration event with plant species
+# [2]: extinction event with plant species
+# [3]: cladogenesis event with plant species
+# [4]: anagenesis event with plant species
+# [5]: immigration event with animal species
+# [6]: extinction event with animal species
+# [7]: cladogenesis event with animal species
+# [8]: anagenesis event with animal species
+# [9]: cospeciation event between pairs
+# [10]: gain links event between pairs
+# [11]: loss links event between pairs
 update_states_mutual <- function(M0,
                                  Mt,
                                  status_p,
@@ -9,10 +20,8 @@ update_states_mutual <- function(M0,
                                  total_time,
                                  rates,
                                  possible_event,
-                                 island_plant,
-                                 island_animal,
-                                 stt_plant,
-                                 stt_animal,
+                                 island_spec,
+                                 stt_table,
                                  transprob) {
 
   ## [1] plant species: Immigration
@@ -24,15 +33,16 @@ update_states_mutual <- function(M0,
                        prob = immig_p)
     status_p[colonist] <- 1
 
-    if (length(island_plant[, 1]) != 0){
-      isitthere <- which(island_plant[, 1] == colonist)
+    if (length(island_spec[, 1]) != 0){
+      isitthere <- intersect(which(island_spec[, 1] == colonist),
+                             which(island_spec[, 8] == "plant"))
     } else { isitthere <- c() }
 
     if (length(isitthere) == 0){
-      island_plant <- rbind(island_plant, c(colonist, colonist, timeval, "I",
-                                          NA, NA, NA))
+      island_spec <- rbind(island_spec, c(colonist, colonist, timeval, "I",
+                                          NA, NA, NA, "plant"))
     } else {
-      island_plant[isitthere, ] <- c(colonist, colonist, timeval, "I", NA, NA, NA)
+      island_spec[isitthere, ] <- c(colonist, colonist, timeval, "I", NA, NA, NA, "plant")
       Mt[colonist, which(M0[colonist, ] == 1)] <- M0[colonist, which(M0[colonist, ] == 1)]
     }
   }
@@ -47,27 +57,28 @@ update_states_mutual <- function(M0,
                         replace = FALSE,
                         prob = ext_p)
       status_p[extinct] <- 0
-      ind <- which(island_plant[, 1] == extinct)
+      ind <- intersect(which(island_spec[, 1] == extinct),
+                       which(island_spec[, 8] == "plant"))
 
-      typeofspecies <- island_plant[ind, 4]
+      typeofspecies <- island_spec[ind, 4]
       if (typeofspecies == "I" | typeofspecies == "A"){
-      island_plant <- island_plant[-ind, ]
+      island_spec <- island_spec[-ind, ]
       }
       if (typeofspecies == "C"){
       # first find species with same ancestor and arrival time
-      sisters <- intersect(which(island_plant[, 2] == island_plant[ind, 2]),
-                           which(island_plant[, 3] == island_plant[ind, 3]))
+      sisters <- intersect(which(island_spec[, 2] == island_spec[ind, 2]),
+                           which(island_spec[, 3] == island_spec[ind, 3]))
       survivors <- sisters[which(sisters != ind)]
 
       if (length(sisters) == 2) {# survivors status becomes anagenetic
-        island_plant[survivors, 4] <- "A"
-        island_plant[survivors, c(5, 6)] <- c(NA, NA)
-        island_plant[survivors, 7] <- "Clado_extinct"
-        island_plant <- island_plant[-ind, ]
+        island_spec[survivors, 4] <- "A"
+        island_spec[survivors, c(5, 6)] <- c(NA, NA)
+        island_spec[survivors, 7] <- "Clado_extinct"
+        island_spec <- island_spec[-ind, ]
       }
       if (length(sisters) >= 3) {
-        numberofsplits <- nchar(island_plant[ind, 5])
-        mostrecentspl <- substring(island_plant[ind, 5], numberofsplits)
+        numberofsplits <- nchar(island_spec[ind, 5])
+        mostrecentspl <- substring(island_spec[ind, 5], numberofsplits)
 
         if (mostrecentspl == "A") {
           sistermostrecentspl <- "B"
@@ -76,25 +87,25 @@ update_states_mutual <- function(M0,
           sistermostrecentspl <- "A"
         }
 
-        motiftoind <- paste(substring(island_plant[ind, 5], 1, numberofsplits - 1),
+        motiftoind <- paste(substring(island_spec[ind, 5], 1, numberofsplits - 1),
                             sistermostrecentspl, sep = "")
-        possiblesister <- survivors[which(substring(island_plant[survivors, 5], 1,
+        possiblesister <- survivors[which(substring(island_spec[survivors, 5], 1,
                                                     numberofsplits) == motiftoind)]
         if (mostrecentspl == "A") {
-          tochange <- possiblesister[which(island_plant[possiblesister, 6] ==
-                                             min(as.numeric(island_plant[possiblesister, 6])))]
-          island_plant[tochange, 6] <- island_plant[ind, 6]
+          tochange <- possiblesister[which(island_spec[possiblesister, 6] ==
+                                             min(as.numeric(island_spec[possiblesister, 6])))]
+          island_spec[tochange, 6] <- island_spec[ind, 6]
         }
-        island_plant[possiblesister, 5] <- paste(substring(island_plant[possiblesister, 5],
+        island_spec[possiblesister, 5] <- paste(substring(island_spec[possiblesister, 5],
                                                           1, numberofsplits - 1),
-                                                substring(island_plant[possiblesister, 5],
+                                                substring(island_spec[possiblesister, 5],
                                                           numberofsplits + 1,
-                                                          nchar(island_plant[possiblesister, 5])),
+                                                          nchar(island_spec[possiblesister, 5])),
                                                 sep = "")
-        island_plant <- island_plant[-ind, ]
+        island_spec <- island_spec[-ind, ]
       }
     }
-      island_plant <- rbind(island_plant)
+      island_spec <- rbind(island_spec)
     }
 
   ## [3] plant species: Cladogenesis
@@ -109,29 +120,30 @@ update_states_mutual <- function(M0,
     Mt <- newMt_clado(M = Mt,
                       tosplit = tosplit,
                       transprob = transprob)
-    ind <- which(island_plant[, 1] == tosplit)
+    ind <- intersect(which(island_spec[, 1] == tosplit),
+                     which(island_spec[, 8] == "plant"))
 
-    if (island_plant[ind, 4] == "C"){
+    if (island_spec[ind, 4] == "C"){
       # for daughter A
-      island_plant[ind, 1] <- maxplantID + 1
-      oldstatus <- island_plant[ind, 5]
-      island_plant[ind, 5] <- paste(oldstatus, "A", sep = "")
-      island_plant[ind, 7] <- NA
+      island_spec[ind, 1] <- maxplantID + 1
+      oldstatus <- island_spec[ind, 5]
+      island_spec[ind, 5] <- paste(oldstatus, "A", sep = "")
+      island_spec[ind, 7] <- NA
       # for daughter B
-      island_plant <- rbind(island_plant, c(maxplantID + 2, island_plant[ind, 2],
-                            island_plant[ind, 3], "C", paste(oldstatus, "B", sep = ""),
-                            timeval, NA))
+      island_spec <- rbind(island_spec, c(maxplantID + 2, island_spec[ind, 2],
+                           island_spec[ind, 3], "C", paste(oldstatus, "B", sep = ""),
+                           timeval, NA, "plant"))
       maxplantID <- maxplantID + 2
     } else {
       # for daughter A
-      island_plant[ind, 1] <- maxplantID + 1
-      island_plant[ind, 4] <- "C"
-      island_plant[ind, 5] <- "A"
-      island_plant[ind, 6] <- island_plant[ind, 3]
-      island_plant[ind, 7] <- NA
+      island_spec[ind, 1] <- maxplantID + 1
+      island_spec[ind, 4] <- "C"
+      island_spec[ind, 5] <- "A"
+      island_spec[ind, 6] <- island_spec[ind, 3]
+      island_spec[ind, 7] <- NA
       # for daughter B
-      island_plant <- rbind(island_plant, c(maxplantID + 2, island_plant[ind, 2],
-                            island_plant[ind, 3], "C", "B", timeval, NA))
+      island_spec <- rbind(island_spec, c(maxplantID + 2, island_spec[ind, 2],
+                           island_spec[ind, 3], "C", "B", timeval, NA, "plant"))
       maxplantID <- maxplantID + 2
     }
   }
@@ -148,11 +160,12 @@ update_states_mutual <- function(M0,
     Mt <- newMt_ana(M = Mt,
                     anagenesis = anagenesis,
                     transprob = transprob)
-    ind <- which(island_plant[, 1] == anagenesis)
+    ind <- intersect(which(island_spec[, 1] == anagenesis),
+                     which(island_spec[, 8] == "plant"))
 
-    island_plant[ind, 1] <- maxplantID + 1
-    island_plant[ind, 4] <- "A"
-    island_plant[ind, 7] <- "Immig_parent"
+    island_spec[ind, 1] <- maxplantID + 1
+    island_spec[ind, 4] <- "A"
+    island_spec[ind, 7] <- "Immig_parent"
     maxplantID <- maxplantID + 1
   }
 
@@ -165,15 +178,16 @@ update_states_mutual <- function(M0,
                        prob = immig_a)
     status_a[colonist] <- 1
 
-    if (length(island_animal[, 1]) != 0){
-      isitthere <- which(island_animal[, 1] == colonist)
+    if (length(island_spec[, 1]) != 0){
+      isitthere <- intersect(which(island_spec[, 1] == colonist),
+                             which(island_spec[, 8] == "animal"))
     } else { isitthere <- c() }
 
     if (length(isitthere) == 0){
-      island_animal <- rbind(island_animal, c(colonist, colonist, timeval, "I",
-                                            NA, NA, NA))
+      island_spec <- rbind(island_spec, c(colonist, colonist, timeval, "I",
+                                            NA, NA, NA, "animal"))
     } else {
-      island_animal[isitthere, ] <- c(colonist, colonist, timeval, "I", NA, NA, NA)
+      island_spec[isitthere, ] <- c(colonist, colonist, timeval, "I", NA, NA, NA, "animal")
       Mt[which(M0[, colonist] == 1), colonist] <- M0[which(M0[, colonist] == 1), colonist]
     }
   }
@@ -186,26 +200,27 @@ update_states_mutual <- function(M0,
                       replace = FALSE,
                       prob = ext_a)
     status_a[extinct] <- 0
-    ind <- which(island_animal[, 1] == extinct)
+    ind <- intersect(which(island_spec[, 1] == extinct),
+                     which(island_spec[, 8] == "animal"))
 
-    typeofspecies <- island_animal[ind, 4]
+    typeofspecies <- island_spec[ind, 4]
     if (typeofspecies == "I" | typeofspecies == "A"){
-      island_animal <- island_animal[-ind, ]
+      island_spec <- island_spec[-ind, ]
     }
     if (typeofspecies == "C"){
       # first find species with same ancestor and arrival time
-      sisters <- intersect(which(island_animal[, 2] == island_animal[ind, 2]),
-                           which(island_animal[, 3] == island_animal[ind, 3]))
+      sisters <- intersect(which(island_spec[, 2] == island_spec[ind, 2]),
+                           which(island_spec[, 3] == island_spec[ind, 3]))
       survivors <- sisters[which(sisters != ind)]
       if (length(sisters) == 2) { # survivors status becomes anagenetic
-        island_animal[survivors, 4] <- "A"
-        island_animal[survivors, c(5, 6)] <- c(NA, NA)
-        island_animal[survivors, 7] <- "Clado_extinct"
-        island_animal <- island_animal[-ind, ]
+        island_spec[survivors, 4] <- "A"
+        island_spec[survivors, c(5, 6)] <- c(NA, NA)
+        island_spec[survivors, 7] <- "Clado_extinct"
+        island_spec <- island_spec[-ind, ]
       }
       if (length(sisters) >= 3) {
-        numberofsplits <- nchar(island_animal[ind, 5])
-        mostrecentspl <- substring(island_animal[ind, 5], numberofsplits)
+        numberofsplits <- nchar(island_spec[ind, 5])
+        mostrecentspl <- substring(island_spec[ind, 5], numberofsplits)
 
         if (mostrecentspl == "A") {
           sistermostrecentspl <- "B"
@@ -214,27 +229,27 @@ update_states_mutual <- function(M0,
           sistermostrecentspl <- "A"
         }
 
-        motiftoind <- paste(substring(island_animal[ind, 5], 1, numberofsplits - 1),
+        motiftoind <- paste(substring(island_spec[ind, 5], 1, numberofsplits - 1),
                             sistermostrecentspl, sep = "")
-        possiblesister <- survivors[which(substring(island_animal[survivors, 5], 1,
+        possiblesister <- survivors[which(substring(island_spec[survivors, 5], 1,
                                                     numberofsplits) == motiftoind)]
         if (mostrecentspl == "A"){
           # change the splitting data of the sister species so that it inherits the early
           # splitting that used to belong to A
-          tochange <- possiblesister[which(island_animal[possiblesister, 6] ==
-                                             min(as.numeric(island_animal[possiblesister, 6])))]
-          island_animal[tochange, 6] <- island_animal[ind, 6]
+          tochange <- possiblesister[which(island_spec[possiblesister, 6] ==
+                                             min(as.numeric(island_spec[possiblesister, 6])))]
+          island_spec[tochange, 6] <- island_spec[ind, 6]
         }
-        island_animal[possiblesister, 5] <- paste(substring(island_animal[possiblesister, 5],
+        island_spec[possiblesister, 5] <- paste(substring(island_spec[possiblesister, 5],
                                                           1, numberofsplits - 1),
-                                                substring(island_animal[possiblesister, 5],
+                                                substring(island_spec[possiblesister, 5],
                                                           numberofsplits + 1,
-                                                          nchar(island_animal[possiblesister, 5])),
+                                                          nchar(island_spec[possiblesister, 5])),
                                                 sep = "")
-        island_animal <- island_animal[-ind, ]
+        island_spec <- island_spec[-ind, ]
       }
     }
-    island_animal <- rbind(island_animal)
+    island_spec <- rbind(island_spec)
   }
 
   ## [7] animal species: Cladogenesis
@@ -249,29 +264,30 @@ update_states_mutual <- function(M0,
     Mt <- t(newMt_clado(M = t(Mt),
                         tosplit = tosplit,
                         transprob = transprob))
-    ind <- which(island_animal[, 1] == tosplit)
+    ind <- intersect(which(island_spec[, 1] == tosplit),
+                     which(island_spec[, 8] == "animal"))
 
-    if (island_animal[ind, 4] == "C"){
+    if (island_spec[ind, 4] == "C"){
       # for daughter A
-      island_animal[ind, 1] <- maxanimalID + 1
-      oldstatus <- island_animal[ind, 5]
-      island_animal[ind, 5] <- paste(oldstatus, "A", sep = "")
-      island_animal[ind, 7] <- NA
+      island_spec[ind, 1] <- maxanimalID + 1
+      oldstatus <- island_spec[ind, 5]
+      island_spec[ind, 5] <- paste(oldstatus, "A", sep = "")
+      island_spec[ind, 7] <- NA
       # for daughter B
-      island_animal <- rbind(island_animal, c(maxanimalID + 2, island_animal[ind, 2],
-                             island_animal[ind, 3], "C", paste(oldstatus, "B", sep = ""),
-                                          timeval, NA))
+      island_spec <- rbind(island_spec, c(maxanimalID + 2, island_spec[ind, 2],
+                           island_spec[ind, 3], "C", paste(oldstatus, "B", sep = ""),
+                                          timeval, NA, "animal"))
       maxanimalID <- maxanimalID + 2
     } else {
       # for daughter A
-      island_animal[ind, 1] <- maxanimalID + 1
-      island_animal[ind, 4] <- "C"
-      island_animal[ind, 5] <- "A"
-      island_animal[ind, 6] <- island_animal[ind, 3]
-      island_animal[ind, 7] <- NA
+      island_spec[ind, 1] <- maxanimalID + 1
+      island_spec[ind, 4] <- "C"
+      island_spec[ind, 5] <- "A"
+      island_spec[ind, 6] <- island_spec[ind, 3]
+      island_spec[ind, 7] <- NA
       # for daughter B
-      island_animal <- rbind(island_animal, c(maxanimalID + 2, island_animal[ind, 2],
-                             island_animal[ind, 3], "C", "B", timeval, NA))
+      island_spec <- rbind(island_spec, c(maxanimalID + 2, island_spec[ind, 2],
+                           island_spec[ind, 3], "C", "B", timeval, NA, "animal"))
       maxanimalID <- maxanimalID + 2
     }
   }
@@ -288,11 +304,12 @@ update_states_mutual <- function(M0,
     Mt <- t(newMt_ana(M = t(Mt),
                       anagenesis = anagenesis,
                       transprob = transprob))
-    ind <- which(island_animal[, 1] == anagenesis)
+    ind <- intersect(which(island_spec[, 1] == anagenesis),
+                     which(island_spec[, 8] == "animal"))
 
-    island_animal[ind, 1] <- maxanimalID + 1
-    island_animal[ind, 4] <- "A"
-    island_animal[ind, 7] <- "Immig_parent"
+    island_spec[ind, 1] <- maxanimalID + 1
+    island_spec[ind, 4] <- "A"
+    island_spec[ind, 7] <- "Immig_parent"
     maxanimalID <- maxanimalID + 1
   }
 
@@ -314,56 +331,60 @@ update_states_mutual <- function(M0,
                        cospec_animal = cospec_animal,
                        transprob = transprob)
 
-    ind1 <- which(island_plant[, 1] == cospec_plant)
-    ind2 <- which(island_animal[, 1] == cospec_animal)
+    ind1 <- intersect(which(island_spec[, 1] == cospec_plant),
+                      which(island_spec[, 8] == "plant"))
+    ind2 <- intersect(which(island_spec[, 1] == cospec_animal),
+                      which(island_spec[, 8] == "animal"))
 
     # for plant species
-    if (island_plant[ind1, 4] == "C") {
+    if (island_spec[ind1, 4] == "C") {
       # for daughter A
-      island_plant[ind1, 1] <- maxplantID + 1
-      oldstatus <- island_plant[ind1, 5]
-      island_plant[ind1, 5] <- paste(oldstatus, "A", sep = "")
-      island_plant[ind1, 7] <- NA
+      island_spec[ind1, 1] <- maxplantID + 1
+      oldstatus <- island_spec[ind1, 5]
+      island_spec[ind1, 5] <- paste(oldstatus, "A", sep = "")
+      island_spec[ind1, 7] <- NA
       # for daughter B
-      island_plant <- rbind(island_plant, c(maxplantID + 2, island_plant[ind1, 2],
-                            island_plant[ind1, 3], "C", paste(oldstatus, "B", sep = ""),
-                            timeval, NA))
+      island_spec <- rbind(island_spec, c(maxplantID + 2, island_spec[ind1, 2],
+                            island_spec[ind1, 3], "C", paste(oldstatus, "B", sep = ""),
+                            timeval, NA, "plant"))
       maxplantID <- maxplantID + 2
     } else {
       # for daughter A
-      island_plant[ind1, 1] <- maxplantID + 1
-      island_plant[ind1, 4] <- "C"
-      island_plant[ind1, 5] <- "A"
-      island_plant[ind1, 6] <- island_plant[ind1, 3]
-      island_plant[ind1, 7] <- NA
+      sland_spec[ind1, 1] <- maxplantID + 1
+      island_spec[ind1, 4] <- "C"
+      island_spec[ind1, 5] <- "A"
+      island_spec[ind1, 6] <- island_spec[ind1, 3]
+      island_spec[ind1, 7] <- NA
       # for daughter B
-      island_plant <- rbind(island_plant, c(maxplantID + 2, island_plant[ind1, 2],
-                            island_plant[ind1, 3], "C", "B", timeval, NA))
+      island_spec <- rbind(island_spec, c(maxplantID + 2, island_spec[ind1, 2],
+                                          island_spec[ind1, 3], "C", "B",
+                                          timeval, NA, "plant") )
 
       maxplantID <- maxplantID + 2
     }
     # for animal species
-    if (island_animal[ind2, 4] == "C") {
+    if (island_spec[ind2, 4] == "C") {
       # for daughter A
-      island_animal[ind2, 1] <- maxanimalID + 1
-      oldstatus <- island_animal[ind2, 5]
-      island_animal[ind2, 5] <- paste(oldstatus, "A", sep = "")
-      island_animal[ind2, 7] <- NA
+      island_spec[ind2, 1] <- maxanimalID + 1
+      oldstatus <- island_spec[ind2, 5]
+      island_spec[ind2, 5] <- paste(oldstatus, "A", sep = "")
+      island_spec[ind2, 7] <- NA
       # for daughter B
-      island_animal <- rbind(island_animal, c(maxanimalID + 2, island_animal[ind2, 2],
-                             island_animal[ind2, 3], "C", paste(oldstatus, "B", sep = ""),
-                             timeval, NA))
+      island_spec <- rbind(island_spec, c(maxanimalID + 2, island_spec[ind2, 2],
+                                          island_spec[ind2, 3], "C", paste(oldstatus, "B", sep = ""),
+                                          timeval, NA, "animal"))
       maxanimalID <- maxanimalID + 2
     } else {
       # for daughter A
-      island_animal[ind2, 1] <- maxanimalID + 1
-      island_animal[ind2, 4] <- "C"
-      island_animal[ind2, 5] <- "A"
-      island_animal[ind2, 6] <- island_animal[ind2, 3]
-      island_animal[ind2, 7] <- NA
+      island_spec[ind2, 1] <- maxanimalID + 1
+      island_spec[ind2, 4] <- "C"
+      island_spec[ind2, 5] <- "A"
+      island_spec[ind2, 6] <- island_spec[ind2, 3]
+      island_spec[ind2, 7] <- NA
       # for daughter B
-      island_animal <- rbind(island_animal, c(maxanimalID + 2, island_animal[ind2, 2],
-                             island_animal[ind2, 3], "C", "B", timeval, NA))
+      island_spec <- rbind(island_spec, c(maxanimalID + 2, island_spec[ind2, 2],
+                                          island_spec[ind2, 3], "C", "B",
+                                          timeval, NA, "animal") )
       maxanimalID <- maxanimalID + 2
     }
   }
@@ -392,32 +413,29 @@ update_states_mutual <- function(M0,
     Mt[tolose_plant, tolose_animal] <- 0
   }
 
-  stt_plant <- rbind(stt_plant,
+  stt_table <- rbind(stt_table,
                      c(total_time - timeval,
-                     length(which(island_plant[, 4] == "I")),
-                     length(which(island_plant[, 4] == "A")),
-                     length(which(island_plant[, 4] == "C"))
-                     )
-   )
+                       length(intersect(which(island_spec[, 4] == "I"),
+                                        which(island_spec[, 8] == "plant"))),
+                       length(intersect(which(island_spec[, 4] == "A"),
+                                        which(island_spec[, 8] == "plant"))),
+                       length(intersect(which(island_spec[, 4] == "C"),
+                                        which(island_spec[, 8] == "plant"))),
+                       length(intersect(which(island_spec[, 4] == "I"),
+                                        which(island_spec[, 8] == "animal"))),
+                       length(intersect(which(island_spec[, 4] == "A"),
+                                        which(island_spec[, 8] == "animal"))),
+                       length(intersect(which(island_spec[, 4] == "C"),
+                                        which(island_spec[, 8] == "animal")))))
 
-   stt_animal <- rbind(stt_animal,
-                       c(total_time - timeval,
-                         length(which(island_animal[, 4] == "I")),
-                         length(which(island_animal[, 4] == "A")),
-                         length(which(island_animal[, 4] == "C")))
-
-   )
-
-  update_states <- list(Mt = Mt,
+  updated_states <- list(Mt = Mt,
                         status_p = status_p,
                         status_a = status_a,
                         maxplantID = maxplantID,
                         maxanimalID = maxanimalID,
-                        island_plant = island_plant,
-                        island_animal = island_animal,
-                        stt_plant = stt_plant,
-                        stt_animal = stt_animal)
-  return(update_states)
+                        island_spec = island_spec,
+                        stt_table = stt_table)
+  return(updated_states)
 }
 
 

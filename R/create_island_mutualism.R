@@ -6,10 +6,10 @@
 #' branching times of extant species, status of species on
 #' the island and number of missing species.
 
-create_island_mutualism <- function(stt_table,
-                                    simtime,
-                                    island_spec,
-                                    M0){
+create_island_mutual <- function(stt_table,
+                                 total_time,
+                                 island_spec,
+                                 M0){
   mainland_n <- NROW(M0) + NCOL(M0)
   ### if there are no species on the island branching_times = island_age,
   ### stac = 0, missing_species = 0
