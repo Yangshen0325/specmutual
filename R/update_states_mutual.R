@@ -350,7 +350,7 @@ update_states_mutual <- function(M0,
       maxplantID <- maxplantID + 2
     } else {
       # for daughter A
-      sland_spec[ind1, 1] <- maxplantID + 1
+      island_spec[ind1, 1] <- maxplantID + 1
       island_spec[ind1, 4] <- "C"
       island_spec[ind1, 5] <- "A"
       island_spec[ind1, 6] <- island_spec[ind1, 3]

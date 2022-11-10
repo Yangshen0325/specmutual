@@ -55,7 +55,7 @@ sim_core_mutualism <- function(total_time, mutualism_pars){
       # next event
       possible_event <- sample_event_mutual(rates = rates)
       # next state based on event
-      updated_state <- update_states_mutual(M0 = M0,
+      updated_states <- update_states_mutual(M0 = M0,
                                             Mt = Mt,
                                             status_p = status_p,
                                             status_a = status_a,
@@ -68,16 +68,16 @@ sim_core_mutualism <- function(total_time, mutualism_pars){
                                             island_spec = island_spec,
                                             stt_table = stt_table,
                                             transprob = transprob)
-      Mt <- updated_state$Mt
-      status_p <- updated_state$status_p
-      status_a <- updated_state$status_a
-      maxplantID <- updated_state$maxplantID
-      maxanimalID <- updated_state$maxanimalID
-      island_spec <- updated_state$island_spec
-      stt_table <- updated_state$stt_table
+      Mt <- updated_states$Mt
+      status_p <- updated_states$status_p
+      status_a <- updated_states$status_a
+      maxplantID <- updated_states$maxplantID
+      maxanimalID <- updated_states$maxanimalID
+      island_spec <- updated_states$island_spec
+      stt_table <- updated_states$stt_table
     }
   }
- #### Finalize STT ####
+  #### Finalize STT ####
   stt_table <- rbind(stt_table,
                      c(0, stt_table[nrow(stt_table), 2:7]))
 
@@ -92,16 +92,20 @@ sim_core_mutualism <- function(total_time, mutualism_pars){
               "Species state" )
   colnames(island_spec) <- cnames
   ### set ages as counting backwards from present
-  island_spec[, "branching time (BP)"] <- simtime -
+  island_spec[, "branching time (BP)"] <- total_time -
     as.numeric(island_spec[, "branching time (BP)"])
-  island_spec[, "Colonisation time (BP)"] <- simtime -
+  island_spec[, "Colonisation time (BP)"] <- total_time -
     as.numeric(island_spec[, "Colonisation time (BP)"])
 
 
-island <- create_island_mutualism(stt_table = stt_table,
-                                  simtime = simtime,
-                                  island_spec = island_spec,
-                                    M0 = M0)
-  return(list(state_list = state_list,
+island <- create_island_mutual(stt_table = stt_table,
+                               total_time = total_time,
+                               island_spec = island_spec)
+
+return(list(Mt = Mt,
+            status_p = status_p,
+            status_a = status_a,
+            island_spec = island_spec,
+            stt_table = stt_table,
             island = island))
 }

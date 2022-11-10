@@ -17,52 +17,61 @@
 #  load("X:/YSPhD_Aca/specmutual/trial/island_replicates.RData")
 #  load("D:/PhD_Yang/specmutual/trial/island_replicates.RData")
 
-format_island <- function(island_replicates,
-                       simtime,
-                       sample_freq,
-                       mutualism_pars){
-  state_list_all <- list()
-  island_list_all <- list()
-  for (i in 1:length(island_replicates)){
-    state_list_all[[i]] <- island_replicates[[i]][["state_list"]]
-    island_list_all[[i]] <- island_replicates[[i]][["island"]]
-  }
+format_island_mutual <- function(island_replicates,
+                                 total_time,
+                                 sample_freq,
+                                 mutualism_pars) {
+
   M0 <- mutualism_pars$M0
   Mtotal <- nrow(M0) + ncol(M0)
   several_islands <- list()
-  for (rep in 1:length(island_list_all)){
-    the_island <- island_list_all[[rep]]
+  for (rep in 1:length(island_replicates)) {
+
+    the_island <- island_replicates[[rep]]
     the_stt <- the_island$stt_table
-    taxon_list <- the_island$taxon_list
+    clades_info_plant <- the_island$clades_info_plant
+    clades_info_animal <- the_island$clades_info_animal
+    taxon_list <- c(clades_info_plant, clades_info_animal)
+
     stt_all <- matrix(ncol = 7, nrow = sample_freq + 1)
     colnames(stt_all) <- c("Time", "nIp", "nAp", "nCp", "nIa", "nAa", "nCa")
     stt_all[, "Time"] <- rev(seq(from = 0,
-                                   to = simtime,
-                                   length.out = sample_freq + 1))
+                                 to = total_time,
+                                 length.out = sample_freq + 1))
     stt_all[1, 2:7] <- c(0, 0, 0, 0, 0, 0)
     for (j in 2:nrow(stt_all)) {
       the_age <- stt_all[j, "Time"]
       stt_all[j, 2:7] <- the_stt[max(which(the_stt[, "Time"] >= the_age)), 2:7]
     }
 
-    island_list <- list() # I didn't write `not_present`
-    island_list[[1]] <- list(island_age = simtime,
-                             stt_all = stt_all)
 
-    if(sum(the_stt[nrow(the_stt),2:7]) == 0){
-      island_list[[1]] <- list(island_age = simtime,
+    #island_list[[1]] <- list(island_age = simtime,
+                             #stt_all = stt_all)
+    island_list_plant <- list()
+    island_list_animal <- list()
+    if(sum(the_stt[nrow(the_stt), 2:7]) == 0) {
+      island_list[[1]] <- list(island_age = total_time,
                                not_present = Mtotal,
                                stt_all = stt_all)
     } else {
-      island_list[[1]] <- list(island_age = simtime,
-                               not_present = Mtotal - length(taxon_list),
-                               stt_all = stt_all)
-      for (y in 1:length(taxon_list)){
-        island_list[[y + 1]] = taxon_list[[y]]
+      island_list_plant[[1]] <- list(
+        island_age = total_time,
+        not_present_p = nrow(M0) - length(clades_info_plant),
+        stt_all = stt_all)
+      island_list_animal[[1]] <- list(
+        island_age = total_time,
+        not_present_a = ncol(M0) - length(clades_info_animal),
+        stt_all = stt_all)
+
+      for (y in 1:length(clades_info_plant)) {
+        island_list_plant[[y + 1]] = clades_info_plant[[y]]
+      }
+      for (y in 1:length(clades_info_animal)) {
+        island_list_animal[[y + 1]] = clades_info_animal[[y]]
       }
     }
 
-    island_list <- add_brt_table(island = island_list)
+    island_list_plant <- add_brt_table(island = island_list_plant)
     several_islands[[rep]] <- island_list
   }
   return(several_islands)
