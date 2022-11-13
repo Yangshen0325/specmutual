@@ -8,12 +8,14 @@ sim_mutualism <- function(total_time,
                           verbose = TRUE) {
   island_replicates <- list()
   for (rep in 1:replicates) {
+
     island_replicates[[rep]] <- sim_core_mutualism(total_time = total_time,
                                                    mutualism_pars = mutualism_pars)
-  }
-  if (verbose == TRUE) {
+    if (verbose == TRUE) {
     print(paste("Island replicate ", rep, sep = ""))
+    }
   }
+
   island_replicates <- format_island(island_replicates = island_replicates,
                                    simtime = simtime,
                                    sample_freq = sample_freq,
