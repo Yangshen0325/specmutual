@@ -27,16 +27,10 @@ update_states_mutual <- function(M0,
   ## [1] plant species: Immigration
   if(possible_event == 1) {
     immig_p <- rates$immig_p
-    if (length(unique(immig_p)) == 1){
-      colonist <- DDD:::sample2(1:length(immig_p),
-                                size = 1,
-                                replace = FALSE)
-    } else {
-      colonist <- DDD:::sample2(1:length(immig_p),
-                                size = 1,
-                                replace = FALSE,
-                                prob = immig_p)
-    }
+    colonist <- DDD:::sample2(1:length(immig_p),
+                              size = 1,
+                              replace = FALSE,
+                              prob = immig_p)
 
     status_p[colonist] <- 1
 
@@ -59,16 +53,10 @@ update_states_mutual <- function(M0,
   ## [2] plant species: Extinction
   if(possible_event == 2) {
       ext_p <- rates$ext_p
-      if (length(unique(ext_p)) == 1) {
-        extinct <- sample(1:length(ext_p),
-                          size = 1,
-                          replace = FALSE)
-      } else {
-        extinct <- sample(1:length(ext_p),
-                        size = 1,
-                        replace = FALSE,
-                        prob = ext_p)
-      }
+      extinct <- DDD:::sample2(1:length(ext_p),
+                               size = 1,
+                               replace = FALSE,
+                               prob = ext_p)
 
       status_p[extinct] <- 0
       ind <- intersect(which(island_spec[, 1] == extinct),
@@ -125,16 +113,10 @@ update_states_mutual <- function(M0,
   ## [3] plant species: Cladogenesis
   if (possible_event == 3) {
     clado_p <- rates$clado_p
-    if (length(unique(clado_p)) == 1) {
-      tosplit <- sample(1:length(clado_p),
-                        size = 1,
-                        replace = FALSE)
-    } else {
-      tosplit <- sample(1:length(clado_p),
-                      size = 1,
-                      replace = FALSE,
-                      prob = clado_p)
-    }
+    tosplit <- DDD:::sample2(1:length(clado_p),
+                             size = 1,
+                             replace = FALSE,
+                             prob = clado_p)
 
     status_p[tosplit] <- 0
     status_p <- rbind(status_p, 1 ,1)
@@ -172,16 +154,10 @@ update_states_mutual <- function(M0,
   ## [4] plant species: Anagenesis
   if (possible_event == 4) {
     ana_p <- rates$ana_p
-    if (length(unique(ana_p)) == 1) {
-      anagenesis <- sample(1:length(ana_p),
-                           size = 1,
-                           replace = FALSE)
-    } else {
-      anagenesis <- sample(1:length(ana_p),
-                  size = 1,
-                  replace = FALSE,
-                  prob = ana_p)
-    }
+    anagenesis <- DDD:::sample2(1:length(ana_p),
+                                size = 1,
+                                replace = FALSE,
+                                prob = ana_p)
 
     status_p[anagenesis] <- 0
     status_p <- rbind(status_p, 1)
@@ -200,16 +176,10 @@ update_states_mutual <- function(M0,
   ## [5] animal species: Immigration
   if (possible_event == 5) {
     immig_a <- rates$immig_a
-    if (length(unique(immig_a)) == 1) {
-      colonist <- sample(1:length(immig_a),
-                         size = 1,
-                         replace = FALSE)
-    } else {
-      colonist <- sample(1:length(immig_a),
-                       size = 1,
-                       replace = FALSE,
-                       prob = immig_a)
-    }
+    colonist <- DDD:::sample2(1:length(immig_a),
+                              size = 1,
+                              replace = FALSE,
+                              prob = immig_a)
 
     status_a[colonist] <- 1
 
@@ -230,16 +200,10 @@ update_states_mutual <- function(M0,
   ## [6] animal species: Extinction
   if (possible_event == 6) {
     ext_a <- rates$ext_a
-    if (length(unique(ext_a)) == 1) {
-      extinct <- sample(1:length(ext_a),
-                        size = 1,
-                        replace = FALSE)
-    } else {
-      extinct <- sample(1:length(ext_a),
-                      size = 1,
-                      replace = FALSE,
-                      prob = ext_a)
-    }
+    extinct <- DDD:::sample2(1:length(ext_a),
+                             size = 1,
+                             replace = FALSE,
+                             prob = ext_a)
 
     status_a[extinct] <- 0
     ind <- intersect(which(island_spec[, 1] == extinct),
@@ -297,16 +261,10 @@ update_states_mutual <- function(M0,
   ## [7] animal species: Cladogenesis
   if (possible_event == 7) {
     clado_a <- rates$clado_a
-    if (length(unique(clado_a)) == 1) {
-      tosplit <- sample(1:length(clado_a),
-                        size = 1,
-                        replace = FALSE)
-    } else {
-      tosplit <- sample(1:length(clado_a),
-                      size = 1,
-                      replace = FALSE,
-                      prob = clado_a)
-    }
+    tosplit <- DDD:::sample2(1:length(clado_a),
+                             size = 1,
+                             replace = FALSE,
+                             prob = clado_a)
 
     status_a[tosplit] <- 0
     status_a <- rbind(status_a, 1 ,1)
@@ -344,16 +302,10 @@ update_states_mutual <- function(M0,
   ## [8] animal species: Anagenesis
   if (possible_event == 8) {
     ana_a <- rates$ana_a
-    if (length(unique(ana_a)) == 1) {
-      anagenesis <- sample(1:length(ana_a),
-                           size = 1,
-                           replace = FALSE)
-    } else {
-      anagenesis <- sample(1:length(ana_a),
-                         size = 1,
-                         replace = FALSE,
-                         prob = ana_a)
-    }
+    anagenesis <- DDD:::sample2(1:length(ana_a),
+                                size = 1,
+                                replace = FALSE,
+                                prob = ana_a)
 
     status_a[anagenesis] <- 0
     status_a <- rbind(status_a, 1)
