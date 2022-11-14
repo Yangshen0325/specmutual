@@ -6,17 +6,24 @@
 #' 25-75th percentiles plotted in dark grey.
 #'
 #' @param several_islands islands' information
-#' @param simtime simulation time
+#' @param total_time simulation time
 #'
 #' @return R plot with a row of three figures.
 #' @export
 #'
 #' @examples
 #' plot_stt(several_island = several_island,
-#'      simtime = simtime)
-plot_stt <- function(several_islands,
-                     simtime){
-  plot_list <- get_plot_list(several_islands = several_islands)
+#'      total_time = total_time)
+plot_stt <- function(total_time,
+                     replicates,
+                     mutualism_pars,
+                     sample_freq,
+                     verbose = TRUE) {
+  plot_list <- get_plot_list(total_time = total_time,
+                             replicates = replicates,
+                             mutualism_pars = mutualism_pars,
+                             sample_freq = sample_freq,
+                             verbose = TRUE)
   all_species <- plot_list[["all_species"]]
   plant <- plot_list[["plant"]]
   animal <- plot_list[["animal"]]
@@ -24,7 +31,7 @@ plot_stt <- function(several_islands,
 # all species
 suppressWarnings(
   graphics::plot(
-    NULL, NULL, xlim = rev(c(0, simtime)), ylim = c(1, max(all_species$stt_q0.975_all)),
+    NULL, NULL, xlim = rev(c(0, total_time)), ylim = c(1, max(all_species$stt_q0.975_all)),
      main = "Species-through-time - All species",
      xlab = "Time before present", ylab = "No of species + 1",
      cex.lab = 1.2, cex.main = 1.2, cex.axis = 1.2,
@@ -52,7 +59,7 @@ graphics::legend(x = "topleft", legend = legend_names, col = legend_colors,
 # plant
 suppressWarnings(
   graphics::plot(
-    NULL, NULL, xlim = rev(c(0, simtime)), ylim = c(1, max(plant$stt_q0.975_p)),
+    NULL, NULL, xlim = rev(c(0, total_time)), ylim = c(1, max(plant$stt_q0.975_p)),
     main = "Species-through-time - Plant",
     xlab = "Time before present", ylab = "No of species + 1",
     cex.lab = 1.2, cex.main = 1.2, cex.axis = 1.2,
@@ -81,7 +88,7 @@ graphics::legend(x = "topleft", legend = legend_names, col = legend_colors,
 # animal
 suppressWarnings(
   graphics::plot(
-    NULL, NULL, xlim = rev(c(0, simtime)), ylim = c(1, max(animal$stt_q0.975_a)),
+    NULL, NULL, xlim = rev(c(0, total_time)), ylim = c(1, max(animal$stt_q0.975_a)),
     main = "Species-through-time - Animal",
     xlab = "Time before present", ylab = "No of species + 1",
     cex.lab = 1.2, cex.main = 1.2, cex.axis = 1.2,

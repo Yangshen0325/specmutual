@@ -82,7 +82,8 @@ sim_core_mutualism <- function(total_time, mutualism_pars){
                      c(0, stt_table[nrow(stt_table), 2:7]))
 
   #### Finalize island_spec ####
-  cnames <- c("Species",
+  if (length(island_spec) != 0) {
+   cnames <- c("Species",
               "Mainland Ancestor",
               "Colonisation time (BP)",
               "Species type",
@@ -96,7 +97,7 @@ sim_core_mutualism <- function(total_time, mutualism_pars){
     as.numeric(island_spec[, "branching time (BP)"])
   island_spec[, "Colonisation time (BP)"] <- total_time -
     as.numeric(island_spec[, "Colonisation time (BP)"])
-
+  }
 
 island <- create_island_mutual(stt_table = stt_table,
                                total_time = total_time,
@@ -106,6 +107,5 @@ return(list(Mt = Mt,
             status_p = status_p,
             status_a = status_a,
             island_spec = island_spec,
-            stt_table = stt_table,
             island = island))
 }
