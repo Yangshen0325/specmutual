@@ -71,12 +71,11 @@ create_island_mutual <- function(stt_table,
         island_clades_info_animal[[i]]$stt_table <- NULL
       }
     } else { island_clades_info_animal <- NULL }
-  }
 
-  island <- list(stt_table = stt_table,
+    island <- list(stt_table = stt_table,
                  clades_info_plant = island_clades_info_plant,
                  clades_info_animal = island_clades_info_animal)
-
+  }
   return(island)
 }
 
