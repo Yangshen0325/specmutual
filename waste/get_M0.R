@@ -71,7 +71,7 @@ for (i in 1:animal){
   M0 <- t(network)
   return(M0)
 }
-## save(M0, file = "X:/YSPhD_Aca/specmutual/trial/M0.RData")
+## save(M0, file = "D:/PhD_Yang/specmutual/trial/M0.RData")
 
 
 
