@@ -10,6 +10,7 @@ sim_core_mutualism <- function(total_time, mutualism_pars){
   timeval <- 0
   M0 <- mutualism_pars$M0
   Mt <- M0
+  M_true <- list()
   maxplantID <- nrow(M0)
   maxanimalID <- ncol(M0)
   status_p <- matrix(0, nrow = nrow(M0), ncol = 1)
@@ -71,10 +72,12 @@ sim_core_mutualism <- function(total_time, mutualism_pars){
       Mt <- updated_states$Mt
       status_p <- updated_states$status_p
       status_a <- updated_states$status_a
+      M_true <- Mt[which(status_p == 1), which(status_a == 1)]
       maxplantID <- updated_states$maxplantID
       maxanimalID <- updated_states$maxanimalID
       island_spec <- updated_states$island_spec
       stt_table <- updated_states$stt_table
+      M_true[length(M_true) + 1] <- M_true
     }
   }
   #### Finalize STT ####
@@ -104,6 +107,7 @@ island <- create_island_mutual(stt_table = stt_table,
                                island_spec = island_spec)
 
 return(list(Mt = Mt,
+            M_true = M_true,
             status_p = status_p,
             status_a = status_a,
             island_spec = island_spec,

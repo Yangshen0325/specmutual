@@ -1,16 +1,13 @@
 # prepare plot list for stt plot
+# sim_outputs <- sim_mutualism(total_time = total_time,
+#                              replicates = replicates,
+#                              mutualism_pars = mutualism_pars,
+#                              sample_freq = sample_freq,
+#                              verbose = TRUE)
 
-get_plot_list <- function(total_time,
-                          replicates,
-                          mutualism_pars,
-                          sample_freq,
-                          verbose = TRUE) {
 
-  sim_outputs <- sim_mutualism(total_time = total_time,
-                               replicates = replicates,
-                               mutualism_pars = mutualism_pars,
-                               sample_freq = sample_freq,
-                               verbose = TRUE)
+get_plot_list <- function(sim_outputs) {
+
   island_total <- sim_outputs$island_total
 
   rep <- length(island_total)
