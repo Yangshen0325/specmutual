@@ -324,10 +324,10 @@ update_states_mutual <- function(M0,
   ## [9] Cospeciation
   if (possible_event == 9) {
     cospec_rate <- rates$cospec_rate
-    copairs <- sample(1:length(cospec_rate),
-                      size = 1,
-                      replace = FALSE,
-                      prob = cospec_rate)
+    copairs <- DDD:::sample2(1:length(cospec_rate),
+                             size = 1,
+                             replace = FALSE,
+                             prob = cospec_rate)
 
     cospec_plant <- 1 + (copairs - 1) %% nrow(cospec_rate)
     cospec_animal <- 1 + floor((copairs - 1) / nrow(cospec_rate))
@@ -401,10 +401,11 @@ update_states_mutual <- function(M0,
   ## [10] Gain links
   if (possible_event == 10){
     gain_rate <- rates$gain_rate
-    gainpairs <- sample(1:length(gain_rate),
-                        size = 1,
-                        replace = FALSE,
-                        prob = gain_rate)
+    gainpairs <- DDD:::sample2(1:length(gain_rate),
+                               size = 1,
+                               replace = FALSE,
+                               prob = gain_rate)
+
     togain_plant <- 1 + (gainpairs - 1) %% nrow(gain_rate)
     togain_animal <- 1 + floor((gainpairs - 1) / nrow(gain_rate))
     Mt[togain_plant, togain_animal] <- 1
@@ -413,10 +414,11 @@ update_states_mutual <- function(M0,
   ## [11] Lose links
   if (possible_event == 11){
     loss_rate <- rates$loss_rate
-    losspairs <- sample(1:length(loss_rate),
-                        size = 1,
-                        replace = FALSE,
-                        prob = loss_rate)
+    losspairs <- DDD:::sample2(1:length(loss_rate),
+                               size = 1,
+                               replace = FALSE,
+                               prob = loss_rate)
+
     tolose_plant <- 1 + (losspairs - 1) %% nrow(loss_rate)
     tolose_animal <- 1 + floor((losspairs - 1) / nrow(loss_rate))
     Mt[tolose_plant, tolose_animal] <- 0

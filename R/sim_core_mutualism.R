@@ -1,9 +1,8 @@
 # simulation
-# sim_mutualism(simtime = 1.5, mutualism_pars = mutualism_pars)
-# profvis::profvis({sim_mutualism(simtime = 1, mutualism_pars = mutualism_pars)})
+# profvis::profvis({sim_mutualism(total_time = 1, mutualism_pars = mutualism_pars)})
 #' Internal function of simulation
 #' @return a named list with island information
-
+#'
 sim_core_mutualism <- function(total_time, mutualism_pars){
   #### Initialization ####
   testit::assert(are_mutualism_pars(mutualism_pars))
