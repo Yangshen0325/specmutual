@@ -4,8 +4,8 @@
 #SBATCH --ntasks=1
 #SBATCH --job-name=job_pars_pool
 #SBATCH --output=logs/job_pars_pool-%j.log
-#SBATCH --mem=1GB
-#SBATCH --partition=short
+#SBATCH --mem=4GB
+#SBATCH --partition=regular
 
 ml R
 
