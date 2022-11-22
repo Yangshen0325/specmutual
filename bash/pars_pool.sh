@@ -11,7 +11,6 @@ ml R
 
 Rscript -e "devtools::install_github('Yangshen0325/specmutual')"
 
-for (( param_set = 1; param_set <= 7; param_set++ ))
-do
-sbatch ~/specmutual/bash/pars_pool.sh ${param_set}
-done
+param_set=${1}
+Rscript ~/specmutual/script/job_pars_pool.R ${param_set}
+
