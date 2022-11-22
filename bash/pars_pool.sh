@@ -2,8 +2,8 @@
 #SBATCH --time=00:22:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --job-name=job_pars_pool
-#SBATCH --output=logs/job_pars_pool-%j.log
+#SBATCH --job-name=pars_pool
+#SBATCH --output=logs/pars_pool-%j.log
 #SBATCH --mem=4GB
 #SBATCH --partition=regular
 
