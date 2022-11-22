@@ -4,12 +4,12 @@
 \alias{plot_stt}
 \title{Plot species through time (stt) plots on island}
 \usage{
-plot_stt(several_islands, simtime)
+plot_stt(total_time, replicates, mutualism_pars, sample_freq, verbose = TRUE)
 }
 \arguments{
-\item{several_islands}{islands' information}
+\item{total_time}{simulation time}
 
-\item{simtime}{simulation time}
+\item{several_islands}{islands' information}
 }
 \value{
 R plot with a row of three figures.
@@ -22,5 +22,5 @@ simulated entire time span. 2.5-97.5th percentiles are plotted in light grey,
 }
 \examples{
 plot_stt(several_island = several_island,
-     simtime = simtime)
+     total_time = total_time)
 }

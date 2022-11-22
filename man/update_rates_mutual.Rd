@@ -18,8 +18,7 @@ update_rates_mutual(
   qloss,
   lambda0,
   transprob,
-  island_plant,
-  island_animal
+  island_spec
 )
 }
 \value{
