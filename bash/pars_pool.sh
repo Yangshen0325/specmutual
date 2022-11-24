@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --time=00:22:00
+#SBATCH --time=20:22:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --job-name=pars_pool
