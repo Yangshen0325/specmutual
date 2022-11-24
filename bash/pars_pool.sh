@@ -7,7 +7,7 @@
 #SBATCH --mem=4GB
 #SBATCH --partition=regular
 
-ml R
+ml R/4.2.0-foss-2021b
 
 Rscript -e "devtools::install_github('Yangshen0325/specmutual')"
 
