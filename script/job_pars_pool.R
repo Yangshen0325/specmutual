@@ -131,19 +131,17 @@ mutualism_pars_pool <- list(
 )
 
 out_parpool <- function(param_set) {
+  set.seed(param_set)
   message("Running param set: ", param_set)
   sim_pars <- mutualism_pars_pool[[param_set]]
-  for (i in 1:7) {
-    set.seed(i)
-    out <- specmutual::peregrine_sim(total_time = 5,
-                                     replicates = 1000,
-                                     mutualism_pars = sim_pars,
-                                     verbose = TRUE)
-  }
+  out <- specmutual::peregrine_sim(total_time = 5,
+                                   replicates = 1000,
+                                   mutualism_pars = sim_pars,
+                                   verbose = TRUE)
   return (out)
 }
 
-outs_parpool <- out_parpool(param_set = param_set)
-path <- paste0("~/specmutual/result/out_parpool", param_set, ".RData")
-save(outs_parpool, file = path)
+  outs_parpool <- out_parpool(param_set = param_set)
+  path <- paste0("~/specmutual/result/out_parpool", param_set, ".RData")
+  save(outs_parpool, file = path)
 
