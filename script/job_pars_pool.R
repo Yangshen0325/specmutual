@@ -142,6 +142,6 @@ out_parpool <- function(param_set) {
 }
 
   outs_parpool <- out_parpool(param_set = param_set)
-  path <- paste0("~/specmutual/result/out_parpool", param_set, ".RData")
+  path <- paste0("~/specmutual/result/outs_parpool", param_set, ".RData")
   save(outs_parpool, file = path)
 
