@@ -30,6 +30,11 @@ sim_core_mutualism <- function(total_time, mutualism_pars){
   lambda0 <-  mutualism_pars$lambda0
   transprob <-  mutualism_pars$transprob
 
+  if (sum(gam_pars) == 0) {
+    stop("Island has no species and the rate of
+    colonisation is zero. Island cannot be colonised.")
+  }
+
   #### Start Monte Carlo iterations ####
   while (timeval < total_time){
     rates <- update_rates_mutual(M0 = M0,

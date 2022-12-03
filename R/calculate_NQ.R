@@ -25,13 +25,5 @@ format_Mt <- function(outs_parpool) {
     N_table <- cbind(N_table, Nnes)
     Q_table <- cbind(Q_table, Qmod)
   }
+
 }
-
-
-
-Nnes <- c(-1, unlist(nes), -1)
-Qmod <- c(-1, unlist(Qmod), -1)
-stt_table <- outs_parpool[[1]][["island"]][["stt_table"]]
-timeval <- stt_table[, 1]
-plot(timeval, Nnes)
-plot(timeval, Qmod)
