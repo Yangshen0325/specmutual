@@ -31,7 +31,7 @@ mutualism_pars_set2 <- list(
 )
 
 ## with mutualism, coefficient 2.0
-mutualism_pars_set2 <- list(
+mutualism_pars_set3 <- list(
   lac_pars = c(0.5, 0.5),
   mu_pars = c(0.2, 0.2, 0.002, 0.002),
   K_pars = c(Inf, Inf, 2.0, 2.0),
