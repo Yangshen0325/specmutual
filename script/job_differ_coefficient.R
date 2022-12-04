@@ -61,5 +61,5 @@ out_parpool <- function(param_set) {
 
 outs_differ_coefficient <- out_parpool(param_set = param_set)
 path <- paste0("~/specmutual/result/outs_differ_coefficient", param_set, ".RData")
-save(outs_parpool, file = path)
+save(outs_differ_coefficient, file = path)
 
