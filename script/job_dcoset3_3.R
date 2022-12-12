@@ -1,6 +1,6 @@
 ## set3 in job_differ_coefficient.R, OUT_OF_MEMERY.
 ## here I seperate them for 300, 300 and 400 steps
-## Below is out1
+## Below is out3
 ## with mutualism, coefficient 2.0
 load("~/specmutual/script/network.RData")
 mutualism_pars_set1 <- list(
@@ -16,11 +16,11 @@ mutualism_pars_set1 <- list(
   transprob = 1.0
 )
 
-  sim_pars <- mutualism_pars_set1
-  set.seed(28)
-  out1 <- specmutual::peregrine_sim(total_time = 5,
-                                   replicates = 300,
-                                   mutualism_pars = sim_pars,
-                                   verbose = TRUE)
-  path <- paste0("~/specmutual/result/out1.RData")
-  save(out1, file = path)
+sim_pars <- mutualism_pars_set1
+set.seed(28)
+out3 <- specmutual::peregrine_sim(total_time = 5,
+                                  replicates = 400,
+                                  mutualism_pars = sim_pars,
+                                  verbose = TRUE)
+path <- paste0("~/specmutual/result/out3.RData")
+save(out3, file = path)
