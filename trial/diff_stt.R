@@ -197,3 +197,20 @@
 # diff_aver <- stt_average_DAISIE - stt_average_mutual
 # # colMeans(diff_aver)
 #
+## plot the difference in terms of median
+# par(mfrow = c(1, 5))
+# plot(1:26, diff_meadin[, 2], ylim = c(-5, 5), col="black", pch = 16,
+#      xaxt = "n", xlab ="",
+#      ylab = "Difference in nI", cex.lab = 1.2, cex.main = 1.2, cex.axis = 1.2)
+# plot(1:26, diff_meadin[, 3], ylim = c(-5, 5), col="black", pch = 16,
+#      xaxt = "n",xlab ="",
+#      ylab = "Difference in nA", cex.lab = 1.2, cex.main = 1.2, cex.axis = 1.2)
+# plot(1:26, diff_meadin[, 4], ylim = c(-5, 5), col="black", pch = 16,
+#      xaxt = "n",xlab ="",
+#      ylab = "Difference in nC", cex.lab = 1.2, cex.main = 1.2, cex.axis = 1.2)
+# plot(1:26, diff_meadin[, 5], ylim = c(-5, 5), col="black", pch = 16,
+#      xaxt = "n",xlab ="",
+#      ylab = "Difference in endemic", cex.lab = 1.2, cex.main = 1.2, cex.axis = 1.2)
+# plot(1:26, diff_meadin[, 6], ylim = c(-5, 5), col="black", pch = 16,
+#      xaxt = "n",xlab ="",
+#      ylab = "Difference in total", cex.lab = 1.2, cex.main = 1.2, cex.axis = 1.2)
