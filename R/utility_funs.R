@@ -79,18 +79,18 @@ get_nk <- function(Mt,
   pans_cmps_list <- get_pans_cmps(Mt = Mt,
                                   status_p = status_p,
                                   status_a = status_a)
-  nk_p <- exp(-(sum(status_p) / K_pars[1] +
-                  pans_cmps_list[[3]] / (K_pars[3] * pans_cmps_list[[1]])))
-  nk_a <- exp(-(sum(status_a) / K_pars[2] +
-                  pans_cmps_list[[4]] / (K_pars[4] * pans_cmps_list[[2]])))
-  # if there is no mutualistic partners on the island, N/K should be exp(-N/K).
-  nk_p[which(pans_cmps_list[[1]] == 0)] <- exp(-(sum(status_p) / K_pars[1]))
-  nk_a[which(pans_cmps_list[[2]] == 0)] <- exp(-(sum(status_a) / K_pars[2]))
+
+  nk_p <- (sum(status_p) + pans_cmps_list[[3]]) /
+    (K_pars[1] + K_pars[3] * pans_cmps_list[[1]])
+
+  nk_a <- (sum(status_a) + pans_cmps_list[[4]]) /
+    (K_pars[2] + K_pars[4] * pans_cmps_list[[2]])
 
   nk_list <- list(nk_p = nk_p,
                   nk_a = nk_a)
   return(nk_list)
 }
+
 # test the format
 test_format_nk <- function(nk_list,
                            status_p,

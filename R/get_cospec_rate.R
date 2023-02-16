@@ -10,6 +10,7 @@ get_cospec_rate <- function(Mt,
                     K_pars = K_pars)
 
   cospec_rate <-
-    lambda0 * Mt * (status_p %*% t(status_a)) * (nk_list[[1]] %*% t(nk_list[[2]]))
+    lambda0 * Mt * (status_p %*% t(status_a)) * ((1 - nk_list[[1]])
+                                                 %*% t(1 - nk_list[[2]]))
   return(cospec_rate)
 }

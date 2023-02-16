@@ -76,11 +76,11 @@ sim_core_mutualism <- function(total_time, mutualism_pars){
       Mt <- updated_states$Mt
       status_p <- updated_states$status_p
       status_a <- updated_states$status_a
-      M_true <- Mt[which(status_p == 1), which(status_a == 1)]
       maxplantID <- updated_states$maxplantID
       maxanimalID <- updated_states$maxanimalID
       island_spec <- updated_states$island_spec
       stt_table <- updated_states$stt_table
+      M_true <- Mt[which(status_p == 1), which(status_a == 1)]
       M_true_list[[length(M_true_list) + 1]] <- M_true
     }
   }
