@@ -25,7 +25,9 @@ for (loop in 1:1000){
 save(out_list, file = "D:/YSPhD_Aca/specmutual/trial/out_list.RData")
 ## deal with data
 library(tidyverse)
-data <- map2_dfr(out_list, seq(out_list), ~ .x %>% as_tibble %>% mutate(sim_id = .y))
+data <- map2_dfr(out_list, seq(out_list), ~ .x %>%
+                   as_tibble %>%
+                   mutate(sim_id = .y))
 
 data %>%
   group_by(`Species state`, Species) %>%
