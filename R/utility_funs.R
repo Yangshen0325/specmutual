@@ -80,13 +80,11 @@ get_nk <- function(Mt,
                                   status_p = status_p,
                                   status_a = status_a)
 
-  nk_p <- (min(sum(status_p), K_pars[1]) +
-             pmin(pans_cmps_list[[3]], K_pars[3] * pans_cmps_list[[1]])) /
-    (K_pars[1] + K_pars[3] * pans_cmps_list[[1]])
+  nk_p <- pmin(1, (sum(status_p) + pans_cmps_list[[3]]) /
+    (K_pars[1] + K_pars[3] * pans_cmps_list[[1]]))
 
-  nk_a <- (min(sum(status_a), K_pars[2]) +
-             pmin(pans_cmps_list[[4]], K_pars[4] * pans_cmps_list[[2]])) /
-    (K_pars[2] + K_pars[4] * pans_cmps_list[[2]])
+  nk_a <- pmin(1, (sum(status_a) + pans_cmps_list[[4]]) /
+    (K_pars[2] + K_pars[4] * pans_cmps_list[[2]]))
 
   nk_list <- list(nk_p = nk_p,
                   nk_a = nk_a)
