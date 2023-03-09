@@ -6,7 +6,7 @@ load("~/specmutual/script/network.RData")
 mutualism_pars_set1 <- list(
   lac_pars = c(0.5, 0.5),
   mu_pars = c(0.2, 0.2, 0.0, 0.0),
-  K_pars = c(Inf, Inf, Inf, Inf),
+  K_pars = c(500, 500, 0.0, 0.0),
   gam_pars = c(0.05, 0.05),
   laa_pars = c(1.0, 1.0, 0.0, 0.0),
   qgain = 0.0,
@@ -20,7 +20,7 @@ mutualism_pars_set1 <- list(
 mutualism_pars_set2 <- list(
   lac_pars = c(0.5, 0.5),
   mu_pars = c(0.2, 0.2, 0.001, 0.001),
-  K_pars = c(Inf, Inf, 1.0, 1.0),
+  K_pars = c(500, 500, 1.0, 1.0),
   gam_pars = c(0.05, 0.05),
   laa_pars = c(1.0, 1.0, 1.0, 1.0),
   qgain = 1.0,
@@ -34,7 +34,7 @@ mutualism_pars_set2 <- list(
 mutualism_pars_set3 <- list(
   lac_pars = c(0.5, 0.5),
   mu_pars = c(0.2, 0.2, 0.002, 0.002),
-  K_pars = c(Inf, Inf, 2.0, 2.0),
+  K_pars = c(500, 500, 2.0, 2.0),
   gam_pars = c(0.05, 0.05),
   laa_pars = c(1.0, 1.0, 2.0, 2.0),
   qgain = 1.0,
