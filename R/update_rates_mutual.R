@@ -34,17 +34,23 @@ update_rates_mutual <- function(M0,
                                 transprob,
                                 island_spec) {
 
+  pans_cmps_list <- get_pans_cmps(Mt = Mt,
+                                  status_p = status_p,
+                                  status_a = status_a)
+
+  nk_list <- get_nk(Mt = Mt,
+                     status_p = status_p,
+                     status_a = status_a,
+                     K_pars = K_pars,
+                     pans_cmps_list = pans_cmps_list)
+
   immig_rate <- get_immig_rate(
-    M0 = M0,
-    Mt = Mt,
-    K_pars = K_pars,
-    status_p = status_p,
-    status_a = status_a,
+    nk_list = nk_list,
     gam_pars = gam_pars
   )
 
   ext_rate <- get_ext_rate(
-    Mt = Mt,
+    pans_cmps_list = pans_cmps_list,
     status_p = status_p,
     status_a = status_a,
     mu_pars = mu_pars)
@@ -59,19 +65,18 @@ update_rates_mutual <- function(M0,
   )
 
   clado_rate <- get_clado_rate(
-    Mt = Mt,
+    nk_list = nk_list,
     status_p = status_p,
     status_a = status_a,
-    lac_pars = lac_pars,
-    K_pars = K_pars
+    lac_pars = lac_pars
   )
 
   cospec_rate <- get_cospec_rate(
     Mt = Mt,
+    nk_list = nk_list,
     status_p = status_p,
     status_a = status_a,
-    lambda0 = lambda0,
-    K_pars = K_pars
+    lambda0 = lambda0
   )
 
   gain_rate <- get_gain_rate(

@@ -1,14 +1,9 @@
 # get cospeciation rates
 get_cospec_rate <- function(Mt,
+                            nk_list,
                             status_p,
                             status_a,
-                            lambda0,
-                            K_pars){
-  nk_list <- get_nk(Mt = Mt,
-                    status_p = status_p,
-                    status_a = status_a,
-                    K_pars = K_pars)
-
+                            lambda0) {
   cospec_rate <-
     lambda0 * Mt * (status_p %*% t(status_a)) * ((1 - nk_list[[1]])
                                                  %*% t(1 - nk_list[[2]]))

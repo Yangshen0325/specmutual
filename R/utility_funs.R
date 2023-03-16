@@ -26,24 +26,26 @@ get_pans_cmps <- function(Mt,
   pans_p <- Mt %*% status_a
   pans_a <- tMt %*% status_p
 
-  cmps_p <- c()
-  cmps_a <- c()
-  for (x in seq(nrow(Mt))){
+  to_apply_p <- function(x) {
     copartner <- tMt[, x] * tMt[, -x] * as.numeric(status_a) # think of 2*2 network
-    if (is.null(dim(copartner))){
-      cmps_p[x] <- sum((copartner >= 1) * status_p[-x, ])
+    if (is.null(dim(copartner))) {
+      return(sum((copartner >= 1) * status_p[-x, ]))
     } else {
-      cmps_p[x] <- sum((colSums(copartner) >= 1) * status_p[-x, ])
+      return(sum((colSums(copartner) >= 1) * status_p[-x, ]))
     }
   }
-  for (x in seq(ncol(Mt))){
-    copartner <- Mt[, x] * Mt[, -x] * as.numeric(status_p) # think of 2*2 network
-    if (is.null(dim(copartner))){
-      cmps_a[x] <- sum((copartner >= 1) * status_a[-x, ])
+
+  to_apply_a <- function(x) {
+    copartner <- Mt[, x] * Mt[, -x] * as.numeric(status_p)
+    if (is.null(dim(copartner))) {
+      return(sum((copartner >= 1) * status_a[-x, ]))
     } else {
-      cmps_a[x] <- sum((colSums(copartner) >= 1) * status_a[-x, ])
+      return(sum((colSums(copartner) >= 1) * status_a[-x, ]))
     }
   }
+
+  cmps_p <- sapply(seq_len(nrow(Mt)), to_apply_p)
+  cmps_a <- sapply(seq_len(ncol(Mt)), to_apply_a)
 
   pans_cmps_list <- list(pans_p = as.numeric(pans_p),
                          pans_a = as.numeric(pans_a),
@@ -75,10 +77,8 @@ test_format_pans_cmps <- function(pans_cmps_list,
 get_nk <- function(Mt,
                    status_p,
                    status_a,
-                   K_pars){
-  pans_cmps_list <- get_pans_cmps(Mt = Mt,
-                                  status_p = status_p,
-                                  status_a = status_a)
+                   K_pars,
+                   pans_cmps_list) {
 
   nk_p <- pmin(1, (sum(status_p) + pans_cmps_list[[3]]) /
     (K_pars[1] + K_pars[3] * pans_cmps_list[[1]]))
