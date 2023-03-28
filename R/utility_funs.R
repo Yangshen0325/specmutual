@@ -19,91 +19,91 @@
 #'     animal species}
 #'     }
 
-get_pans_cmps <- function(Mt,
-                          status_p,
-                          status_a){
-  tMt <- t(Mt)
-  pans_p <- Mt %*% status_a
-  pans_a <- tMt %*% status_p
-
-  to_apply_p <- function(x) {
-    copartner <- tMt[, x] * tMt[, -x] * as.numeric(status_a) # think of 2*2 network
-    if (is.null(dim(copartner))) {
-      return(sum((copartner >= 1) * status_p[-x, ]))
-    } else {
-      return(sum((colSums(copartner) >= 1) * status_p[-x, ]))
-    }
-  }
-
-  to_apply_a <- function(x) {
-    copartner <- Mt[, x] * Mt[, -x] * as.numeric(status_p)
-    if (is.null(dim(copartner))) {
-      return(sum((copartner >= 1) * status_a[-x, ]))
-    } else {
-      return(sum((colSums(copartner) >= 1) * status_a[-x, ]))
-    }
-  }
-
-  cmps_p <- sapply(seq_len(nrow(Mt)), to_apply_p)
-  cmps_a <- sapply(seq_len(ncol(Mt)), to_apply_a)
-
-  pans_cmps_list <- list(pans_p = as.numeric(pans_p),
-                         pans_a = as.numeric(pans_a),
-                         cmps_p = cmps_p,
-                         cmps_a = cmps_a)
-  return(pans_cmps_list)
-}
-# test the format
-test_format_pans_cmps <- function(pans_cmps_list,
-                                  status_p,
-                                  status_a) {
-  if (!all(sapply(pans_cmps_list, is.numeric))) return(FALSE)
-  if (!"pans_p" %in% names(pans_cmps_list)) return(FALSE)
-  if (!"pans_a" %in% names(pans_cmps_list)) return(FALSE)
-  if (!"cmps_p" %in% names(pans_cmps_list)) return(FALSE)
-  if (!"cmps_a" %in% names(pans_cmps_list)) return(FALSE)
-  if (any(pans_cmps_list$pans_p < 0.0)) return(FALSE)
-  if (any(pans_cmps_list$pans_a < 0.0)) return(FALSE)
-  if (any(pans_cmps_list$cmps_p < 0.0)) return(FALSE)
-  if (any(pans_cmps_list$cmps_a < 0.0)) return(FALSE)
-  if (length(pans_cmps_list$pans_p) != length(status_p)) return(FALSE)
-  if (length(pans_cmps_list$pans_a) != length(status_a)) return(FALSE)
-  if (length(pans_cmps_list$cmps_p) != length(status_p)) return(FALSE)
-  if (length(pans_cmps_list$cmps_a) != length(status_a)) return(FALSE)
-  return(TRUE)
-}
-
-# get N/K
-get_nk <- function(Mt,
-                   status_p,
-                   status_a,
-                   K_pars,
-                   pans_cmps_list) {
-
-  nk_p <- pmin(1, (sum(status_p) + pans_cmps_list[[3]]) /
-    (K_pars[1] + K_pars[3] * pans_cmps_list[[1]]))
-
-  nk_a <- pmin(1, (sum(status_a) + pans_cmps_list[[4]]) /
-    (K_pars[2] + K_pars[4] * pans_cmps_list[[2]]))
-
-  nk_list <- list(nk_p = nk_p,
-                  nk_a = nk_a)
-  return(nk_list)
-}
-
-# test the format
-test_format_nk <- function(nk_list,
-                           status_p,
-                           status_a) {
-  if (!all(sapply(nk_list, is.numeric))) return(FALSE)
-  if (!"nk_p" %in% names(nk_list)) return(FALSE)
-  if (!"nk_a" %in% names(nk_list)) return(FALSE)
-  if (any(nk_list$nk_p < 0.0)) return(FALSE)
-  if (any(nk_list$nk_a < 0.0)) return(FALSE)
-  if (length(nk_list$nk_p) != length(status_p)) return(FALSE)
-  if (length(nk_list$nk_a) != length(status_a)) return(FALSE)
-  return(TRUE)
-}
+# get_pans_cmps <- function(Mt,
+#                           status_p,
+#                           status_a){
+#   tMt <- t(Mt)
+#   pans_p <- Mt %*% status_a
+#   pans_a <- tMt %*% status_p
+#
+#   to_apply_p <- function(x) {
+#     copartner <- tMt[, x] * tMt[, -x] * as.numeric(status_a) # think of 2*2 network
+#     if (is.null(dim(copartner))) {
+#       return(sum((copartner >= 1) * status_p[-x, ]))
+#     } else {
+#       return(sum((colSums(copartner) >= 1) * status_p[-x, ]))
+#     }
+#   }
+#
+#   to_apply_a <- function(x) {
+#     copartner <- Mt[, x] * Mt[, -x] * as.numeric(status_p)
+#     if (is.null(dim(copartner))) {
+#       return(sum((copartner >= 1) * status_a[-x, ]))
+#     } else {
+#       return(sum((colSums(copartner) >= 1) * status_a[-x, ]))
+#     }
+#   }
+#
+#   cmps_p <- sapply(seq_len(nrow(Mt)), to_apply_p)
+#   cmps_a <- sapply(seq_len(ncol(Mt)), to_apply_a)
+#
+#   pans_cmps_list <- list(pans_p = as.numeric(pans_p),
+#                          pans_a = as.numeric(pans_a),
+#                          cmps_p = cmps_p,
+#                          cmps_a = cmps_a)
+#   return(pans_cmps_list)
+# }
+# # test the format
+# test_format_pans_cmps <- function(pans_cmps_list,
+#                                   status_p,
+#                                   status_a) {
+#   if (!all(sapply(pans_cmps_list, is.numeric))) return(FALSE)
+#   if (!"pans_p" %in% names(pans_cmps_list)) return(FALSE)
+#   if (!"pans_a" %in% names(pans_cmps_list)) return(FALSE)
+#   if (!"cmps_p" %in% names(pans_cmps_list)) return(FALSE)
+#   if (!"cmps_a" %in% names(pans_cmps_list)) return(FALSE)
+#   if (any(pans_cmps_list$pans_p < 0.0)) return(FALSE)
+#   if (any(pans_cmps_list$pans_a < 0.0)) return(FALSE)
+#   if (any(pans_cmps_list$cmps_p < 0.0)) return(FALSE)
+#   if (any(pans_cmps_list$cmps_a < 0.0)) return(FALSE)
+#   if (length(pans_cmps_list$pans_p) != length(status_p)) return(FALSE)
+#   if (length(pans_cmps_list$pans_a) != length(status_a)) return(FALSE)
+#   if (length(pans_cmps_list$cmps_p) != length(status_p)) return(FALSE)
+#   if (length(pans_cmps_list$cmps_a) != length(status_a)) return(FALSE)
+#   return(TRUE)
+# }
+#
+# # get N/K
+# get_nk <- function(Mt,
+#                    status_p,
+#                    status_a,
+#                    K_pars,
+#                    pans_cmps_list) {
+#
+#   nk_p <- pmin(1, (sum(status_p) + pans_cmps_list[[3]]) /
+#     (K_pars[1] + K_pars[3] * pans_cmps_list[[1]]))
+#
+#   nk_a <- pmin(1, (sum(status_a) + pans_cmps_list[[4]]) /
+#     (K_pars[2] + K_pars[4] * pans_cmps_list[[2]]))
+#
+#   nk_list <- list(nk_p = nk_p,
+#                   nk_a = nk_a)
+#   return(nk_list)
+# }
+#
+# # test the format
+# test_format_nk <- function(nk_list,
+#                            status_p,
+#                            status_a) {
+#   if (!all(sapply(nk_list, is.numeric))) return(FALSE)
+#   if (!"nk_p" %in% names(nk_list)) return(FALSE)
+#   if (!"nk_a" %in% names(nk_list)) return(FALSE)
+#   if (any(nk_list$nk_p < 0.0)) return(FALSE)
+#   if (any(nk_list$nk_a < 0.0)) return(FALSE)
+#   if (length(nk_list$nk_p) != length(status_p)) return(FALSE)
+#   if (length(nk_list$nk_a) != length(status_a)) return(FALSE)
+#   return(TRUE)
+# }
 
 
 newMt_clado <- function(M,
@@ -253,3 +253,38 @@ add_brt_table <- function(island, full_table = FALSE) {
   colnames(island[[1]]$brts_table) <- c("brt", "clade", "event", "endemic", "col")
   return(island)
 }
+ #### calculate the partners of plant and animal species
+get_pans <- function(Mt, status_p, status_a) {
+    tMt <- t(Mt)
+    pans_p <- Mt %*% status_a
+    pans_a <- tMt %*% status_p
+
+    pans_list <- list(pans_p = pans_p,
+                      pans_a = pans_a)
+
+    return(pans_list)
+}
+
+#### get N/K
+get_nk <- function(Mt,
+                   status_p,
+                   status_a,
+                   K_pars,
+                   pans_list) {
+
+  nk_p <- sum(status_p) /
+    (K_pars[1] + K_pars[3] * pans_list[[1]])
+
+  nk_a <- sum(status_a) /
+    (K_pars[2] + K_pars[4] * pans_list[[2]])
+
+  nk_list <- list(nk_p = nk_p,
+                  nk_a = nk_a)
+  return(nk_list)
+}
+
+
+
+
+
+

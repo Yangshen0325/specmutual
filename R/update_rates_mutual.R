@@ -34,15 +34,15 @@ update_rates_mutual <- function(M0,
                                 transprob,
                                 island_spec) {
 
-  pans_cmps_list <- get_pans_cmps(Mt = Mt,
-                                  status_p = status_p,
-                                  status_a = status_a)
+  pans_list <- get_pans(Mt = Mt,
+                        status_p = status_p,
+                        status_a = status_a)
 
   nk_list <- get_nk(Mt = Mt,
                      status_p = status_p,
                      status_a = status_a,
                      K_pars = K_pars,
-                     pans_cmps_list = pans_cmps_list)
+                     pans_list = pans_list)
 
   immig_rate <- get_immig_rate(
     nk_list = nk_list,
@@ -50,7 +50,7 @@ update_rates_mutual <- function(M0,
   )
 
   ext_rate <- get_ext_rate(
-    pans_cmps_list = pans_cmps_list,
+    pans_list = pans_list,
     status_p = status_p,
     status_a = status_a,
     mu_pars = mu_pars)
