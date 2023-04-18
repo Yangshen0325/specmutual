@@ -1,5 +1,5 @@
 #' @title sim_mutualism
-
+#' @export sim_mutualism
 sim_mutualism <- function(total_time,
                           replicates,
                           mutualism_pars,

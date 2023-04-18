@@ -3,3 +3,4 @@
 export(create_mutualism_pars)
 export(peregrine_sim)
 export(plot_stt)
+export(sim_mutualism)
