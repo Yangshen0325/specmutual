@@ -5,7 +5,7 @@
 #SBATCH --job-name=start_run_jobparcombi
 #SBATCH --output=logs/start_run_jobparcombi.log
 #SBATCH --mem=1GB
-#SBATCH --partition=short
+#SBATCH --partition=regular
 
 ml R
 
