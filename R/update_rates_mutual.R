@@ -45,6 +45,7 @@ update_rates_mutual <- function(M0,
                      pans_list = pans_list)
 
   immig_rate <- get_immig_rate(
+    M0 = M0,
     nk_list = nk_list,
     gam_pars = gam_pars
   )

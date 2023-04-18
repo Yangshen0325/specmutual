@@ -24,7 +24,8 @@ sim_mutualism <- function(total_time,
                                              sample_freq = sample_freq,
                                              mutualism_pars = mutualism_pars)
 
-  return (list(island_segments = island_segments,
+  return (list(island_replicates = island_replicates,
+               island_segments = island_segments,
                island_total = island_total))
 }
 

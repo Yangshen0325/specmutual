@@ -14,3 +14,19 @@ plot(net,
      frame = TRUE)
 
 plot(net)
+
+#### simple statistics of empirical data  #######
+data <- read.csv("D:/Desktop/network_info.csv", header=TRUE)
+boxplot(data$plant, data$animal, data$total,
+        names=c("Plant", "Animal", "Total"),
+        main="Distribution of Plant, Animal and Total",
+        ylab="Count")
+boxplot(data$plant, data$animal, data$total,
+        names=c("Plant", "Animal", "Total"),
+        main="Distribution of Plant, Animal and Total",
+        ylab="Count", ylim=c(0, 300))
+#################
+
+
+
+

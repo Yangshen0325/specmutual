@@ -34,7 +34,7 @@ sim_core_mutualism <- function(total_time, mutualism_pars){
     stop("Island has no species and the rate of
     colonisation is zero. Island cannot be colonised.")
   }
-
+  evo_table <- list(c(), NULL)
   #### Start Monte Carlo iterations ####
   while (timeval < total_time){
     rates <- update_rates_mutual(M0 = M0,
@@ -59,6 +59,7 @@ sim_core_mutualism <- function(total_time, mutualism_pars){
     if (timeval <= total_time){
       # next event
       possible_event <- sample_event_mutual(rates = rates)
+      evo_table[[1]] <- rbind(evo_table[[1]], c(timeval, possible_event))
       # next state based on event
       updated_states <- update_states_mutual(M0 = M0,
                                             Mt = Mt,
@@ -83,10 +84,12 @@ sim_core_mutualism <- function(total_time, mutualism_pars){
       #M_true <- Mt[which(status_p == 1), which(status_a == 1)]
       #M_true_list[[length(M_true_list) + 1]] <- M_true
     }
+
   }
   #### Finalize STT ####
   stt_table <- rbind(stt_table,
                      c(0, stt_table[nrow(stt_table), 2:7]))
+  evo_table[[2]] <- stt_table[nrow(stt_table), ]
 
   #### Finalize island_spec ####
   if (length(island_spec) != 0) {
@@ -115,5 +118,6 @@ return(list(Mt = Mt,
             status_p = status_p,
             status_a = status_a,
             island_spec = island_spec,
-            island = island))
+            island = island,
+            evo_table = evo_table))
 }

@@ -1,5 +1,6 @@
 # get immigration rates
-get_immig_rate <- function(nk_list,
+get_immig_rate <- function(M0,
+                           nk_list,
                            gam_pars) {
   immig_p <- gam_pars[1] * pmax(0, (1 - nk_list[[1]]))
   immig_a <- gam_pars[2] * pmax(0, (1 - nk_list[[2]]))
