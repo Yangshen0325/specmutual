@@ -1,6 +1,7 @@
 args <- commandArgs(TRUE)
 param_set <- as.numeric(args[1])
 
+library(specmutual)
 load("~/specmutual/script/network.RData")
 mutualism_pars_set1 <- create_mutualism_pars(
   lac_pars = c(2.0, 2.0),
