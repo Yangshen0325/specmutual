@@ -11,4 +11,4 @@ ml R
 
 Rscript -e "devtools::install_github('Yangshen0325/specmutual')"
 
-sbatch ~/specmutual/script/job_par1.R
+Rscript ~/specmutual/script/job_par1.R
