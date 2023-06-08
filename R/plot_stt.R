@@ -15,15 +15,8 @@
 #' plot_stt(several_island = several_island,
 #'      total_time = total_time)
 plot_stt <- function(total_time,
-                     replicates,
-                     mutualism_pars,
-                     sample_freq,
-                     verbose = TRUE) {
-  plot_list <- get_plot_list(total_time = total_time,
-                             replicates = replicates,
-                             mutualism_pars = mutualism_pars,
-                             sample_freq = sample_freq,
-                             verbose = TRUE)
+                     sim_outputs) {
+  plot_list <- get_plot_list(sim_outputs = sim_outputs)
   all_species <- plot_list[["all_species"]]
   plant <- plot_list[["plant"]]
   animal <- plot_list[["animal"]]
@@ -115,3 +108,4 @@ graphics::legend(x = "topleft", legend = legend_names, col = legend_colors,
                  lty = 1, lwd = 0.4, cex = 0.4, border = NA, bty = "n")
 
 }
+
