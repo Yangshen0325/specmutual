@@ -3,7 +3,7 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --job-name=job_par1
-#SBATCH --output=logs/0206-%j.log
+#SBATCH --output=logs/4-%j.log
 #SBATCH --mem=4GB
 #SBATCH --partition=regular
 
