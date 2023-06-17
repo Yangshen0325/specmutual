@@ -14,13 +14,10 @@ mutualism_pars <- create_mutualism_pars(
 )
 
 set.seed(12)
-par1 <- sim_mutualism(total_time = 5,
+par1 <- peregrine_sim(total_time = 5,
                       replicates =1000,
                       mutualism_pars = mutualism_pars,
-                      sample_freq = 25,
                       verbose = TRUE)
-
-saveRDS(par1, file = "~/specmutual/result/par1.rds")
 
 
 
