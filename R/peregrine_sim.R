@@ -14,7 +14,6 @@ peregrine_sim <- function(total_time,
                           replicates,
                           mutualism_pars,
                           verbose = TRUE) {
-  outputs <- list()
   island_replicates <- list()
   for (rep in 1:replicates) {
    island_replicates[[rep]] <- sim_core_mutualism(total_time = total_time,
@@ -23,9 +22,9 @@ peregrine_sim <- function(total_time,
     print(paste("Island replicate ", rep, sep = ""))
   }
    if (rep %% 200 == 0) {
-     outputs[[rep/200]] <- island_replicates
+     island_replicates <- island_replicates[1:rep]
+     saveRDS(island_replicates, file = "~/specmutual/result/par1.rds")
    }
-   saveRDS(outputs, file = "~/specmutual/result/par1.rds")
   }
 }
 
