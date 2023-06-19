@@ -4,7 +4,7 @@
 \alias{plot_stt}
 \title{Plot species through time (stt) plots on island}
 \usage{
-plot_stt(total_time, replicates, mutualism_pars, sample_freq, verbose = TRUE)
+plot_stt(total_time, sim_outputs)
 }
 \arguments{
 \item{total_time}{simulation time}
