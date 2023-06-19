@@ -30,8 +30,12 @@ create_mutualism_pars <- function(lac_pars,
   testit::assert(is.numeric(transprob))
   testit::assert(lac_pars >= 0.0)
   testit::assert(mu_pars >= 0.0)
-  testit::assert(K_pars[1] >= 0.0)
-  testit::assert(K_pars[2] >= 0.0)
+  if (K_pars[1] <= 0) {
+    stop("No carrying capacity for speceis, species cannot immigrate.")
+  }
+  if (K_pars[2] <= 0) {
+    stop("No carrying capacity for speceis, species cannot immigrate.")
+  }
   testit::assert(K_pars[3] >= 0.0)
   testit::assert(K_pars[4] >= 0.0)
   testit::assert(gam_pars >= 0.0)
