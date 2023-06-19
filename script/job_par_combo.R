@@ -1,6 +1,6 @@
 # job pars 2-5
-args <- commandArgs(TRUE)
-param_set <- as.numeric(args[1])
+args <- commandArgs(trailingOnly = TRUE)
+param_set <- as.numeric(args[[1]])
 
 library(specmutual)
 load("~/specmutual/script/M0.RData")
