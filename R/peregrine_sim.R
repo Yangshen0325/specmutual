@@ -21,10 +21,6 @@ peregrine_sim <- function(total_time,
   if (verbose == TRUE) {
     print(paste("Island replicate ", rep, sep = ""))
   }
-   if (rep %% 200 == 0) {
-     island_replicates <- island_replicates[1:rep]
-     saveRDS(island_replicates, file = "~/specmutual/result/par1.rds")
-   }
   }
 }
 
