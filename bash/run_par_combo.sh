@@ -5,7 +5,7 @@
 #SBATCH --job-name=job_par_comb0
 #SBATCH --output=logs/5-%j.log
 #SBATCH --mem=4GB
-#SBATCH --partition=regular
+#SBATCH --partition=gelifes
 #SBATCH --array=1-4
 
 ml R
