@@ -63,22 +63,23 @@ mutualism_pars_pool <- list(
   mutualism_pars_set4,
   mutualism_pars_set5)
 
+intended_seed <- 13 * param_set + 1
+cat(intended_seed, "\n")
+set.seed(intended_seed)
 
-set.seed(13 * param_set + 1)
 
-
-par_combo <- function(param_set) {
-  message("Running param set: ", param_set)
-  sim_pars <- mutualism_pars_pool[[param_set]]
+par_combo <- function(param_set_local) {
+  message("Running param set: ", param_set_local)
+  sim_pars <- mutualism_pars_pool[[param_set_local]]
   out <- specmutual::peregrine_sim(total_time = 1,
                        replicates =2,
                        mutualism_pars = sim_pars,
                        verbose = TRUE)
-  path <- paste0("~/specmutual/result/out", param_set+1, ".rds")
+  path <- paste0("~/specmutual/result/out", param_set_local+1, ".rds")
   saveRDS(out, file = path)
 }
 
-outs <- par_combo(param_set = param_set)
+outs <- par_combo(param_set_local = param_set)
 
 
 
