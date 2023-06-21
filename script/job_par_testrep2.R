@@ -72,14 +72,14 @@ par_combo <- function(param_set_local) {
   message("Running param set: ", param_set_local)
   sim_pars <- mutualism_pars_pool[[param_set_local]]
   out <- specmutual::peregrine_sim(total_time = 10,
-                                   replicates = 10,
+                                   replicates = 2,
                                    mutualism_pars = sim_pars,
                                    verbose = TRUE)
-  path <- paste0("~/specmutual/result/outrep10", param_set_local+1, ".rds")
+  path <- paste0("~/specmutual/result/outrep2", param_set_local+1, ".rds")
   saveRDS(out, file = path)
 }
 
-outsrep10 <- par_combo(param_set_local = param_set)
+outsrep2 <- par_combo(param_set_local = param_set)
 
 
 
