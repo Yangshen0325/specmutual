@@ -22,6 +22,8 @@ peregrine_sim <- function(total_time,
     print(paste("Island replicate ", rep, sep = ""))
   }
   }
+
+  return(island_replicates = island_replicates)
 }
 
 
