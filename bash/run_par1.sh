@@ -4,7 +4,7 @@
 #SBATCH --ntasks=1
 #SBATCH --job-name=job_par1
 #SBATCH --output=logs/a-%j.log
-#SBATCH --mem=4GB
+#SBATCH --mem=8GB
 #SBATCH --partition=regular
 
 ml R
