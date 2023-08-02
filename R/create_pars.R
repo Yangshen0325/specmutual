@@ -17,7 +17,8 @@ create_mutualism_pars <- function(lac_pars,
                                   qloss,
                                   lambda0,
                                   M0,
-                                  transprob) {
+                                  transprob,
+                                  alphaa) {
   testit::assert(is.numeric(lac_pars))
   testit::assert(is.numeric(mu_pars))
   testit::assert(is.numeric(K_pars))
@@ -26,23 +27,18 @@ create_mutualism_pars <- function(lac_pars,
   testit::assert(is.numeric(qgain))
   testit::assert(is.numeric(qloss))
   testit::assert(is.numeric(lambda0))
+  testit::assert(is.numeric(alphaa))
   testit::assert(is.matrix(M0))
   testit::assert(is.numeric(transprob))
   testit::assert(lac_pars >= 0.0)
   testit::assert(mu_pars >= 0.0)
-  if (K_pars[1] <= 0) {
-    stop("No carrying capacity for speceis, species cannot immigrate.")
-  }
-  if (K_pars[2] <= 0) {
-    stop("No carrying capacity for speceis, species cannot immigrate.")
-  }
-  testit::assert(K_pars[3] >= 0.0)
-  testit::assert(K_pars[4] >= 0.0)
+  testit::assert(K_pars >= 0.0)
   testit::assert(gam_pars >= 0.0)
   testit::assert(laa_pars >= 0.0)
   testit::assert(qgain >= 0.0)
   testit::assert(qloss >= 0.0)
   testit::assert(lambda0 >= 0.0)
+  testit::assert(alphaa >= 0.0)
   testit::assert(transprob >= 0.0 & transprob <= 1.0)
   list(lac_pars = lac_pars,
        mu_pars = mu_pars,
@@ -53,7 +49,8 @@ create_mutualism_pars <- function(lac_pars,
        qloss = qloss,
        lambda0 = lambda0,
        M0 = M0,
-       transprob = transprob)}
+       transprob = transprob,
+       alphaa = alphaa)}
 
 # test if a list has mutualism parameters
 are_mutualism_pars <- function(mutualism_pars){
@@ -68,6 +65,7 @@ are_mutualism_pars <- function(mutualism_pars){
   if (!"lambda0" %in% names(mutualism_pars)) return (FALSE)
   if (!"M0" %in% names(mutualism_pars)) return (FALSE)
   if (!"transprob" %in% names(mutualism_pars)) return (FALSE)
+  if (!"alphaa" %in% names(mutualism_pars)) return (FALSE)
   if (any(mutualism_pars$lac_pars < 0.0)) return (FALSE)
   if (any(mutualism_pars$mu_pars < 0.0)) return (FALSE)
   if (any(mutualism_pars$K_pars < 0.0)) return (FALSE)
@@ -78,6 +76,7 @@ are_mutualism_pars <- function(mutualism_pars){
   if (mutualism_pars$lambda0 < 0.0) return (FALSE)
   if (!is.array(mutualism_pars$M0) | !is.matrix(mutualism_pars$M0)) return (FALSE)
   if (mutualism_pars$transprob < 0.0) return (FALSE)
+  if (mutualism_pars$alphaa < 0.0) return (FALSE)
   return(TRUE)
 }
 

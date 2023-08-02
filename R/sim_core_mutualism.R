@@ -9,6 +9,7 @@ sim_core_mutualism <- function(total_time, mutualism_pars){
   timeval <- 0
   M0 <- mutualism_pars$M0
   Mt <- M0
+  alphaa <- mutualism_pars$alphaa
   #M_true_list <- list()
   maxplantID <- nrow(M0)
   maxanimalID <- ncol(M0)
@@ -39,6 +40,7 @@ sim_core_mutualism <- function(total_time, mutualism_pars){
   while (timeval < total_time){
     rates <- update_rates_mutual(M0 = M0,
                                  Mt = Mt,
+                                 alphaa =alphaa,
                                  status_p = status_p,
                                  status_a = status_a,
                                  lac_pars = lac_pars,

@@ -21,6 +21,7 @@
 #' island_spec = NULL)
 update_rates_mutual <- function(M0,
                                 Mt,
+                                alphaa,
                                 status_p,
                                 status_a,
                                 lac_pars,
@@ -38,15 +39,22 @@ update_rates_mutual <- function(M0,
                         status_p = status_p,
                         status_a = status_a)
 
-  nk_list <- get_nk(Mt = Mt,
-                     status_p = status_p,
-                     status_a = status_a,
-                     K_pars = K_pars,
-                     pans_list = pans_list)
+  # nk_list <- get_nk(Mt = Mt,
+  #                    status_p = status_p,
+  #                    status_a = status_a,
+  #                    K_pars = K_pars,
+  #                    pans_list = pans_list)
+
+  wrates_list <- get_wrates(alphaa =  alphaa,
+                            status_p =status_p,
+                            status_a = status_a,
+                            K_pars = K_pars,
+                            pans_list = pans_list)
 
   immig_rate <- get_immig_rate(
     M0 = M0,
-    nk_list = nk_list,
+    #nk_list = nk_list,
+    wrates_list = wrates_list,
     gam_pars = gam_pars
   )
 
@@ -66,7 +74,8 @@ update_rates_mutual <- function(M0,
   )
 
   clado_rate <- get_clado_rate(
-    nk_list = nk_list,
+    #nk_list = nk_list,
+    wrates_list = wrates_list,
     status_p = status_p,
     status_a = status_a,
     lac_pars = lac_pars
@@ -74,7 +83,8 @@ update_rates_mutual <- function(M0,
 
   cospec_rate <- get_cospec_rate(
     Mt = Mt,
-    nk_list = nk_list,
+    #nk_list = nk_list,
+    wrates_list = wrates_list,
     status_p = status_p,
     status_a = status_a,
     lambda0 = lambda0

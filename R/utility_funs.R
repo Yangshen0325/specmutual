@@ -283,6 +283,22 @@ get_nk <- function(Mt,
   return(nk_list)
 }
 
+#### get_wrates ####
+get_wrates <- function(alphaa,
+                       status_p,
+                       status_a,
+                       K_pars,
+                       pans_list) {
+
+  wp_rates <- exp(-alphaa / (pmax(0, K_pars[1] + K_pars[3] * pans_list[[1]] -  sum(status_p))))
+  wa_rates <-  exp(-alphaa / (pmax(0, K_pars[2] + K_pars[4] * pans_list[[2]] -  sum(status_a))))
+
+  wrates_list <- list(wp_rates = wp_rates,
+                      wa_rates = wa_rates)
+  return(wrates_list)
+
+}
+
 
 
 

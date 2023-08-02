@@ -1,11 +1,10 @@
 # get cospeciation rates
 get_cospec_rate <- function(Mt,
-                            nk_list,
+                            wrates_list,
                             status_p,
                             status_a,
                             lambda0) {
   cospec_rate <-
-    lambda0 * Mt * (status_p %*% t(status_a)) * (pmax(0, (1 - nk_list[[1]]))
-                                                 %*% t(pmax(0, 1 - nk_list[[2]])))
+    lambda0 * Mt * (status_p %*% t(status_a)) * (wrates_list[[1]] %*% t(wrates_list[[2]]))
   return(cospec_rate)
 }
