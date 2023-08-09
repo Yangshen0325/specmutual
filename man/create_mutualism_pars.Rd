@@ -14,7 +14,8 @@ create_mutualism_pars(
   qloss,
   lambda0,
   M0,
-  transprob
+  transprob,
+  alphaa
 )
 }
 \description{
