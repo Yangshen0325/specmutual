@@ -74,7 +74,6 @@ update_rates_mutual <- function(M0,
   )
 
   clado_rate <- get_clado_rate(
-    #nk_list = nk_list,
     wrates_list = wrates_list,
     status_p = status_p,
     status_a = status_a,
