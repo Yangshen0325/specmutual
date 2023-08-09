@@ -1,5 +1,5 @@
 # get cladogenetic rates old version
-get_clado_rate <- function(nk_list,
+old_get_clado_rate <- function(nk_list,
                            status_p,
                            status_a,
                            lac_pars) {

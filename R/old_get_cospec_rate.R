@@ -1,5 +1,5 @@
 # get cospeciation rates old version
-get_cospec_rate <- function(Mt,
+old_get_cospec_rate <- function(Mt,
                             nk_list,
                             status_p,
                             status_a,

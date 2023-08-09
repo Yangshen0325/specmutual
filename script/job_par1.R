@@ -16,7 +16,7 @@ mutualism_pars <- create_mutualism_pars(
 
 set.seed(5)
 par1 <- peregrine_sim(total_time = 1,
-                      replicates = 2,
+                      replicates = 100,
                       mutualism_pars = mutualism_pars,
                       verbose = TRUE)
 saveRDS(par1, file="~/specmutual/result/par1.rds")
