@@ -284,8 +284,8 @@ set.seed(intended_seed)
 par_combo <- function(param_set_local) {
   message("Running param set: ", param_set_local)
   sim_pars <- mutualism_pars_pool[[param_set_local]]
-  out <- specmutual::peregrine_sim(total_time = 1,
-                       replicates = 1,
+  out <- specmutual::peregrine_sim(total_time = 5,
+                       replicates = 500,
                        mutualism_pars = sim_pars,
                        verbose = TRUE)
   path <- paste0("~/specmutual/result/out", param_set_local, ".rds")

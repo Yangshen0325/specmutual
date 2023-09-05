@@ -4,7 +4,7 @@
 #SBATCH --ntasks=1
 #SBATCH --job-name=job_par_combo
 #SBATCH --output=logs/0509-%j.log
-#SBATCH --mem=4GB
+#SBATCH --mem=8GB
 #SBATCH --partition=regular
 #SBATCH --array=1-18
 
