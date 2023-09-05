@@ -1,9 +1,9 @@
 #!/bin/bash
-#SBATCH --time=1-02:00:00
+#SBATCH --time=3-02:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --job-name=job_par_combo
-#SBATCH --output=logs/5-%j.log
+#SBATCH --output=logs/0509-%j.log
 #SBATCH --mem=4GB
 #SBATCH --partition=regular
 #SBATCH --array=1-18
