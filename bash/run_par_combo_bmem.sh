@@ -13,4 +13,4 @@ ml R
 Rscript -e "devtools::install_github('Yangshen0325/specmutual')"
 
 param_set=$SLURM_ARRAY_TASK_ID
-Rscript ~/specmutual/script/job_par_combo.R ${param_set}
+Rscript ~/specmutual/script/job_par_combo1.R ${param_set}
