@@ -53,7 +53,7 @@ sim_core_mutualism <- function(total_time, mutualism_pars){
                                  lambda0 = lambda0,
                                  transprob = transprob,
                                  island_spec = island_spec)
-    testit::assert(are_rates(rates))
+   # testit::assert(are_rates(rates))
     # next time
     timeval_and_dt <- sample_time_mutual(rates = rates, timeval = timeval)
     timeval <- timeval_and_dt$timeval

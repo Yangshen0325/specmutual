@@ -110,17 +110,21 @@ newMt_clado <- function(M,
                         tosplit,
                         transprob) {
   newrows <- list()
-  possible_output <- list(c(1,1), c(1,0), c(0,1))
-  newrows[which(M[tosplit, ] == 0)] <- list(c(0,0))
-  newrows[which(M[tosplit, ] == 1)] <- sample(possible_output,
-                                              size = length(which(M[tosplit, ] == 1)),
-                                              replace = TRUE,
-                                              prob = c(transprob,
-                                                       (1-transprob) / 2,
-                                                       (1-transprob) / 2))
+  possible_output <- list(c(1, 1),
+                          c(1, 0),
+                          c(0, 1))
+  newrows[which(M[tosplit, ] == 0)] <- list(c(0, 0))
+
+  matches <- which(M[tosplit, ] == 1)
+
+  newrows[matches] <- sample(possible_output,
+                             size = length(matches),
+                             replace = TRUE,
+                             prob = c(transprob,
+                                      (1 - transprob) / 2,
+                                      (1 - transprob) / 2))
   newrows <- matrix(unlist(newrows), nrow = 2, ncol = ncol(M))
-  M <- rbind(M, newrows)
-  return(M)
+  return(rbind(M, newrows))
 }
 
 newMt_ana <- function(M,
@@ -255,9 +259,9 @@ add_brt_table <- function(island, full_table = FALSE) {
 }
  #### calculate the partners of plant and animal species
 get_pans <- function(Mt, status_p, status_a) {
-    tMt <- t(Mt)
+
     pans_p <- Mt %*% status_a
-    pans_a <- tMt %*% status_p
+    pans_a <- t(Mt) %*% status_p
 
     pans_list <- list(pans_p = pans_p,
                       pans_a = pans_a)

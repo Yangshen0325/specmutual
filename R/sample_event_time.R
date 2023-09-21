@@ -27,7 +27,8 @@ sample_event_mutual <- function(rates) {
 
 sample_time_mutual <- function(rates, timeval) {
 
-  totalrate <- sum(unlist(rates))
+  totalrate <- do.call(sum, rates)
+
   dt <- stats::rexp(1, totalrate)
   timeval <- timeval + dt
 

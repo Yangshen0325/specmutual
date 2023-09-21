@@ -46,7 +46,7 @@ update_rates_mutual <- function(M0,
   #                    pans_list = pans_list)
 
   wrates_list <- get_wrates(alphaa =  alphaa,
-                            status_p =status_p,
+                            status_p = status_p,
                             status_a = status_a,
                             K_pars = K_pars,
                             pans_list = pans_list)
@@ -80,19 +80,21 @@ update_rates_mutual <- function(M0,
     lac_pars = lac_pars
   )
 
+  t_status_a <- t(status_a)
+
   cospec_rate <- get_cospec_rate(
     Mt = Mt,
     #nk_list = nk_list,
     wrates_list = wrates_list,
     status_p = status_p,
-    status_a = status_a,
+    t_status_a = t_status_a,
     lambda0 = lambda0
   )
 
   gain_rate <- get_gain_rate(
     Mt = Mt,
     status_p = status_p,
-    status_a = status_a,
+    t_status_a = t_status_a,
     qgain = qgain
   )
 
@@ -100,6 +102,7 @@ update_rates_mutual <- function(M0,
     Mt = Mt,
     status_p = status_p,
     status_a = status_a,
+    t_status_a = t_status_a,
     qloss = qloss
   )
 

@@ -25,7 +25,7 @@ update_states_mutual <- function(M0,
                                  transprob) {
 
   ## [1] plant species: Immigration
-  if(possible_event == 1) {
+  if (possible_event == 1) {
     immig_p <- rates$immig_p
     colonist <- DDD:::sample2(1:length(immig_p),
                               size = 1,
@@ -34,24 +34,24 @@ update_states_mutual <- function(M0,
 
     status_p[colonist] <- 1
 
-    if (length(island_spec[, 1]) != 0){
+    if (length(island_spec[, 1]) != 0) {
       isitthere <- intersect(which(island_spec[, 1] == colonist),
                              which(island_spec[, 8] == "plant"))
     } else { isitthere <- c() }
 
-    if (length(isitthere) == 0){
+    if (length(isitthere) == 0) {
       island_spec <- rbind(island_spec, c(colonist, colonist, timeval, "I",
                                           NA, NA, NA, "plant"))
     } else {
       island_spec[isitthere, ] <- c(colonist, colonist, timeval, "I", NA, NA, NA, "plant")
       Mt[colonist, which(M0[colonist, ] == 1)] <- M0[colonist, which(M0[colonist, ] == 1)]
     }
-  }
+  } else
   # if the colonist recolonize, only use the most recent time for the same colonist
   # any links linked with the colonist should be restored.
 
   ## [2] plant species: Extinction
-  if(possible_event == 2) {
+  if (possible_event == 2) {
       ext_p <- rates$ext_p
       extinct <- DDD:::sample2(1:length(ext_p),
                                size = 1,
@@ -63,10 +63,10 @@ update_states_mutual <- function(M0,
                        which(island_spec[, 8] == "plant"))
 
       typeofspecies <- island_spec[ind, 4]
-      if (typeofspecies == "I" | typeofspecies == "A"){
+      if (typeofspecies == "I" | typeofspecies == "A") {
       island_spec <- island_spec[-ind, ]
       }
-      if (typeofspecies == "C"){
+      if (typeofspecies == "C") {
       # first find species with same ancestor and arrival time
       sisters <- intersect(which(island_spec[, 2] == island_spec[ind, 2]),
                            which(island_spec[, 3] == island_spec[ind, 3]))
@@ -108,7 +108,7 @@ update_states_mutual <- function(M0,
       }
     }
       island_spec <- rbind(island_spec)
-    }
+  } else
 
   ## [3] plant species: Cladogenesis
   if (possible_event == 3) {
@@ -149,7 +149,7 @@ update_states_mutual <- function(M0,
                            island_spec[ind, 3], "C", "B", timeval, NA, "plant"))
       maxplantID <- maxplantID + 2
     }
-  }
+  } else
 
   ## [4] plant species: Anagenesis
   if (possible_event == 4) {
@@ -171,7 +171,7 @@ update_states_mutual <- function(M0,
     island_spec[ind, 4] <- "A"
     island_spec[ind, 7] <- "Immig_parent"
     maxplantID <- maxplantID + 1
-  }
+  } else
 
   ## [5] animal species: Immigration
   if (possible_event == 5) {
@@ -195,7 +195,7 @@ update_states_mutual <- function(M0,
       island_spec[isitthere, ] <- c(colonist, colonist, timeval, "I", NA, NA, NA, "animal")
       Mt[which(M0[, colonist] == 1), colonist] <- M0[which(M0[, colonist] == 1), colonist]
     }
-  }
+  } else
 
   ## [6] animal species: Extinction
   if (possible_event == 6) {
@@ -256,7 +256,7 @@ update_states_mutual <- function(M0,
       }
     }
     island_spec <- rbind(island_spec)
-  }
+  } else
 
   ## [7] animal species: Cladogenesis
   if (possible_event == 7) {
@@ -297,7 +297,7 @@ update_states_mutual <- function(M0,
                            island_spec[ind, 3], "C", "B", timeval, NA, "animal"))
       maxanimalID <- maxanimalID + 2
     }
-  }
+  } else
 
   ## [8] animal species: Anagenesis
   if (possible_event == 8) {
@@ -319,7 +319,7 @@ update_states_mutual <- function(M0,
     island_spec[ind, 4] <- "A"
     island_spec[ind, 7] <- "Immig_parent"
     maxanimalID <- maxanimalID + 1
-  }
+  } else
 
   ## [9] Cospeciation
   if (possible_event == 9) {
@@ -396,10 +396,10 @@ update_states_mutual <- function(M0,
                                           timeval, NA, "animal") )
       maxanimalID <- maxanimalID + 2
     }
-  }
+  } else
 
   ## [10] Gain links
-  if (possible_event == 10){
+  if (possible_event == 10) {
     gain_rate <- rates$gain_rate
     gainpairs <- DDD:::sample2(1:length(gain_rate),
                                size = 1,
@@ -409,10 +409,10 @@ update_states_mutual <- function(M0,
     togain_plant <- 1 + (gainpairs - 1) %% nrow(gain_rate)
     togain_animal <- 1 + floor((gainpairs - 1) / nrow(gain_rate))
     Mt[togain_plant, togain_animal] <- 1
-  }
+  } else
 
   ## [11] Lose links
-  if (possible_event == 11){
+  if (possible_event == 11) {
     loss_rate <- rates$loss_rate
     losspairs <- DDD:::sample2(1:length(loss_rate),
                                size = 1,
