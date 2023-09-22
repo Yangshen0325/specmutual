@@ -38,9 +38,10 @@ sim_core_mutualism <- function(total_time, mutualism_pars){
   evo_table <- list(c(), NULL)
   #### Start Monte Carlo iterations ####
   while (timeval < total_time){
+    # cat(timeval, dim(Mt), "\n") # for debugging
     rates <- update_rates_mutual(M0 = M0,
                                  Mt = Mt,
-                                 alphaa =alphaa,
+                                 alphaa = alphaa,
                                  status_p = status_p,
                                  status_a = status_a,
                                  lac_pars = lac_pars,

@@ -1,3 +1,18 @@
+fastsample <- function(prob_vec) {
+  if (length(prob_vec) == 1) return(1)
+
+  indices <- 1:length(prob_vec)
+  if (sum(prob_vec) / length(prob_vec) < 0.1)
+    return(sample(indices, 1, prob = prob_vec))
+
+  max_val <- max(prob_vec)
+
+  while (TRUE) {
+    index <- sample(indices, 1)
+    if (runif(1, 0, 1) < prob_vec[index] / max_val) return(index)
+  }
+}
+
 # update the state on the island
 # [1]: immigration event with plant species
 # [2]: extinction event with plant species
@@ -27,10 +42,12 @@ update_states_mutual <- function(M0,
   ## [1] plant species: Immigration
   if (possible_event == 1) {
     immig_p <- rates$immig_p
-    colonist <- DDD:::sample2(1:length(immig_p),
-                              size = 1,
-                              replace = FALSE,
-                              prob = immig_p)
+    #colonist <- DDD:::sample2(1:length(immig_p),
+    #                          size = 1,
+    #                          replace = FALSE,
+    #                          prob = immig_p)
+
+    colonist <- fastsample(as.vector(immig_p))
 
     status_p[colonist] <- 1
 
@@ -53,10 +70,11 @@ update_states_mutual <- function(M0,
   ## [2] plant species: Extinction
   if (possible_event == 2) {
       ext_p <- rates$ext_p
-      extinct <- DDD:::sample2(1:length(ext_p),
-                               size = 1,
-                               replace = FALSE,
-                               prob = ext_p)
+      #extinct <- DDD:::sample2(1:length(ext_p),
+      #                         size = 1,
+      #                         replace = FALSE,
+      #                         prob = ext_p)
+      extinct <- fastsample(as.vector(ext_p))
 
       status_p[extinct] <- 0
       ind <- intersect(which(island_spec[, 1] == extinct),
@@ -113,10 +131,11 @@ update_states_mutual <- function(M0,
   ## [3] plant species: Cladogenesis
   if (possible_event == 3) {
     clado_p <- rates$clado_p
-    tosplit <- DDD:::sample2(1:length(clado_p),
-                             size = 1,
-                             replace = FALSE,
-                             prob = clado_p)
+    #tosplit <- DDD:::sample2(1:length(clado_p),
+    #                         size = 1,
+    #                         replace = FALSE,
+    #                         prob = clado_p)
+    tosplit <- fastsample(as.vector(clado_p))
 
     status_p[tosplit] <- 0
     status_p <- rbind(status_p, 1 ,1)
@@ -154,10 +173,11 @@ update_states_mutual <- function(M0,
   ## [4] plant species: Anagenesis
   if (possible_event == 4) {
     ana_p <- rates$ana_p
-    anagenesis <- DDD:::sample2(1:length(ana_p),
-                                size = 1,
-                                replace = FALSE,
-                                prob = ana_p)
+    #anagenesis <- DDD:::sample2(1:length(ana_p),
+    #                            size = 1,
+    #                            replace = FALSE,
+    #                            prob = ana_p)
+    anagenesis <- fastsample(as.vector(ana_p))
 
     status_p[anagenesis] <- 0
     status_p <- rbind(status_p, 1)
@@ -176,11 +196,11 @@ update_states_mutual <- function(M0,
   ## [5] animal species: Immigration
   if (possible_event == 5) {
     immig_a <- rates$immig_a
-    colonist <- DDD:::sample2(1:length(immig_a),
-                              size = 1,
-                              replace = FALSE,
-                              prob = immig_a)
-
+    #colonist <- DDD:::sample2(1:length(immig_a),
+    #                          size = 1,
+    #                          replace = FALSE,
+    #                          prob = immig_a)
+    colonist <- fastsample(as.vector(immig_a))
     status_a[colonist] <- 1
 
     if (length(island_spec[, 1]) != 0){
@@ -200,10 +220,11 @@ update_states_mutual <- function(M0,
   ## [6] animal species: Extinction
   if (possible_event == 6) {
     ext_a <- rates$ext_a
-    extinct <- DDD:::sample2(1:length(ext_a),
-                             size = 1,
-                             replace = FALSE,
-                             prob = ext_a)
+    #extinct <- DDD:::sample2(1:length(ext_a),
+    #                         size = 1,
+    #                         replace = FALSE,
+    #                         prob = ext_a)
+    extinct <- fastsample(as.vector(ext_a))
 
     status_a[extinct] <- 0
     ind <- intersect(which(island_spec[, 1] == extinct),
@@ -261,10 +282,11 @@ update_states_mutual <- function(M0,
   ## [7] animal species: Cladogenesis
   if (possible_event == 7) {
     clado_a <- rates$clado_a
-    tosplit <- DDD:::sample2(1:length(clado_a),
-                             size = 1,
-                             replace = FALSE,
-                             prob = clado_a)
+    #tosplit <- DDD:::sample2(1:length(clado_a),
+    #                         size = 1,
+    #                         replace = FALSE,
+    #                         prob = clado_a)
+    tosplit <- fastsample(as.vector(clado_a))
 
     status_a[tosplit] <- 0
     status_a <- rbind(status_a, 1 ,1)
@@ -302,11 +324,11 @@ update_states_mutual <- function(M0,
   ## [8] animal species: Anagenesis
   if (possible_event == 8) {
     ana_a <- rates$ana_a
-    anagenesis <- DDD:::sample2(1:length(ana_a),
-                                size = 1,
-                                replace = FALSE,
-                                prob = ana_a)
-
+    #anagenesis <- DDD:::sample2(1:length(ana_a),
+    #                            size = 1,
+    #                            replace = FALSE,
+    #                            prob = ana_a)
+    anagenesis <- fastsample(as.vector(ana_a))
     status_a[anagenesis] <- 0
     status_a <- rbind(status_a, 1)
     Mt <- t(newMt_ana(M = t(Mt),
@@ -324,10 +346,12 @@ update_states_mutual <- function(M0,
   ## [9] Cospeciation
   if (possible_event == 9) {
     cospec_rate <- rates$cospec_rate
-    copairs <- DDD:::sample2(1:length(cospec_rate),
-                             size = 1,
-                             replace = FALSE,
-                             prob = cospec_rate)
+    #copairs <- DDD::sample2(1:length(cospec_rate),
+    #                        size = 1,
+    #                        replace = FALSE,
+    #                        prob = cospec_rate)
+    copairs <- fastsample(as.vector(cospec_rate))
+
 
     cospec_plant <- 1 + (copairs - 1) %% nrow(cospec_rate)
     cospec_animal <- 1 + floor((copairs - 1) / nrow(cospec_rate))
@@ -401,10 +425,12 @@ update_states_mutual <- function(M0,
   ## [10] Gain links
   if (possible_event == 10) {
     gain_rate <- rates$gain_rate
-    gainpairs <- DDD:::sample2(1:length(gain_rate),
-                               size = 1,
-                               replace = FALSE,
-                               prob = gain_rate)
+    #gainpairs <- DDD:::sample2(1:length(gain_rate),
+    #                           size = 1,
+    #                           replace = FALSE,
+    #                           prob = gain_rate)
+    gainpairs <- fastsample(as.vector(gain_rate))
+
 
     togain_plant <- 1 + (gainpairs - 1) %% nrow(gain_rate)
     togain_animal <- 1 + floor((gainpairs - 1) / nrow(gain_rate))
@@ -414,10 +440,12 @@ update_states_mutual <- function(M0,
   ## [11] Lose links
   if (possible_event == 11) {
     loss_rate <- rates$loss_rate
-    losspairs <- DDD:::sample2(1:length(loss_rate),
-                               size = 1,
-                               replace = FALSE,
-                               prob = loss_rate)
+    #losspairs <- DDD:::sample2(1:length(loss_rate),
+    #                           size = 1,
+    #                           replace = FALSE,
+    #                           prob = loss_rate)
+    losspairs <- fastsample(as.vector(loss_rate))
+
 
     tolose_plant <- 1 + (losspairs - 1) %% nrow(loss_rate)
     tolose_animal <- 1 + floor((losspairs - 1) / nrow(loss_rate))

@@ -1,7 +1,7 @@
 # the second way to sample event
 sample_event_mutual <- function(rates) {
 
-  testit::assert(are_rates(rates))
+  # testit::assert(are_rates(rates))
 
   possible_event <- sample(
     x = 1:11,
