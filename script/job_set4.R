@@ -15,7 +15,7 @@ mutualism_pars <- create_mutualism_pars(
 )
 
 set.seed(4)
-set2 <- peregrine_sim(total_time = 5,
+set4 <- peregrine_sim(total_time = 5,
                       replicates = 100,
                       mutualism_pars = mutualism_pars,
                       verbose = TRUE)
