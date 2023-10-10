@@ -10,7 +10,7 @@ sim_core_mutualism <- function(total_time, mutualism_pars){
   M0 <- mutualism_pars$M0
   Mt <- M0
   alphaa <- mutualism_pars$alphaa
-  #M_true_list <- list()
+
   maxplantID <- nrow(M0)
   maxanimalID <- ncol(M0)
   status_p <- matrix(0, nrow = nrow(M0), ncol = 1)
@@ -30,6 +30,10 @@ sim_core_mutualism <- function(total_time, mutualism_pars){
   qloss <-  mutualism_pars$qloss
   lambda0 <-  mutualism_pars$lambda0
   transprob <-  mutualism_pars$transprob
+
+  measure_interval <- 0.5
+  measure_time <- measure_interval
+
 
   if (sum(gam_pars) == 0) {
     stop("Island has no species and the rate of
@@ -54,10 +58,21 @@ sim_core_mutualism <- function(total_time, mutualism_pars){
                                  lambda0 = lambda0,
                                  transprob = transprob,
                                  island_spec = island_spec)
-   # testit::assert(are_rates(rates))
+    # testit::assert(are_rates(rates))
     # next time
     timeval_and_dt <- sample_time_mutual(rates = rates, timeval = timeval)
     timeval <- timeval_and_dt$timeval
+
+    if (timeval > measure_time &&
+        timeval - timeval_and_dt$dt < measure_time) {
+
+      M_true <- Mt[which(status_p == 1), which(status_a == 1)]
+
+      store_index <- floor(timeval / measure_interval)
+      M_true_list[[store_index]] <- M_true
+
+      measure_time <- (store_index + 1) * measure_interval
+    }
 
     if (timeval <= total_time){
       # next event
@@ -84,11 +99,8 @@ sim_core_mutualism <- function(total_time, mutualism_pars){
       maxanimalID <- updated_states$maxanimalID
       island_spec <- updated_states$island_spec
       stt_table <- updated_states$stt_table
-      #M_true <- Mt[which(status_p == 1), which(status_a == 1)]
-      #M_true_list[[length(M_true_list) + 1]] <- M_true
     }
-
-  }
+}
   #### Finalize STT ####
   stt_table <- rbind(stt_table,
                      c(0, stt_table[nrow(stt_table), 2:7]))
@@ -116,8 +128,21 @@ island <- create_island_mutual(stt_table = stt_table,
                                total_time = total_time,
                                island_spec = island_spec)
 
+  ## Finalize M_true_list
+#  for (i in 1:length(M_true_list)) {
+    # check if during the simulation, an Mt was written to a specific entry:
+#    if (!is.matrix(M_true_list[[i]])) {
+      # if not, we by default place the mainland.
+      # this can happen if at the beginning of the simulation,
+      # a time step is taken that is larger than 'measure_interval', e.g.
+      # with measure_interval 0.5, perhaps the first dt is 1.3, which misses
+      # the measurement at t = 0.5.
+#      M_true_list[[i]] <- M0
+#    }
+#  }
+
 return(list(Mt = Mt,
-            #M_true_list = M_true_list,
+            M_true_list = M_true_list,
             status_p = status_p,
             status_a = status_a,
             island_spec = island_spec,
