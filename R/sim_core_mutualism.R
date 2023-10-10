@@ -10,11 +10,7 @@ sim_core_mutualism <- function(total_time, mutualism_pars){
   M0 <- mutualism_pars$M0
   Mt <- M0
   alphaa <- mutualism_pars$alphaa
-<<<<<<< HEAD
-
-=======
   M_true_list <- list()
->>>>>>> 9e32323518c2bb148a8883aa793536d15a822b78
   maxplantID <- nrow(M0)
   maxanimalID <- ncol(M0)
   status_p <- matrix(0, nrow = nrow(M0), ncol = 1)
@@ -103,11 +99,6 @@ sim_core_mutualism <- function(total_time, mutualism_pars){
       maxanimalID <- updated_states$maxanimalID
       island_spec <- updated_states$island_spec
       stt_table <- updated_states$stt_table
-<<<<<<< HEAD
-=======
-      M_true <- Mt[which(status_p == 1), which(status_a == 1)]
-      M_true_list[[length(M_true_list) + 1]] <- M_true
->>>>>>> 9e32323518c2bb148a8883aa793536d15a822b78
     }
 }
   #### Finalize STT ####
