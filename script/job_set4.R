@@ -1,5 +1,5 @@
 library(specmutual)
-load("~/specmutual/script/M0.RData")
+load("~/specmutual/script/artM.rds")
 mutualism_pars <- create_mutualism_pars(
   lac_pars = c(0.6, 0.6),
   mu_pars = c(0.1, 0.1, 0.001, 0.001),
@@ -9,11 +9,11 @@ mutualism_pars <- create_mutualism_pars(
   qgain = 0.01,
   qloss = 0.01,
   lambda0 = 0.05,
-  M0 = M0,
+  M0 = artM,
   transprob = 1.0,
   alphaa = 20
 )
-set.seed(4)
+set.seed(24)
 
 for (i in 1:100) {
 
