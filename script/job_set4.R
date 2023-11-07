@@ -1,5 +1,5 @@
 library(specmutual)
-load("~/specmutual/script/artM.rds")
+load("~/specmutual/script/artM.RData")
 mutualism_pars <- create_mutualism_pars(
   lac_pars = c(0.6, 0.6),
   mu_pars = c(0.1, 0.1, 0.001, 0.001),
