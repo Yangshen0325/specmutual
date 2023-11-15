@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --time=20:00:00
+#SBATCH --time=23:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --job-name=job_set4
