@@ -13,7 +13,7 @@ mutualism_pars <- create_mutualism_pars(
   transprob = 1.0,
   alphaa = 20
 )
-set.seed(4)
+set.seed(12)
 
 for (i in 1:100) {
 
