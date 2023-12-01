@@ -270,22 +270,22 @@ get_pans <- function(Mt, status_p, status_a) {
 }
 
 #### get N/K
-get_nk <- function(Mt,
-                   status_p,
-                   status_a,
-                   K_pars,
-                   pans_list) {
-
-  nk_p <- sum(status_p) /
-    (K_pars[1] + K_pars[3] * pans_list[[1]])
-
-  nk_a <- sum(status_a) /
-    (K_pars[2] + K_pars[4] * pans_list[[2]])
-
-  nk_list <- list(nk_p = nk_p,
-                  nk_a = nk_a)
-  return(nk_list)
-}
+# get_nk <- function(Mt,
+#                    status_p,
+#                    status_a,
+#                    K_pars,
+#                    pans_list) {
+#
+#   nk_p <- sum(status_p) /
+#     (K_pars[1] + K_pars[3] * pans_list[[1]])
+#
+#   nk_a <- sum(status_a) /
+#     (K_pars[2] + K_pars[4] * pans_list[[2]])
+#
+#   nk_list <- list(nk_p = nk_p,
+#                   nk_a = nk_a)
+#   return(nk_list)
+# }
 
 #### get_wrates ####
 get_wrates <- function(alphaa,
