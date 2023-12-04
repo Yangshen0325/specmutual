@@ -3,7 +3,7 @@
 #' Internal function of simulation
 #' @return a named list with island information
 #'
-sim_core_mutualism <- function(total_time, mutualism_pars){
+sim_core_mutualism <- function(total_time, mutualism_pars, max_steps = 100000){
   #### Initialization ####
   testit::assert(are_mutualism_pars(mutualism_pars))
   timeval <- 0
@@ -43,8 +43,11 @@ sim_core_mutualism <- function(total_time, mutualism_pars){
   plant_immi <- list()
   animal_immi <- list()
   #### Start Monte Carlo iterations ####
-  steps <- 0
   while (timeval < total_time){
+    if (length(evo_table[[1]]) > max_steps) {
+      warning("max_steps exceeded")
+      return(NULL)    # return nothing
+    }
     # cat(timeval, dim(Mt), "\n") # for debugging
     rates <- update_rates_mutual(M0 = M0,
                                  Mt = Mt,
@@ -67,8 +70,7 @@ sim_core_mutualism <- function(total_time, mutualism_pars){
     # next time
     timeval_and_dt <- sample_time_mutual(rates = rates, timeval = timeval)
     timeval <- timeval_and_dt$timeval
-    print(timeval)
-    steps <- steps + 1
+    #steps <- steps + 1
 
     if (timeval > measure_time &&
         timeval - timeval_and_dt$dt < measure_time) {
@@ -109,7 +111,6 @@ sim_core_mutualism <- function(total_time, mutualism_pars){
     }
 
 }
-  cat("Total steps taken:", steps, "\n")
   #### Finalize STT ####
   stt_table <- rbind(stt_table,
                      c(0, stt_table[nrow(stt_table), 2:7]))
