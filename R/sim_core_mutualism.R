@@ -36,14 +36,17 @@ sim_core_mutualism <- function(total_time, mutualism_pars){
 
 
   if (sum(gam_pars) == 0) {
+    #warning()
+    #return(NULL)# maybe keep it
     stop("Island has no species and the rate of
     colonisation is zero. Island cannot be colonised.")
   }
   evo_table <- list(c(), NULL)
-  plant_immi <- list()
-  animal_immi <- list()
+   #plant_immi <- list()
+   #animal_immi <- list()
+  #rates_list <- list()
   #### Start Monte Carlo iterations ####
-  steps <- 0
+  #steps <- 0
   while (timeval < total_time){
     # cat(timeval, dim(Mt), "\n") # for debugging
     rates <- update_rates_mutual(M0 = M0,
@@ -61,14 +64,18 @@ sim_core_mutualism <- function(total_time, mutualism_pars){
                                  lambda0 = lambda0,
                                  transprob = transprob,
                                  island_spec = island_spec)
-    plant_immi[[length(plant_immi) + 1]] <- rates$immig_p
-    animal_immi[[length(animal_immi) + 1]] <- rates$immig_a
+    #print(do.call(sum, rates))
+     #plant_immi[[length(plant_immi) + 1]] <- rates$immig_p
+     #animal_immi[[length(animal_immi) + 1]] <- rates$immig_a
+
+    #rates_list[[length(rates_list) + 1]] <- rates
+
     # testit::assert(are_rates(rates))
     # next time
     timeval_and_dt <- sample_time_mutual(rates = rates, timeval = timeval)
     timeval <- timeval_and_dt$timeval
-    print(timeval)
-    steps <- steps + 1
+    #print(timeval)
+    #steps <- steps + 1
 
     if (timeval > measure_time &&
         timeval - timeval_and_dt$dt < measure_time) {
@@ -109,7 +116,7 @@ sim_core_mutualism <- function(total_time, mutualism_pars){
     }
 
 }
-  cat("Total steps taken:", steps, "\n")
+  #cat("Total steps taken:", steps, "\n")
   #### Finalize STT ####
   stt_table <- rbind(stt_table,
                      c(0, stt_table[nrow(stt_table), 2:7]))
@@ -156,7 +163,8 @@ return(list(Mt = Mt,
             status_a = status_a,
             island_spec = island_spec,
             island = island,
-            evo_table = evo_table,
-            plant_immi = plant_immi,
-            animal_immi = animal_immi))
+            evo_table = evo_table))
+            #rates_list = rates_list))
+            #plant_immi = plant_immi,
+            #animal_immi = animal_immi))
 }
