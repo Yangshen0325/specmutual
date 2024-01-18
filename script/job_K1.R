@@ -48,7 +48,7 @@ sim_richness <- function(param_set_local) {
 
 }
 
-outs <- sim_richness(param_set_local = 3)
+outs <- sim_richness(param_set_local = param_set)
 
 
 
