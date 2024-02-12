@@ -377,6 +377,7 @@ get_M0 <- function(plant){
   M0 <- t(network)
   return(M0)
 }
+##set.seed(12)
 ## save(M0, file = "D:/PhD_Yang/specmutual/trial/M0.RData")
 
 
