@@ -74,7 +74,7 @@ sim_core_mutualism <- function(total_time, mutualism_pars){
     # next time
     timeval_and_dt <- sample_time_mutual(rates = rates, timeval = timeval)
     timeval <- timeval_and_dt$timeval
-    #print(timeval)
+    #print(c(timeval, timeval_and_dt$dt))
     #steps <- steps + 1
 
     if (timeval > measure_time &&
@@ -84,7 +84,7 @@ sim_core_mutualism <- function(total_time, mutualism_pars){
 
       store_index <- floor(timeval / measure_interval)
       M_true_list[[store_index]] <- M_true
-
+      #print(store_index)
       measure_time <- (store_index + 1) * measure_interval
     }
 
