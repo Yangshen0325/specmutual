@@ -46,7 +46,7 @@ create_island_mutual <- function(stt_table,
           subset_island_plant <- rbind(subset_island_plant[1:8])
           colnames(subset_island_plant) <- colnames(island_spec)
         }
-        island_clades_info_plant[[i]] <- DAISIE_ONEcolonist(
+        island_clades_info_plant[[i]] <- DAISIE:::DAISIE_ONEcolonist(
           time = total_time,
           island_spec = subset_island_plant,
           stt_table = NULL)
@@ -64,7 +64,7 @@ create_island_mutual <- function(stt_table,
           subset_island_animal <- rbind(subset_island_animal[1:8])
           colnames(subset_island_animal) <- colnames(island_spec)
         }
-        island_clades_info_animal[[i]] <- DAISIE_ONEcolonist(
+        island_clades_info_animal[[i]] <- DAISIE:::DAISIE_ONEcolonist(
           time = total_time,
           island_spec = subset_island_animal,
           stt_table = NULL)
