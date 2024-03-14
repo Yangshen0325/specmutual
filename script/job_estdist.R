@@ -32,11 +32,11 @@ habrok_est_dist <- function(param_set_local) {
   message("Running param set: ", param_set_local)
   sim_pars <- mutualism_pool[[param_set_local]]
   passed_novel_mls <- est_dist(loops=1000)
-  path <- paste0("~/specmutual/result/out", param_set_local, "_", i, ".rds")
+  path <- paste0("~/specmutual/result/out_", param_set_local, ".rds")
   saveRDS(passed_novel_mls, file = path)
 }
 
-
+outs <- habrok_est_dist(param_set_local = param_set)
 
 
 
