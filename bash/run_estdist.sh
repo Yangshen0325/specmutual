@@ -3,7 +3,7 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --job-name=job_estdist
-#SBATCH --output=logs/%1403-j.log
+#SBATCH --output=logs/1403-%j.log
 #SBATCH --mem=64GB
 #SBATCH --partition=regular
 #SBATCH --array=1-21
