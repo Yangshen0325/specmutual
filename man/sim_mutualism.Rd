@@ -9,7 +9,9 @@ sim_mutualism(
   replicates,
   mutualism_pars,
   sample_freq,
-  verbose = TRUE
+  cond_p = 0,
+  cond_a = 0,
+  verbose
 )
 }
 \description{
