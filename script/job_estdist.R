@@ -4,6 +4,7 @@ args <- commandArgs(trailingOnly = TRUE)
 param_set <- as.numeric(args[[1]])
 
 library(specmutual)
+library(DAISIErobustness)
 load("~/specmutual/script/M0.RData")
 
 K1 <- seq(0, 1000, 50)
