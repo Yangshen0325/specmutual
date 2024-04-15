@@ -10,8 +10,9 @@ test_that("mutualism_pars is feasible", {
         qgain = 0,
         qloss = 0,
         lambda0 = 0,
-        M0 = matrix(sample(c(0,1),40,replace = TRUE),ncol=5,nrow=8),
-        transprob = 1)
+        M0 = matrix(sample(c(0, 1), 40, replace = TRUE), ncol = 5, nrow = 8),
+        transprob = 1
+      )
     )
   )
 })

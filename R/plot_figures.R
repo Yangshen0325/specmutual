@@ -1,22 +1,22 @@
 # plot stt_table
 
-  # stt_table <- island$stt_table
-  # par(mfrow = c(2, 3))
-  # plot(stt_table[, 1], stt_table[, 2], type = "l",
-  #      xlab = "Time", ylab = "richness", main = "number of plant immigrants")
-  # plot(stt_table[, 1], stt_table[, 3], type = "l",
-  #      xlab = "Time", ylab = "richness", main = "number of plant anagenesis")
-  # plot(stt_table[, 1], stt_table[, 4], type = "l",
-  #      xlab = "Time", ylab = "richness", main = "number of plant cladogenesis")
-  # plot(stt_table[, 1], stt_table[, 5], type = "l",
-  #      xlab = "Time", ylab = "richness", main = "number of animal immigrants")
-  # plot(stt_table[, 1], stt_table[, 6], type = "l",
-  #      xlab = "Time", ylab = "richness", main = "number of animal anagenesis")
-  # plot(stt_table[, 1], stt_table[, 7], type = "l",
-  #      xlab = "Time", ylab = "richness", main = "number of animal cladogenesis")
-  #
-  # par(mfrow = c(1, 1))
-  #
+# stt_table <- island$stt_table
+# par(mfrow = c(2, 3))
+# plot(stt_table[, 1], stt_table[, 2], type = "l",
+#      xlab = "Time", ylab = "richness", main = "number of plant immigrants")
+# plot(stt_table[, 1], stt_table[, 3], type = "l",
+#      xlab = "Time", ylab = "richness", main = "number of plant anagenesis")
+# plot(stt_table[, 1], stt_table[, 4], type = "l",
+#      xlab = "Time", ylab = "richness", main = "number of plant cladogenesis")
+# plot(stt_table[, 1], stt_table[, 5], type = "l",
+#      xlab = "Time", ylab = "richness", main = "number of animal immigrants")
+# plot(stt_table[, 1], stt_table[, 6], type = "l",
+#      xlab = "Time", ylab = "richness", main = "number of animal anagenesis")
+# plot(stt_table[, 1], stt_table[, 7], type = "l",
+#      xlab = "Time", ylab = "richness", main = "number of animal cladogenesis")
+#
+# par(mfrow = c(1, 1))
+#
 
 # sim_out <- list(out_5, out_6, out_7, out_8,
 #                 out_9, out_10, out_11, out_12, out_13)
@@ -149,6 +149,3 @@
 ## colonizes again, colonization time should be refreshed but also links with it
 ## should still be the same as the original, which means M_42 = 1 and M_44 = 1.
 ## The idea behind it is...
-
-
-

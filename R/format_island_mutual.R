@@ -14,13 +14,13 @@ format_island_mutual <- function(island_replicates,
       verbose = verbose
     )
   } else {
-      several_islands <- format_sampled_stt(
-        island_replicates = island_replicates,
-        total_time = total_time,
-        sample_freq = sample_freq,
-        mutualism_pars = mutualism_pars,
-        verbose = verbose
-      )
-    }
+    several_islands <- format_sampled_stt(
+      island_replicates = island_replicates,
+      total_time = total_time,
+      sample_freq = sample_freq,
+      mutualism_pars = mutualism_pars,
+      verbose = verbose
+    )
+  }
   return(several_islands)
 }

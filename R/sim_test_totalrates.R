@@ -3,7 +3,7 @@
 #' Internal function of simulation
 #' @return a named list with island information
 #'
-sim_test_totalrates <- function(total_time, mutualism_pars){
+sim_test_totalrates <- function(total_time, mutualism_pars) {
   #### Initialization ####
   testit::assert(are_mutualism_pars(mutualism_pars))
   timeval <- 0
@@ -23,61 +23,63 @@ sim_test_totalrates <- function(total_time, mutualism_pars){
 
   lac_pars <- mutualism_pars$lac_pars
   mu_pars <- mutualism_pars$mu_pars
-  K_pars <-  mutualism_pars$K_pars
-  gam_pars <-  mutualism_pars$gam_pars
-  laa_pars <-  mutualism_pars$laa_pars
-  qgain <-  mutualism_pars$qgain
-  qloss <-  mutualism_pars$qloss
-  lambda0 <-  mutualism_pars$lambda0
-  transprob <-  mutualism_pars$transprob
+  K_pars <- mutualism_pars$K_pars
+  gam_pars <- mutualism_pars$gam_pars
+  laa_pars <- mutualism_pars$laa_pars
+  qgain <- mutualism_pars$qgain
+  qloss <- mutualism_pars$qloss
+  lambda0 <- mutualism_pars$lambda0
+  transprob <- mutualism_pars$transprob
 
-  #measure_interval <- 0.5
-  #measure_time <- measure_interval
+  # measure_interval <- 0.5
+  # measure_time <- measure_interval
 
 
-  #if (sum(gam_pars) == 0) {
-    #warning()
-    #return(NULL)# maybe keep it
-    #stop("Island has no species and the rate of
+  # if (sum(gam_pars) == 0) {
+  # warning()
+  # return(NULL)# maybe keep it
+  # stop("Island has no species and the rate of
   #  colonisation is zero. Island cannot be colonised.")
-  #}
+  # }
   evo_table <- list(c(), NULL)
-  #plant_immi <- list()
-  #animal_immi <- list()
-  #rates_list <- list()
+  # plant_immi <- list()
+  # animal_immi <- list()
+  # rates_list <- list()
   #### Start Monte Carlo iterations ####
-  #steps <- 0
-  while (timeval < total_time){
+  # steps <- 0
+  while (timeval < total_time) {
     # cat(timeval, dim(Mt), "\n") # for debugging
-    rates <- update_rates_mutual(M0 = M0,
-                                 Mt = Mt,
-                                 alphaa = alphaa,
-                                 status_p = status_p,
-                                 status_a = status_a,
-                                 lac_pars = lac_pars,
-                                 mu_pars = mu_pars,
-                                 K_pars = K_pars,
-                                 gam_pars = gam_pars,
-                                 laa_pars = laa_pars,
-                                 qgain = qgain,
-                                 qloss = qloss,
-                                 lambda0 = lambda0,
-                                 transprob = transprob,
-                                 island_spec = island_spec)
+    rates <- update_rates_mutual(
+      M0 = M0,
+      Mt = Mt,
+      alphaa = alphaa,
+      status_p = status_p,
+      status_a = status_a,
+      lac_pars = lac_pars,
+      mu_pars = mu_pars,
+      K_pars = K_pars,
+      gam_pars = gam_pars,
+      laa_pars = laa_pars,
+      qgain = qgain,
+      qloss = qloss,
+      lambda0 = lambda0,
+      transprob = transprob,
+      island_spec = island_spec
+    )
     print(unlist(lapply(rates, sum)))
     print(do.call(sum, rates))
     print(c(sum(status_p), sum(status_a)))
-    #plant_immi[[length(plant_immi) + 1]] <- rates$immig_p
-    #animal_immi[[length(animal_immi) + 1]] <- rates$immig_a
+    # plant_immi[[length(plant_immi) + 1]] <- rates$immig_p
+    # animal_immi[[length(animal_immi) + 1]] <- rates$immig_a
 
-    #rates_list[[length(rates_list) + 1]] <- rates
+    # rates_list[[length(rates_list) + 1]] <- rates
 
     # testit::assert(are_rates(rates))
     # next time
     timeval_and_dt <- sample_time_mutual(rates = rates, timeval = timeval)
     timeval <- timeval_and_dt$timeval
-    #print(timeval)
-    #steps <- steps + 1
+    # print(timeval)
+    # steps <- steps + 1
 
     # if (timeval > measure_time &&
     #     timeval - timeval_and_dt$dt < measure_time) {
@@ -90,25 +92,27 @@ sim_test_totalrates <- function(total_time, mutualism_pars){
     #   measure_time <- (store_index + 1) * measure_interval
     # }
     #
-    if (timeval <= total_time){
+    if (timeval <= total_time) {
       # next event
       possible_event <- sample_event_mutual(rates = rates)
       print(possible_event)
       evo_table[[1]] <- rbind(evo_table[[1]], c(timeval, possible_event))
       # next state based on event
-      updated_states <- update_states_mutual(M0 = M0,
-                                             Mt = Mt,
-                                             status_p = status_p,
-                                             status_a = status_a,
-                                             maxplantID = maxplantID,
-                                             maxanimalID = maxanimalID,
-                                             timeval = timeval,
-                                             total_time = total_time,
-                                             rates = rates,
-                                             possible_event = possible_event,
-                                             island_spec = island_spec,
-                                             stt_table = stt_table,
-                                             transprob = transprob)
+      updated_states <- update_states_mutual(
+        M0 = M0,
+        Mt = Mt,
+        status_p = status_p,
+        status_a = status_a,
+        maxplantID = maxplantID,
+        maxanimalID = maxanimalID,
+        timeval = timeval,
+        total_time = total_time,
+        rates = rates,
+        possible_event = possible_event,
+        island_spec = island_spec,
+        stt_table = stt_table,
+        transprob = transprob
+      )
       Mt <- updated_states$Mt
       status_p <- updated_states$status_p
       status_a <- updated_states$status_a
@@ -117,24 +121,27 @@ sim_test_totalrates <- function(total_time, mutualism_pars){
       island_spec <- updated_states$island_spec
       stt_table <- updated_states$stt_table
     }
-
   }
-  #cat("Total steps taken:", steps, "\n")
+  # cat("Total steps taken:", steps, "\n")
   #### Finalize STT ####
-  stt_table <- rbind(stt_table,
-                     c(0, stt_table[nrow(stt_table), 2:7]))
+  stt_table <- rbind(
+    stt_table,
+    c(0, stt_table[nrow(stt_table), 2:7])
+  )
   evo_table[[2]] <- stt_table[nrow(stt_table), ]
 
   #### Finalize island_spec ####
   if (length(island_spec) != 0) {
-    cnames <- c("Species",
-                "Mainland Ancestor",
-                "Colonisation time (BP)",
-                "Species type",
-                "branch_code",
-                "branching time (BP)",
-                "Anagenetic_origin",
-                "Species state" )
+    cnames <- c(
+      "Species",
+      "Mainland Ancestor",
+      "Colonisation time (BP)",
+      "Species type",
+      "branch_code",
+      "branching time (BP)",
+      "Anagenetic_origin",
+      "Species state"
+    )
     colnames(island_spec) <- cnames
     ### set ages as counting backwards from present
     island_spec[, "branching time (BP)"] <- total_time -
@@ -143,9 +150,11 @@ sim_test_totalrates <- function(total_time, mutualism_pars){
       as.numeric(island_spec[, "Colonisation time (BP)"])
   }
 
-  island <- create_island_mutual(stt_table = stt_table,
-                                 total_time = total_time,
-                                 island_spec = island_spec)
+  island <- create_island_mutual(
+    stt_table = stt_table,
+    total_time = total_time,
+    island_spec = island_spec
+  )
 
   ## Finalize M_true_list
   #  for (i in 1:length(M_true_list)) {
@@ -160,14 +169,16 @@ sim_test_totalrates <- function(total_time, mutualism_pars){
   #    }
   #  }
 
-  return(list(Mt = Mt,
-              M_true_list = M_true_list,
-              status_p = status_p,
-              status_a = status_a,
-              island_spec = island_spec,
-              island = island,
-              evo_table = evo_table))
-  #rates_list = rates_list))
-  #plant_immi = plant_immi,
-  #animal_immi = animal_immi))
+  return(list(
+    Mt = Mt,
+    M_true_list = M_true_list,
+    status_p = status_p,
+    status_a = status_a,
+    island_spec = island_spec,
+    island = island,
+    evo_table = evo_table
+  ))
+  # rates_list = rates_list))
+  # plant_immi = plant_immi,
+  # animal_immi = animal_immi))
 }

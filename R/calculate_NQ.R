@@ -1,5 +1,3 @@
-
-
 format_Mt <- function(outs_parpool) {
   rep <- length(outs_parpool)
   pos <- round(seq(1, 100, length.out = 70))
@@ -25,5 +23,4 @@ format_Mt <- function(outs_parpool) {
     N_table <- cbind(N_table, Nnes)
     Q_table <- cbind(Q_table, Qmod)
   }
-
 }

@@ -44,12 +44,6 @@ est_dist <- function(loops) {
   return(passed_novel_mls)
 }
 
-#est_dist_list <- est_dist(loops=10)
+# est_dist_list <- est_dist(loops=10)
 
-#data_list<- dplyr:::bind_rows(est_dist_list)
-
-
-
-
-
-
+# data_list<- dplyr:::bind_rows(est_dist_list)

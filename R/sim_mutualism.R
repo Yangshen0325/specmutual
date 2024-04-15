@@ -9,7 +9,7 @@ sim_mutualism <- function(total_time,
                           verbose) {
   island_replicates <- list()
   for (rep in 1:replicates) {
-    if (cond_p == 0 & cond_a ==0) {
+    if (cond_p == 0 & cond_a == 0) {
       number_present_p <- -1
       number_present_a <- -1
     } else {
@@ -19,7 +19,8 @@ sim_mutualism <- function(total_time,
     while (number_present_p < cond_p & number_present_a < cond_a) {
       island_replicates[[rep]] <- sim_core_mutualism(
         total_time = total_time,
-        mutualism_pars = mutualism_pars)
+        mutualism_pars = mutualism_pars
+      )
       temp_island <- island_replicates[[rep]][["island"]]
       clades_plant <- temp_island[["clades_info_plant"]]
       clades_animal <- temp_island[["clades_info_animal"]]
@@ -34,22 +35,24 @@ sim_mutualism <- function(total_time,
       print(paste("Island replicate ", rep, sep = ""))
     }
   }
-  island_segments <- format_island_mutual(island_replicates = island_replicates,
-                                          total_time = total_time,
-                                          sample_freq = sample_freq,
-                                          mutualism_pars = mutualism_pars,
-                                          verbose = verbose)
-  island_total <- format_island_mutual_all(island_replicates = island_replicates,
-                                           total_time = total_time,
-                                           sample_freq = sample_freq,
-                                           mutualism_pars = mutualism_pars,
-                                           verbose = verbose)
+  island_segments <- format_island_mutual(
+    island_replicates = island_replicates,
+    total_time = total_time,
+    sample_freq = sample_freq,
+    mutualism_pars = mutualism_pars,
+    verbose = verbose
+  )
+  island_total <- format_island_mutual_all(
+    island_replicates = island_replicates,
+    total_time = total_time,
+    sample_freq = sample_freq,
+    mutualism_pars = mutualism_pars,
+    verbose = verbose
+  )
 
-  return (list(island_replicates = island_replicates,
-               island_segments = island_segments,
-               island_total = island_total))
-
-
+  return(list(
+    island_replicates = island_replicates,
+    island_segments = island_segments,
+    island_total = island_total
+  ))
 }
-
-

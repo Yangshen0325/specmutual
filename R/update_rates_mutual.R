@@ -4,21 +4,6 @@
 #'
 #' @return a named list with the updated rates.
 #'
-#' @examples
-#' rates <- update_rates_mutualism(M0 = matrix(1, 20, ncol = 5, nrow = 4),
-#' Mt = Mt,
-#' status_p = matrix(0, ncol = 1, nrow = nrow(Mt)),
-#' status_a = matrix(0, ncol = 1, nrow = ncol(Mt)),
-#' lac_pars = c(0.5, 0.5),
-#' mu_pars = c(0.2, 0.2, 1.0, 1.0),
-#' K_pars = c(Inf, Inf, Inf, Inf),
-#' gam_pars = c(0.05, 0.02),
-#' laa_pars =  c(0.2, 0.1, 1.0, 2.0),
-#' qgain = 1.0,
-#' qloss = 1.0,
-#' lambda0 = 2.0,
-#' transprob = 1.0,
-#' island_spec = NULL)
 update_rates_mutual <- function(M0,
                                 Mt,
                                 alphaa,
@@ -34,35 +19,32 @@ update_rates_mutual <- function(M0,
                                 lambda0,
                                 transprob,
                                 island_spec) {
+  partners_list <- get_partners(
+    Mt = Mt,
+    status_p = status_p,
+    status_a = status_a
+  )
 
-  pans_list <- get_pans(Mt = Mt,
-                        status_p = status_p,
-                        status_a = status_a)
-
-  # nk_list <- get_nk(Mt = Mt,
-  #                    status_p = status_p,
-  #                    status_a = status_a,
-  #                    K_pars = K_pars,
-  #                    pans_list = pans_list)
-
-  wrates_list <- get_wrates(alphaa =  alphaa,
-                            status_p = status_p,
-                            status_a = status_a,
-                            K_pars = K_pars,
-                            pans_list = pans_list)
+  wrates_list <- get_wrates(
+    alphaa = alphaa,
+    status_p = status_p,
+    status_a = status_a,
+    K_pars = K_pars,
+    partners_list = partners_list
+  )
 
   immig_rate <- get_immig_rate(
     M0 = M0,
-    #nk_list = nk_list,
     wrates_list = wrates_list,
     gam_pars = gam_pars
   )
 
   ext_rate <- get_ext_rate(
-    pans_list = pans_list,
+    partners_list = partners_list,
     status_p = status_p,
     status_a = status_a,
-    mu_pars = mu_pars)
+    mu_pars = mu_pars
+  )
 
   ana_rate <- get_ana_rate(
     M0 = M0,
@@ -84,7 +66,6 @@ update_rates_mutual <- function(M0,
 
   cospec_rate <- get_cospec_rate(
     Mt = Mt,
-    #nk_list = nk_list,
     wrates_list = wrates_list,
     status_p = status_p,
     t_status_a = t_status_a,
@@ -108,11 +89,11 @@ update_rates_mutual <- function(M0,
 
   rates <- list(
     immig_p = immig_rate$immig_p,
-      ext_p = ext_rate$ext_p,
+    ext_p = ext_rate$ext_p,
     clado_p = clado_rate$clado_p,
-      ana_p = ana_rate$ana_p,
+    ana_p = ana_rate$ana_p,
     immig_a = immig_rate$immig_a,
-      ext_a = ext_rate$ext_a,
+    ext_a = ext_rate$ext_a,
     clado_a = clado_rate$clado_a,
     ana_a = ana_rate$ana_a,
     cospec_rate = cospec_rate,
@@ -123,30 +104,75 @@ update_rates_mutual <- function(M0,
 }
 
 # test if object rates are rates
-are_rates <- function(rates){
-  if (!all(sapply(rates, is.numeric))) return (FALSE)
-  if (!"immig_p" %in% names(rates)) return (FALSE)
-  if (!"ext_p" %in% names(rates)) return (FALSE)
-  if (!"ana_p" %in% names(rates)) return (FALSE)
-  if (!"clado_p" %in% names(rates)) return (FALSE)
-  if (!"immig_a" %in% names(rates)) return (FALSE)
-  if (!"ext_a" %in% names(rates)) return (FALSE)
-  if (!"ana_a" %in% names(rates)) return (FALSE)
-  if (!"clado_a" %in% names(rates)) return (FALSE)
-  if (!"cospec_rate" %in% names(rates)) return (FALSE)
-  if (!"gain_rate" %in% names(rates)) return (FALSE)
-  if (!"loss_rate" %in% names(rates)) return (FALSE)
-  if (prod(rates$immig_p) < 0.0) return (FALSE)
-  if (prod(rates$ext_p) < 0.0) return (FALSE)
-  if (prod(rates$ana_p) < 0.0) return (FALSE)
-  if (prod(rates$clado_p) < 0.0) return (FALSE)
-  if (prod(rates$immig_a) < 0.0) return (FALSE)
-  if (prod(rates$ext_a) < 0.0) return (FALSE)
-  if (prod(rates$ana_a) < 0.0) return (FALSE)
-  if (prod(rates$clado_a) < 0.0) return (FALSE)
-  if (prod(rates$cospec_rate) < 0.0) return (FALSE)
-  if (prod(rates$gain_rate) < 0.0) return (FALSE)
-  if (prod(rates$loss_rate) < 0.0) return (FALSE)
-  return (TRUE)
+are_rates <- function(rates) {
+  if (!all(sapply(rates, is.numeric))) {
+    return(FALSE)
+  }
+  if (!"immig_p" %in% names(rates)) {
+    return(FALSE)
+  }
+  if (!"ext_p" %in% names(rates)) {
+    return(FALSE)
+  }
+  if (!"ana_p" %in% names(rates)) {
+    return(FALSE)
+  }
+  if (!"clado_p" %in% names(rates)) {
+    return(FALSE)
+  }
+  if (!"immig_a" %in% names(rates)) {
+    return(FALSE)
+  }
+  if (!"ext_a" %in% names(rates)) {
+    return(FALSE)
+  }
+  if (!"ana_a" %in% names(rates)) {
+    return(FALSE)
+  }
+  if (!"clado_a" %in% names(rates)) {
+    return(FALSE)
+  }
+  if (!"cospec_rate" %in% names(rates)) {
+    return(FALSE)
+  }
+  if (!"gain_rate" %in% names(rates)) {
+    return(FALSE)
+  }
+  if (!"loss_rate" %in% names(rates)) {
+    return(FALSE)
+  }
+  if (prod(rates$immig_p) < 0.0) {
+    return(FALSE)
+  }
+  if (prod(rates$ext_p) < 0.0) {
+    return(FALSE)
+  }
+  if (prod(rates$ana_p) < 0.0) {
+    return(FALSE)
+  }
+  if (prod(rates$clado_p) < 0.0) {
+    return(FALSE)
+  }
+  if (prod(rates$immig_a) < 0.0) {
+    return(FALSE)
+  }
+  if (prod(rates$ext_a) < 0.0) {
+    return(FALSE)
+  }
+  if (prod(rates$ana_a) < 0.0) {
+    return(FALSE)
+  }
+  if (prod(rates$clado_a) < 0.0) {
+    return(FALSE)
+  }
+  if (prod(rates$cospec_rate) < 0.0) {
+    return(FALSE)
+  }
+  if (prod(rates$gain_rate) < 0.0) {
+    return(FALSE)
+  }
+  if (prod(rates$loss_rate) < 0.0) {
+    return(FALSE)
+  }
+  return(TRUE)
 }
-
