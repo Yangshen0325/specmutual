@@ -1,23 +1,22 @@
-fastsample <- function(prob_vec) {
-  if (length(prob_vec) == 1) {
-    return(1)
-  }
 
-  indices <- 1:length(prob_vec)
-  if (sum(prob_vec) / length(prob_vec) < 0.1) {
-    return(sample(indices, 1, prob = prob_vec))
-  }
-
-  max_val <- max(prob_vec)
-
-  while (TRUE) {
-    index <- sample(indices, 1)
-    if (runif(1, 0, 1) < prob_vec[index] / max_val) {
-      return(index)
-    }
-  }
-}
-
+#' Update states on the island
+#'
+#' @param M0 Mainland matrix
+#' @param Mt Island matrix
+#' @param status_p Plant species status, with 1 present, 0 absent on island
+#' @param status_a Animal species status, with 1 present, 0 absent on island
+#' @param maxplantID Maximum plant species id on island
+#' @param maxanimalID Maximum animal species id on island
+#' @param timeval Time value during simulation, ranging from island age to the present
+#' @param total_time Island age (total simulation time)
+#' @param rates All kinds of rates
+#' @param possible_event Possible event that happening on island
+#' @param island_spec A data frame with species information on island
+#' @param stt_table A data frame with the number of species through time
+#' @param transprob A numerical
+#'
+#' @return A list
+#'
 # update the state on the island
 # [1]: immigration event with plant species
 # [2]: extinction event with plant species
@@ -30,6 +29,7 @@ fastsample <- function(prob_vec) {
 # [9]: cospeciation event between pairs
 # [10]: gain links event between pairs
 # [11]: loss links event between pairs
+
 update_states_mutual <- function(M0,
                                  Mt,
                                  status_p,
@@ -575,4 +575,24 @@ update_states_mutual <- function(M0,
     stt_table = stt_table
   )
   return(updated_states)
+}
+
+fastsample <- function(prob_vec) {
+  if (length(prob_vec) == 1) {
+    return(1)
+  }
+
+  indices <- 1:length(prob_vec)
+  if (sum(prob_vec) / length(prob_vec) < 0.1) {
+    return(sample(indices, 1, prob = prob_vec))
+  }
+
+  max_val <- max(prob_vec)
+
+  while (TRUE) {
+    index <- sample(indices, 1)
+    if (runif(1, 0, 1) < prob_vec[index] / max_val) {
+      return(index)
+    }
+  }
 }

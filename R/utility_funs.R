@@ -1,5 +1,10 @@
-# new matrix on island due to cladogenesis ------------------------------------------
 
+#' Some functions used for simulation
+#'
+#'
+
+
+# new matrix on island due to cladogenesis ------------------------------------------
 
 newMt_clado <- function(M,
                         tosplit,
