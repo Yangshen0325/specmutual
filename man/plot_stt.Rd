@@ -21,6 +21,8 @@ simulated entire time span. 2.5-97.5th percentiles are plotted in light grey,
 25-75th percentiles plotted in dark grey.
 }
 \examples{
-plot_stt(several_island = several_island,
-     total_time = total_time)
+plot_stt(
+  several_island = several_island,
+  total_time = total_time
+)
 }

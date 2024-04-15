@@ -2,32 +2,10 @@
 % Please edit documentation in R/utility_funs.R
 \name{newMt_clado}
 \alias{newMt_clado}
-\title{Calculating mutualistic partners and competitors}
+\title{Some functions used for simulation}
 \usage{
 newMt_clado(M, tosplit, transprob)
 }
-\arguments{
-\item{Mt}{Matrix with plant species on the row and animal species on the column.
-Mt is the matrix on the island having the same size as \code{M0} at \code{
-timeval = 0 }, yet it constantly keeps changing as events (immigration, extinction
-and speciation) happening.}
-
-\item{status_p, status_a}{Matrix indicating species status on the island, with 0
-meaning absent, 1 meaning present.}
-}
-\value{
-A list containing the number of reciprocal partners and competitors:
-  \itemize{
-    \item{\code{$pans_p}: A numeric vector about the number of partners of
-    plant species}
-    \item{\code{$pans_a}: A numeric vector about the number of partners of
-    plant species}
-    \item{\code{cmps_p}: A numeric vector about the number of competitors of
-    plant species}
-    \item{\code{cmps_a}: A numeric vector about the number of competitors of
-    animal species}
-    }
-}
 \description{
-Calculating mutualistic partners and competitors
+Some functions used for simulation
 }

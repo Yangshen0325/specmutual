@@ -6,16 +6,6 @@
 \usage{
 create_island_mutual(stt_table, total_time, island_spec)
 }
-\arguments{
-\item{stt_table}{Matrix with number of species at each time step. The first
-column is "Time", followed by "nIp" (number of plant immigrants), "nAp" (number
-of plant anagenesis), "nCp" (number of plant cladogenesis), "nIa" (number of
-animal immigrants), "nAa" (number #' of animal anagenesis), "nCp" (number of
-animal cladogenesis).}
-
-\item{island_spec}{Matrix with current state of simulation containing number
-of species.}
-}
 \value{
 list with the island information, composed stt table,
 branching times of extant species, status of species on
