@@ -1,5 +1,5 @@
 # format the simulation output into standard DAISIE list output
-# with sampled stt, and it's plant and animal species seperately.
+# with sampled stt, and it's plant and animal species separately.
 
 format_sampled_stt <- function(island_replicates,
                                total_time,
