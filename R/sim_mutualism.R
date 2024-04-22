@@ -4,8 +4,8 @@ sim_mutualism <- function(total_time,
                           replicates,
                           mutualism_pars,
                           sample_freq,
-                          cond_p = 0,
-                          cond_a = 0,
+                          cond_p,
+                          cond_a,
                           verbose) {
   island_replicates <- list()
   for (rep in 1:replicates) {
