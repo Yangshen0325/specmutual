@@ -16,7 +16,7 @@ sim_mutualism <- function(total_time,
       number_present_p <- 0
       number_present_a <- 0
     }
-    while (number_present_p < cond_p & number_present_a < cond_a) {
+    while (number_present_p < cond_p | number_present_a < cond_a) {
       island_replicates[[rep]] <- sim_core_mutualism(
         total_time = total_time,
         mutualism_pars = mutualism_pars
