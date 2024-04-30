@@ -9,8 +9,8 @@ sim_mutualism(
   replicates,
   mutualism_pars,
   sample_freq,
-  cond_p = 0,
-  cond_a = 0,
+  cond_p,
+  cond_a,
   verbose
 )
 }
