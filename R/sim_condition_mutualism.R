@@ -8,12 +8,12 @@ sim_condition_mutualism <- function(total_time,
                           web_cond_a,
                           verbose) {
 
-  web_p <- 0
-  web_a <- 0
-
   island_replicates <- list()
 
   for (rep in 1:replicates) {
+
+    web_p <- 0
+    web_a <- 0
 
     while (web_p < web_cond_p | web_a < web_cond_a) {
       island_replicates[[rep]] <- sim_core_mutualism(
@@ -23,7 +23,7 @@ sim_condition_mutualism <- function(total_time,
       Mt <- island_replicates[[rep]][["Mt"]]
       status_p <- island_replicates[[rep]][["status_p"]]
       status_a <- island_replicates[[rep]][["status_a"]]
-      Mt_island <- Mt[status_p == 1, status_a == 1]
+      Mt_island <- Mt[status_p == 1, status_a == 1, drop = FALSE]
       Mt_web_island <- Mt_island[rowSums(Mt_island) != 0, colSums(Mt_island) != 0, drop = FALSE]
       web_p <- dim(Mt_web_island)[1]
       web_a <- dim(Mt_web_island)[2]
