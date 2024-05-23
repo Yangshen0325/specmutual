@@ -39,7 +39,7 @@ format_full_stt <- function(island_replicates,
     }
     island_list_plant <- DAISIE:::add_brt_table(
       island = island_list_plant,
-      full_table = TRUE
+      full_table = FALSE
     )
     several_islands_plant[[rep]] <- island_list_plant
 
@@ -65,7 +65,7 @@ format_full_stt <- function(island_replicates,
     }
     island_list_animal <- DAISIE:::add_brt_table(
       island = island_list_animal,
-      full_table = TRUE
+      full_table = FALSE
     )
     several_islands_animal[[rep]] <- island_list_animal
 
