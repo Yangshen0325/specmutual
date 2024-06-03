@@ -103,6 +103,14 @@ update_rates_mutual <- function(M0,
   return(rates)
 }
 
+
+check_neg <- function(v) {
+  number_neg <- sum(v < 0)
+  if (number_neg %% 2 == 1) return(TRUE)
+
+  return(FALSE)
+}
+
 # test if object rates are rates
 are_rates <- function(rates) {
   if (!all(sapply(rates, is.numeric))) {
@@ -141,38 +149,39 @@ are_rates <- function(rates) {
   if (!"loss_rate" %in% names(rates)) {
     return(FALSE)
   }
-  if (prod(rates$immig_p) < 0.0) {
-    return(FALSE)
+
+  if(check_neg(rates$immig_p) == TRUE) {
+    return(FLASE)
   }
-  if (prod(rates$ext_p) < 0.0) {
-    return(FALSE)
+  if(check_neg(rates$ext_p) == TRUE) {
+    return(FLASE)
   }
-  if (prod(rates$ana_p) < 0.0) {
-    return(FALSE)
+  if(check_neg(rates$ana_p) == TRUE) {
+    return(FLASE)
   }
-  if (prod(rates$clado_p) < 0.0) {
-    return(FALSE)
+  if(check_neg(rates$clado_p) == TRUE) {
+    return(FLASE)
   }
-  if (prod(rates$immig_a) < 0.0) {
-    return(FALSE)
+  if(check_neg(rates$immig_a) == TRUE) {
+    return(FLASE)
   }
-  if (prod(rates$ext_a) < 0.0) {
-    return(FALSE)
+  if(check_neg(rates$ext_a) == TRUE) {
+    return(FLASE)
   }
-  if (prod(rates$ana_a) < 0.0) {
-    return(FALSE)
+  if(check_neg(rates$ana_a) == TRUE) {
+    return(FLASE)
   }
-  if (prod(rates$clado_a) < 0.0) {
-    return(FALSE)
+  if(check_neg(rates$clado_a) == TRUE) {
+    return(FLASE)
   }
-  if (prod(rates$cospec_rate) < 0.0) {
-    return(FALSE)
+  if(check_neg(rates$cospec_rate) == TRUE) {
+    return(FLASE)
   }
-  if (prod(rates$gain_rate) < 0.0) {
-    return(FALSE)
+  if(check_neg(rates$gain_rate) == TRUE) {
+    return(FLASE)
   }
-  if (prod(rates$loss_rate) < 0.0) {
-    return(FALSE)
+  if(check_neg(rates$loss_rate) == TRUE) {
+    return(FLASE)
   }
   return(TRUE)
 }
