@@ -211,3 +211,36 @@ get_M0 <- function(plant) {
 # set.seed(12)
 # M0 <- get_M0(plant = 150)
 # saveRDS(M0, file = "/Users/yangshen/Downloads/phd_yang/chapter2/code/M0.rds")
+
+
+# P %*% A -------------------------------------------------------------------
+
+get_pa_table <- function(status_p,
+                         status_a,
+                         t_status_a) {
+
+  PA_both <- status_p %*% t_status_a
+  Pno_A <-  (1 - status_p) %*% t_status_a
+  P_Ano <- status_p %*% (1 - t_status_a)
+
+  pa_table = list(PA_both = PA_both,
+                  Pno_A = Pno_A,
+                  P_Ano = P_Ano)
+
+  return(pa_table)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
