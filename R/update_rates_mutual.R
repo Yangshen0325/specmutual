@@ -67,7 +67,7 @@ update_rates_mutual <- function(M0,
   pa_table <- get_pa_table(
     status_p = status_p,
     status_a = status_a,
-    t_status_a = t_status
+    t_status_a = t_status_a
   )
 
   cospec_rate <- get_cospec_rate(
