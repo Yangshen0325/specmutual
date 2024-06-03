@@ -101,7 +101,7 @@ get_cospec_rate <- function(Mt,
                             status_p,
                             t_status_a,
                             lambda0) {
-  cospec_rate <- lambda0 * Mt * (status_p %*% t_status_a) *
+  cospec_rate <- lambda0 * Mt * pa_table[[1]] *
     (wrates_list[[1]] %*% t(wrates_list[[2]]))
 
   return(cospec_rate)
@@ -114,7 +114,7 @@ get_gain_rate <- function(Mt,
                           t_status_a,
                           qgain) {
   # both_shown <- (status_p %*% t(status_a)
-  gain_rate <- qgain * ((1 - Mt) * (status_p %*% t_status_a))
+  gain_rate <- qgain * ((1 - Mt) * pa_table[[1]])
 
   return(gain_rate)
 }
@@ -126,8 +126,7 @@ get_loss_rate <- function(Mt,
                           status_a,
                           t_status_a,
                           qloss) {
-  loss_rate <- qloss * Mt * (status_p %*% t_status_a +
-    (1 - status_p) %*% t_status_a +
-    status_p %*% t(1 - status_a))
+  loss_rate <- qloss * Mt * (pa_table[[1]] + pa_table[[2]] + pa_table[[3]])
+
   return(loss_rate)
 }
