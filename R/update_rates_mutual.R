@@ -64,26 +64,28 @@ update_rates_mutual <- function(M0,
 
   t_status_a <- t(status_a)
 
+  pa_table <- get_pa_table(
+    status_p = status_p,
+    status_a = status_a,
+    t_status_a = t_status
+  )
+
   cospec_rate <- get_cospec_rate(
     Mt = Mt,
     wrates_list = wrates_list,
-    status_p = status_p,
-    t_status_a = t_status_a,
+    pa_table = pa_table,
     lambda0 = lambda0
   )
 
   gain_rate <- get_gain_rate(
     Mt = Mt,
-    status_p = status_p,
-    t_status_a = t_status_a,
+    pa_table = pa_table,
     qgain = qgain
   )
 
   loss_rate <- get_loss_rate(
     Mt = Mt,
-    status_p = status_p,
-    status_a = status_a,
-    t_status_a = t_status_a,
+    pa_table = pa_table,
     qloss = qloss
   )
 

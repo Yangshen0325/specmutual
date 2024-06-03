@@ -98,8 +98,7 @@ get_clado_rate <- function(wrates_list,
 
 get_cospec_rate <- function(Mt,
                             wrates_list,
-                            status_p,
-                            t_status_a,
+                            pa_table,
                             lambda0) {
   cospec_rate <- lambda0 * Mt * pa_table[[1]] *
     (wrates_list[[1]] %*% t(wrates_list[[2]]))
@@ -110,8 +109,7 @@ get_cospec_rate <- function(Mt,
 # Gain links rates --------------------------------------------------------
 
 get_gain_rate <- function(Mt,
-                          status_p,
-                          t_status_a,
+                          pa_table,
                           qgain) {
   # both_shown <- (status_p %*% t(status_a)
   gain_rate <- qgain * ((1 - Mt) * pa_table[[1]])
@@ -122,9 +120,7 @@ get_gain_rate <- function(Mt,
 # Lose links rates --------------------------------------------------------
 
 get_loss_rate <- function(Mt,
-                          status_p,
-                          status_a,
-                          t_status_a,
+                          pa_table,
                           qloss) {
   loss_rate <- qloss * Mt * (pa_table[[1]] + pa_table[[2]] + pa_table[[3]])
 
