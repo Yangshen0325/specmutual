@@ -99,6 +99,7 @@ sim_test_dynamicsrates <- function(total_time, mutualism_pars) {
 
   return(list(
     rates_list = rates_list,
+    time_list = time_list,
     status_p_list = status_p_list,
     status_a_list = status_a_list
   ))
