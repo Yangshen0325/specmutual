@@ -32,6 +32,7 @@ sim_test_dynamicsrates <- function(total_time, mutualism_pars) {
   transprob <- mutualism_pars$transprob
 
   rates_list <- list()
+  time_list <- list()
 
   status_p_list <- list() # save the status of plant species on island
   status_a_list <- list() # save the status of animal species on island
@@ -61,6 +62,8 @@ sim_test_dynamicsrates <- function(total_time, mutualism_pars) {
     # next time
     timeval_and_dt <- sample_time_mutual(rates = rates, timeval = timeval)
     timeval <- timeval_and_dt$timeval
+
+    time_list[[length(time_list) + 1]] <- timeval
 
     if (timeval <= total_time) {
       # next event
