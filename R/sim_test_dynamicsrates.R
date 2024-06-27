@@ -128,6 +128,8 @@ sim_test_dynamicsrates <- function(total_time, mutualism_pars) {
   loss_list[[length(loss_list)]] <- NULL
   time_list[[length(time_list)]] <- NULL
 
+  # time convert to "time to present"
+  time_list <- lapply(time_list, function(x) total_time - x)
 
   return(list(
     immig_p_list = immig_p_list,
