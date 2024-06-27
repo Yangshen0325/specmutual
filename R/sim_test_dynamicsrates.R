@@ -34,8 +34,6 @@ sim_test_dynamicsrates <- function(total_time, mutualism_pars) {
   rates_list <- list()
   time_list <- list()
 
-  status_p_list <- list() # save the status of plant species on island
-  status_a_list <- list() # save the status of animal species on island
 
   while (timeval < total_time) {
 
@@ -88,8 +86,6 @@ sim_test_dynamicsrates <- function(total_time, mutualism_pars) {
       Mt <- updated_states$Mt
       status_p <- updated_states$status_p
       status_a <- updated_states$status_a
-      status_p_list[[length(status_p_list) + 1]] <- status_p
-      status_a_list[[length(status_a_list) + 1]] <- status_a
       maxplantID <- updated_states$maxplantID
       maxanimalID <- updated_states$maxanimalID
       island_spec <- updated_states$island_spec
@@ -99,8 +95,6 @@ sim_test_dynamicsrates <- function(total_time, mutualism_pars) {
 
   return(list(
     rates_list = rates_list,
-    time_list = time_list,
-    status_p_list = status_p_list,
-    status_a_list = status_a_list
+    time_list = time_list
   ))
 }
