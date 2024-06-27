@@ -31,7 +31,18 @@ sim_test_dynamicsrates <- function(total_time, mutualism_pars) {
   lambda0 <- mutualism_pars$lambda0
   transprob <- mutualism_pars$transprob
 
-  rates_list <- list()
+  immig_p_list <- list()
+  ext_p_list <- list()
+  clado_p_list <- list()
+  ana_p_list <- list()
+  immig_a_list <- list()
+  ext_a_list <- list()
+  clado_a_list <- list()
+  ana_a_list <- list()
+  cospec_list <-  list()
+  gain_list <- list()
+  loss_list <- list()
+
   time_list <- list()
 
 
@@ -55,7 +66,18 @@ sim_test_dynamicsrates <- function(total_time, mutualism_pars) {
       island_spec = island_spec
     )
 
-    rates_list[[length(rates_list) + 1]] <- rates
+    sum_rates <- lapply(rates, sum)
+    immig_p_list[[length(immig_p_list) + 1]] <- sum_rates$immig_p
+    ext_p_list[[length(ext_p_list) + 1]] <- sum_rates$ext_p
+    clado_p_list[[length(clado_p_list) + 1]] <- sum_rates$clado_p
+    ana_p_list[[length(ana_p_list) + 1]] <- sum_rates$ana_p
+    immig_a_list[[length(immig_a_list) + 1]] <- sum_rates$immig_a
+    ext_a_list[[length(ext_a_list) + 1]] <- sum_rates$ext_a
+    clado_a_list[[length(clado_a_list) + 1]] <- sum_rates$clado_a
+    ana_a_list[[length(ana_a_list) +1 ]] <- sum_rates$ana_a
+    cospec_list[[length(cospec_list) + 1]] <- sum_rates$cospec_rate
+    gain_list[[length(gain_list) + 1]] <- sum_rates$gain_rate
+    loss_list[[length(loss_list) + 1]] <- sum_rates$loss_rate
 
     # next time
     timeval_and_dt <- sample_time_mutual(rates = rates, timeval = timeval)
@@ -93,8 +115,32 @@ sim_test_dynamicsrates <- function(total_time, mutualism_pars) {
     }
   }
 
+  immig_p_list[[length(immig_p_list)]] <- NULL
+  ext_p_list[[length(ext_p_list)]] <- NULL
+  clado_p_list[[length(clado_p_list)]] <- NULL
+  ana_p_list[[length(ana_p_list)]] <- NULL
+  immig_a_list[[length(immig_a_list)]] <- NULL
+  ext_a_list[[length(ext_a_list)]] <- NULL
+  clado_a_list[[length(clado_a_list)]] <- NULL
+  ana_a_list[[length(ana_a_list)]] <- NULL
+  cospec_list[[length(cospec_list)]] <-  NULL
+  gain_list[[length(gain_list)]] <- NULL
+  loss_list[[length(loss_list)]] <- NULL
+  time_list[[length(time_list)]] <- NULL
+
+
   return(list(
-    rates_list = rates_list,
+    immig_p_list = immig_p_list,
+    ext_p_list = ext_p_list,
+    clado_p_list = clado_p_list,
+    ana_p_list = ana_p_list,
+    immig_a_list = immig_a_list,
+    ext_a_list = ext_a_list,
+    clado_a_list = clado_a_list,
+    ana_a_list = ana_a_list,
+    cospec_list = cospec_list,
+    gain_list = gain_list,
+    loss_list = loss_list,
     time_list = time_list
   ))
 }
