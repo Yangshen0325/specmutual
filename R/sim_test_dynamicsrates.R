@@ -126,10 +126,7 @@ sim_test_dynamicsrates <- function(total_time, mutualism_pars) {
   cospec_list[[length(cospec_list)]] <-  NULL
   gain_list[[length(gain_list)]] <- NULL
   loss_list[[length(loss_list)]] <- NULL
-<<<<<<< HEAD
   time_list[[length(time_list)]] <- NULL
-=======
->>>>>>> origin/main
 
 
   return(list(
