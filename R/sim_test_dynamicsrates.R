@@ -2,7 +2,7 @@
 # profvis::profvis({sim_mutualism(total_time = 1, mutualism_pars = mutualism_pars)})
 #' Internal function of simulation
 #' @return a named list with island information
-#'
+#' @export
 sim_test_dynamicsrates <- function(total_time, mutualism_pars) {
   #### Initialization ####
   testit::assert(are_mutualism_pars(mutualism_pars))
