@@ -40,7 +40,7 @@ get_simulation_outputs <- function(the_path,
     laa_pars = c(laa0, laa0, mutualism_effects[[effect]]$laa1, mutualism_effects[[effect]]$laa1),
     qgain = qgain,
     qloss = qloss,
-    lambda0 = mutualism_effects[[effect]]$lambda_0,
+    lambda0 = as.numeric(mutualism_effects[[effect]]$lambda_0),
     M0 = M0,
     transprob = transprob,
     alphaa = alphaa
