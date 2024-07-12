@@ -231,6 +231,23 @@ get_pa_table <- function(status_p,
 }
 
 
+# Function to check and create folder if not exists -----------------------
+
+
+check_and_create_folder <- function(the_path, folder_name) {
+  if (!dir.exists(paste0(the_path, "/", folder_name))) {
+    dir.create(paste0(the_path, "/", folder_name))
+  }
+}
+
+
+# Function to save parameters to file -------------------------------------
+
+
+save_parameters <- function(out, the_path, folder_name, effect) {
+  file_name <- paste0(the_path, "/", folder_name, "/", folder_name, "_", effect, ".rds")
+  saveRDS(out, file = file_name)
+}
 
 
 
