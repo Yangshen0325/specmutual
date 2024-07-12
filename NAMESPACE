@@ -2,6 +2,7 @@
 
 export(create_mutualism_pars)
 export(est_dist)
+export(get_simulation_outputs)
 export(peregrine_sim)
 export(plot_stt)
 export(sim_condition_mutualism)

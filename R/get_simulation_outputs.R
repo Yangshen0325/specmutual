@@ -4,18 +4,18 @@
 #
 #' Get simulation parameters for different scenarios
 #'
-#' @param the_path
-#' @param lac0
-#' @param mu0
-#' @param K0
-#' @param gam0
-#' @param laa0
-#' @param effect
-#' @param prefix
-#' @param total_time
-#' @param replicates
+#' @param the_path save the outputs
+#' @param lac0 initial cladogenesis value
+#' @param mu0 initial extinction value
+#' @param K0 initial carrying capacity
+#' @param gam0 initial immigration value
+#' @param laa0 initial anagenesis
+#' @param effect mutualsim effects, could be "none", "low", "medium", "high"
+#' @param prefix parameters combination
+#' @param total_time island age
+#' @param replicates replicates
 #'
-#' @return
+#' @return simulation outputs
 #' @export
 
 get_simulation_outputs <- function(the_path,
