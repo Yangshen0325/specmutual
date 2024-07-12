@@ -9,7 +9,9 @@ get_simulation_outputs <- function(the_path,
                                       gam0,
                                       laa0,
                                       effect,
-                                      prefix) {
+                                      prefix,
+                                   total_time,
+                                   replicates) {
 
 
   check_and_create_folder(the_path, prefix)
