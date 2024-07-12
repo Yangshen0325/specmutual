@@ -46,17 +46,7 @@ get_simulation_outputs <- function(the_path,
     alphaa = alphaa
   )
 
-  ## set seed
-  set_random_seed <- function() {
-    seed <- as.integer(runif(1, min = 1, max = .Machine$integer.max))
-    set.seed(seed)
-    return(seed)
-  }
-  seed <- set_random_seed()
-  cat("Random seed set to:", seed, "\n")
-
-
-    message("Running param set: ", prefix, "_", effect)
+    message("Running mutualism effects case: ", prefix, "_", effect)
 
     out <- peregrine_sim(total_time = total_time,
                         replicates = replicates,
