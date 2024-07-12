@@ -1,7 +1,23 @@
 
 #### Functions for dealing with data
 
-# Get simulation parameters for different scenarios
+#
+#' Get simulation parameters for different scenarios
+#'
+#' @param the_path
+#' @param lac0
+#' @param mu0
+#' @param K0
+#' @param gam0
+#' @param laa0
+#' @param effect
+#' @param prefix
+#' @param total_time
+#' @param replicates
+#'
+#' @return
+#' @export
+
 get_simulation_outputs <- function(the_path,
                                       lac0,
                                       mu0,
