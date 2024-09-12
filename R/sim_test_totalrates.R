@@ -3,6 +3,7 @@
 # something but only print the sum of each kind of rates, the sum of all rates,
 # the sum rate for plant and animal,respectively and the event happening on the island.
 #
+#' @title For checking parameters
 #' @return a named list with island information (not this)
 #'
 sim_test_totalrates <- function(total_time, mutualism_pars) {
