@@ -1,5 +1,6 @@
 # create parameters
-# mutualism_pars <- list(lac_pars,mu_pars,K_pars,gam_pars,laa_pars,qgain,qloss,lambda0, M0, pro)
+# mutualism_pars <- list(lac_pars,mu_pars,K_pars,gam_pars,laa_pars,qgain,qloss,
+# alpha, lambda0, M0, transprob)
 # lac_pars <- c(lac_plant, lac_animal)
 # mu_pars <- c(mu_P0, mu_A0, mu_P1, mu_A1)
 # K_pars <- c(K_P0, K_A0, K_P1, K_A1)
@@ -18,7 +19,7 @@ create_mutualism_pars <- function(lac_pars,
                                   lambda0,
                                   M0,
                                   transprob,
-                                  alphaa) {
+                                  alpha) {
   testit::assert(is.numeric(lac_pars))
   testit::assert(is.numeric(mu_pars))
   testit::assert(is.numeric(K_pars))
@@ -27,7 +28,7 @@ create_mutualism_pars <- function(lac_pars,
   testit::assert(is.numeric(qgain))
   testit::assert(is.numeric(qloss))
   testit::assert(is.numeric(lambda0))
-  testit::assert(is.numeric(alphaa))
+  testit::assert(is.numeric(alpha))
   testit::assert(is.matrix(M0))
   testit::assert(is.numeric(transprob))
   testit::assert(lac_pars >= 0.0)
@@ -38,7 +39,7 @@ create_mutualism_pars <- function(lac_pars,
   testit::assert(qgain >= 0.0)
   testit::assert(qloss >= 0.0)
   testit::assert(lambda0 >= 0.0)
-  testit::assert(alphaa >= 0.0)
+  testit::assert(alpha >= 0.0)
   testit::assert(transprob >= 0.0 & transprob <= 1.0)
   list(
     lac_pars = lac_pars,
@@ -51,7 +52,7 @@ create_mutualism_pars <- function(lac_pars,
     lambda0 = lambda0,
     M0 = M0,
     transprob = transprob,
-    alphaa = alphaa
+    alpha = alpha
   )
 }
 
@@ -90,7 +91,7 @@ are_mutualism_pars <- function(mutualism_pars) {
   if (!"transprob" %in% names(mutualism_pars)) {
     return(FALSE)
   }
-  if (!"alphaa" %in% names(mutualism_pars)) {
+  if (!"alpha" %in% names(mutualism_pars)) {
     return(FALSE)
   }
   if (any(mutualism_pars$lac_pars < 0.0)) {
@@ -123,7 +124,7 @@ are_mutualism_pars <- function(mutualism_pars) {
   if (mutualism_pars$transprob < 0.0) {
     return(FALSE)
   }
-  if (mutualism_pars$alphaa < 0.0) {
+  if (mutualism_pars$alpha < 0.0) {
     return(FALSE)
   }
   return(TRUE)
