@@ -6,7 +6,7 @@
 #'
 update_rates_mutual <- function(M0,
                                 Mt,
-                                alphaa,
+                                alpha,
                                 status_p,
                                 status_a,
                                 lac_pars,
@@ -26,7 +26,7 @@ update_rates_mutual <- function(M0,
   )
 
   wrates_list <- get_wrates(
-    alphaa = alphaa,
+    alpha = alpha,
     status_p = status_p,
     status_a = status_a,
     K_pars = K_pars,
