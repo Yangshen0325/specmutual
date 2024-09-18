@@ -120,17 +120,17 @@ get_partners <- function(Mt, status_p, status_a) {
 # get exp(-alpha / max(0, K0+K1*partners - N_present))-----------------------
 # Here I call it `wrates`, how much mutualism weight for the original rates
 
-get_wrates <- function(alphaa,
+get_wrates <- function(alpha,
                        status_p,
                        status_a,
                        K_pars,
                        partners_list) {
-  wp_rates <- exp(-alphaa / (pmax(
+  wp_rates <- exp(-alpha / (pmax(
     0,
     K_pars[1] + K_pars[3] * partners_list[[1]] -
       sum(status_p)
   )))
-  wa_rates <- exp(-alphaa / (pmax(
+  wa_rates <- exp(-alpha / (pmax(
     0,
     K_pars[2] + K_pars[4] * partners_list[[2]] -
       sum(status_a)
