@@ -11,8 +11,7 @@ sim_core_mutualism <- function(total_time, mutualism_pars) {
   M0 <- mutualism_pars$M0
   Mt <- M0
 
-  # `alphaa` is alpha in equation, to differentiate with transparency alpha
-  alphaa <- mutualism_pars$alphaa
+  alpha <- mutualism_pars$alpha
   maxplantID <- nrow(M0)
   maxanimalID <- ncol(M0)
   status_p <- matrix(0, nrow = nrow(M0), ncol = 1)
@@ -43,8 +42,8 @@ sim_core_mutualism <- function(total_time, mutualism_pars) {
     colonisation is zero. Island cannot be colonised.")
   }
 
-  # evolution table, with the first element represents what event is happenning
-  # ar what time, and sencond element represents
+  # evolution table, with the first element represents what event is happening
+  # at what time, and second element represents
   evo_table <- list(c(), NULL)
 
   #### Start Monte Carlo iterations ####
@@ -53,7 +52,7 @@ sim_core_mutualism <- function(total_time, mutualism_pars) {
     rates <- update_rates_mutual(
       M0 = M0,
       Mt = Mt,
-      alphaa = alphaa,
+      alpha = alpha,
       status_p = status_p,
       status_a = status_a,
       lac_pars = lac_pars,
