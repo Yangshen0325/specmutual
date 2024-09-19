@@ -221,9 +221,9 @@ get_pa_table <- function(status_p,
                          status_a,
                          t_status_a) {
 
-  PA_both <- status_p %*% t_status_a
-  Pno_A <-  (1 - status_p) %*% t_status_a
-  P_Ano <- status_p %*% (1 - t_status_a)
+  PA_both <- status_p %*% t_status_a # P_i* A_j
+  Pno_A <-  (1 - status_p) %*% t_status_a # (1 - P_i) * A_j
+  P_Ano <- status_p %*% (1 - t_status_a) # P_i * (1 - A_j)
 
   pa_table = list(PA_both = PA_both,
                   Pno_A = Pno_A,
