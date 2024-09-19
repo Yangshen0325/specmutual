@@ -17,8 +17,8 @@ sim_test_totalrates <- function(total_time, mutualism_pars) {
   M0 <- mutualism_pars$M0
   Mt <- M0
 
-  # `alphaa` is alpha in equation, to differentiate with transparency alpha
-  alphaa <- mutualism_pars$alphaa
+  # `alpha` is alpha in equation, to differentiate with transparency alpha
+  alpha <- mutualism_pars$alpha
   maxplantID <- nrow(M0)
   maxanimalID <- ncol(M0)
   status_p <- matrix(0, nrow = nrow(M0), ncol = 1)
@@ -59,7 +59,7 @@ sim_test_totalrates <- function(total_time, mutualism_pars) {
     rates <- update_rates_mutual(
       M0 = M0,
       Mt = Mt,
-      alphaa = alphaa,
+      alpha = alpha,
       status_p = status_p,
       status_a = status_a,
       lac_pars = lac_pars,
