@@ -72,9 +72,12 @@ update_rates_mutual <- function(M0,
 
   cospec_rate <- get_cospec_rate(
     Mt = Mt,
-    wrates_list = wrates_list,
     pa_table = pa_table,
-    lambda0 = lambda0
+    lambda0 = lambda0,
+    alpha = alpha,
+    K_pars = K_pars,
+    status_p = status_p,
+    status_a = status_a
   )
 
   gain_rate <- get_gain_rate(
