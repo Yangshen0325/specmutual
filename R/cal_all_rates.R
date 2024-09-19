@@ -26,8 +26,8 @@ get_ext_rate <- function(partners_list,
                          mu_pars) {
   # extinction rates only apply to island species, `status_p` and`status_a` to check
   # whether species is on the island
-  ext_p <- mu_pars[1] * exp(- mu_pars[3] / partners_list[[1]]) * status_p
-  ext_a <- mu_pars[2] * exp(- mu_pars[4] / partners_list[[2]]) * status_a
+  ext_p <- mu_pars[1] * exp(- mu_pars[3] * partners_list[[1]]) * status_p
+  ext_a <- mu_pars[2] * exp(- mu_pars[4] * partners_list[[2]]) * status_a
 
   ext_list <- list(
     ext_p = ext_p,
