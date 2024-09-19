@@ -49,7 +49,7 @@ get_ana_rate <- function(M0,
   possible_ana_p <- matrix(0, nrow = nrow(M0), ncol = 1)
   possible_ana_a <- matrix(0, nrow = ncol(M0), ncol = 1)
 
-  # only mainland acestors on islands can go through anagenesis
+  # only mainland ancestors on islands can go through anagenesis
   index_p <- as.numeric(island_spec[intersect(
     which(island_spec[, 4] == "I"),
     which(island_spec[, 8] == "plant")
@@ -98,11 +98,22 @@ get_clado_rate <- function(wrates_list,
 # Co-speciation rates -----------------------------------------------------
 
 get_cospec_rate <- function(Mt,
-                            wrates_list,
                             pa_table,
-                            lambda0) {
-  cospec_rate <- lambda0 * Mt * pa_table[[1]] *
-    (wrates_list[[1]] %*% t(wrates_list[[2]]))
+                            lambda0,
+                            alpha,
+                            K_pars,
+                            status_p,
+                            status_a) {
+  # number of present plant and animal species
+  N_P <- sum(status_p)
+  N_A <- sum(status_a)
+
+  # Handle the exponential parts based on N_P and N_A conditions
+  exp_P <- ifelse(N_P < K_pars[1], exp(-alpha / (K_pars[1] - N_P)), 0)
+  exp_A <- ifelse(N_A < K_pars[2], exp(-alpha / (K_pars[2] - N_A)), 0)
+
+  # pa_table[[1]]: both plant n animal are present on the island: P_i * A_j
+  cospec_rate <- lambda_0 * Mt * pa_table[[1]] * exp_P * exp_A
 
   return(cospec_rate)
 }
