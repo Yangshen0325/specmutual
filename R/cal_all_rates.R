@@ -113,7 +113,7 @@ get_cospec_rate <- function(Mt,
   exp_A <- ifelse(N_A < K_pars[2], exp(-alpha / (K_pars[2] - N_A)), 0)
 
   # pa_table[[1]]: both plant n animal are present on the island: P_i * A_j
-  cospec_rate <- lambda_0 * Mt * pa_table[[1]] * exp_P * exp_A
+  cospec_rate <- lambda0 * Mt * pa_table[[1]] * exp_P * exp_A
 
   return(cospec_rate)
 }
