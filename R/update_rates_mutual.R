@@ -1,8 +1,9 @@
 #' Calculates algorithm rates
+#' @title update_rates_mutual
 #'
 #' @description Internal function that updates the all the rates at time t.
 #'
-#' @return a named list with the updated rates.
+#' @return A named list with the updated rates.
 #'
 update_rates_mutual <- function(M0,
                                 Mt,
@@ -19,23 +20,26 @@ update_rates_mutual <- function(M0,
                                 lambda0,
                                 transprob,
                                 island_spec) {
+
+  # Get the number of interacting partners on the island for plants and animals, respectively.
   partners_list <- get_partners(
     Mt = Mt,
     status_p = status_p,
     status_a = status_a
   )
 
-  wrates_list <- get_wrates(
-    alpha = alpha,
-    status_p = status_p,
-    status_a = status_a,
-    K_pars = K_pars,
-    partners_list = partners_list
-  )
+  # Get the mutualism effects for immigration and cladogenesis
+  mutualism_effect_list <- calculate_mutualism_effect(
+  alpha = alpha,
+  status_p = status_p,
+  status_a = status_a,
+  K_pars = K_pars,
+  partners_list = partners_list
+)
 
   immig_rate <- get_immig_rate(
     M0 = M0,
-    wrates_list = wrates_list,
+    mutualism_effect_list =  mutualism_effect_list,
     gam_pars = gam_pars
   )
 
@@ -56,7 +60,7 @@ update_rates_mutual <- function(M0,
   )
 
   clado_rate <- get_clado_rate(
-    wrates_list = wrates_list,
+    mutualism_effect_list =  mutualism_effect_list,
     status_p = status_p,
     status_a = status_a,
     lac_pars = lac_pars
