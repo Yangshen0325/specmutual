@@ -35,13 +35,16 @@ sim_mutualism <- function(total_time,
       print(paste("Island replicate ", rep, sep = ""))
     }
   }
-  island_segments <- format_island_mutual(
+  # Format data, plant and animal are separated
+  island_segments <- format_island_mutual_pa(
     island_replicates = island_replicates,
     total_time = total_time,
     sample_freq = sample_freq,
     mutualism_pars = mutualism_pars,
     verbose = verbose
   )
+
+  # Format data, plant and animal are together
   island_total <- format_island_mutual_all(
     island_replicates = island_replicates,
     total_time = total_time,
