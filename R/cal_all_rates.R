@@ -4,10 +4,10 @@
 # Immigration rates -------------------------------------------------------
 
 get_immig_rate <- function(M0,
-                           wrates_list,
+                           mutualism_effect_list,
                            gam_pars) {
-  immig_p <- gam_pars[1] * wrates_list[[1]]
-  immig_a <- gam_pars[2] * wrates_list[[2]]
+  immig_p <- gam_pars[1] *  mutualism_effect_list[[1]]
+  immig_a <- gam_pars[2] *  mutualism_effect_list[[2]]
 
   # immigration rates only apply to mainland species
   immig_list <- list(
@@ -80,13 +80,13 @@ get_ana_rate <- function(M0,
 
 # Cladogenesis rates ------------------------------------------------------
 
-get_clado_rate <- function(wrates_list,
+get_clado_rate <- function(mutualism_effect_list,
                            status_p,
                            status_a,
                            lac_pars) {
   # cladogenesis rates only apply to species on islands
-  clado_p <- lac_pars[1] * wrates_list[[1]] * status_p
-  clado_a <- lac_pars[2] * wrates_list[[2]] * status_a
+  clado_p <- lac_pars[1] * mutualism_effect_list[[1]] * status_p
+  clado_a <- lac_pars[2] * mutualism_effect_list[[2]] * status_a
 
   clado_list <- list(
     clado_p = clado_p,
@@ -104,16 +104,16 @@ get_cospec_rate <- function(Mt,
                             K_pars,
                             status_p,
                             status_a) {
-  # number of present plant and animal species
+  # Number of present plant and animal species
   N_P <- sum(status_p)
   N_A <- sum(status_a)
 
   # Handle the exponential parts based on N_P and N_A conditions
-  exp_P <- ifelse(N_P < K_pars[1], exp(-alpha / (K_pars[1] - N_P)), 0)
-  exp_A <- ifelse(N_A < K_pars[2], exp(-alpha / (K_pars[2] - N_A)), 0)
+  exp_p <- ifelse(N_P < K_pars[1], exp(-alpha / (K_pars[1] - N_P)), 0)
+  exp_a <- ifelse(N_A < K_pars[2], exp(-alpha / (K_pars[2] - N_A)), 0)
 
   # pa_table[[1]]: both plant n animal are present on the island: P_i * A_j
-  cospec_rate <- lambda0 * Mt * pa_table[[1]] * exp_P * exp_A
+  cospec_rate <- lambda0 * Mt * pa_table[[1]] * exp_p * exp_a
 
   return(cospec_rate)
 }
@@ -123,7 +123,7 @@ get_cospec_rate <- function(Mt,
 get_gain_rate <- function(Mt,
                           pa_table,
                           qgain) {
-  # both_shown <- (status_p %*% t(status_a)
+
   gain_rate <- qgain * ((1 - Mt) * pa_table[[1]])
 
   return(gain_rate)
