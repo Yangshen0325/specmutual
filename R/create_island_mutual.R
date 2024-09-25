@@ -1,12 +1,23 @@
-#' Converts simulation output into island output
-#' @return list with the island information, composed stt table,
-#' branching times of extant species, status of species on
-#' the island and number of missing species.
+#' Convert simulation output into island species interaction data
+#'
+#' @description This function processes the output of a simulation to generate a comprehensive overview of the species
+#' present on the island. It compiles the state of the ecosystem over time, detailing the branching events
+#' of extant species and their current statuses. The output includes information for both plant and animal
+#' species, facilitating further analyses of island biodiversity and interactions.
+#'
+#' @return A list containing the following elements:
+#' \describe{
+#'   \item{stt_table}{A table showing species through time.}
+#'   \item{clades_info_plant}{A structured dataset with information on plant species clades, including:
+#'     branching times of extant species, current status on the island, and the number of missing species.}
+#'   \item{clades_info_animal}{Similar to `clades_info_plant`, this dataset contains information on animal species clades,
+#'     including branching times, current status, and number of missing species.}
+#' }
 
 create_island_mutual <- function(stt_table,
                                  total_time,
                                  island_spec) {
-  ### if there are no species on the island branching_times = island_age,
+  ### if there is no species on the island branching_times = island_age,
   ### stac = 0, missing_species = 0
   if (length(island_spec[, 1]) == 0) {
     island <- list(
