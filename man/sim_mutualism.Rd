@@ -14,6 +14,27 @@ sim_mutualism(
   verbose
 )
 }
+\arguments{
+\item{total_time}{Numeric. Total time for the simulation.}
+
+\item{replicates}{Integer. Number of replicates to run.}
+
+\item{mutualism_pars}{List. Parameters used in the simulation.}
+
+\item{sample_freq}{Numeric. Frequency of sampling data, fpr plotting.}
+
+\item{cond_p}{Integer. Condition for plants (e.g., minimum number of present plants on the island).}
+
+\item{cond_a}{Integer. Condition for animals (e.g., minimum number of present animals on the island).}
+
+\item{verbose}{Logical. If TRUE, prints progress updates.}
+}
+\value{
+A list containing:
+  - island_replicates: List of island replicates from simulations.
+  - island_segments: Formatted data for plants and animals separated.
+  - island_total: Formatted data for plants and animals combined.
+}
 \description{
-sim_mutualism
+Simulates mutualistic interactions over macro-evolutionary time with specified parameters.
 }

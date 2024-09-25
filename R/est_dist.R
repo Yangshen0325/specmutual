@@ -1,5 +1,5 @@
 ## estimated parameters distribution, robustness
-# mutualism_pars <- create_mutualism_pars(
+# mutualism_pars <- create_mutual_pars(
 #   lac_pars = c(0.3, 0.3),
 #   mu_pars = c(0.1, 0.1, 0, 0),
 #   K_pars = c(50, 50, 50, 50),

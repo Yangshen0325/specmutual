@@ -1,6 +1,6 @@
 library(specmutual)
 load("~/specmutual/script/M0.RData")
-mutualism_pars <- create_mutualism_pars(
+mutualism_pars <- create_mutual_pars(
   lac_pars = c(0.6, 0.6),
   mu_pars = c(0.1, 0.1, 0.001, 0.001),
   K_pars = c(50, 50, 1.0, 1.0),

@@ -2,15 +2,23 @@
 % Please edit documentation in R/create_island_mutual.R
 \name{create_island_mutual}
 \alias{create_island_mutual}
-\title{Converts simulation output into island output}
+\title{Convert simulation output into island species interaction data}
 \usage{
 create_island_mutual(stt_table, total_time, island_spec)
 }
 \value{
-list with the island information, composed stt table,
-branching times of extant species, status of species on
-the island and number of missing species.
+A list containing the following elements:
+\describe{
+  \item{stt_table}{A table showing species through time.}
+  \item{clades_info_plant}{A structured dataset with information on plant species clades, including:
+    branching times of extant species, current status on the island, and the number of missing species.}
+  \item{clades_info_animal}{Similar to `clades_info_plant`, this dataset contains information on animal species clades,
+    including branching times, current status, and number of missing species.}
+}
 }
 \description{
-Converts simulation output into island output
+This function processes the output of a simulation to generate a comprehensive overview of the species
+present on the island. It compiles the state of the ecosystem over time, detailing the branching events
+of extant species and their current statuses. The output includes information for both plant and animal
+species, facilitating further analyses of island biodiversity and interactions.
 }

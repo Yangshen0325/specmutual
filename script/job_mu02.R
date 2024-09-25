@@ -24,7 +24,7 @@ set.seed(intended_seed)
 
 par_combo <- function(param_set_local) {
   message("Running param set: ", param_set_local)
-  mutualism_pars <- create_mutualism_pars(
+  mutualism_pars <- create_mutual_pars(
     lac_pars = lac_pool[[param_set_local]],
     mu_pars = c(0.6, 0.6, 0.001, 0.001),
     K_pars = c(50, 50, 1.0, 1.0),

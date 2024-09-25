@@ -1,7 +1,7 @@
 test_that("mutualism_pars is feasible", {
   expect_true(
     are_mutualism_pars(
-      create_mutualism_pars(
+      create_mutual_pars(
         lac_pars = c(2, 0),
         mu_pars = c(0, 0, 0, 0),
         K_pars = c(Inf, Inf, Inf, Inf),

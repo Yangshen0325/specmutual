@@ -2,7 +2,7 @@
 # and set the same only for animal species, expecting the same stt_table.
 
 test_that("same stt_stable for system only has plant rates or animal rates", {
-  mutualism_pars1 <- create_mutualism_pars(
+  mutualism_pars1 <- create_mutual_pars(
     lac_pars = c(2, 0),
     mu_pars = c(2, 0, 0, 0),
     K_pars = c(Inf, Inf, Inf, Inf),
@@ -18,7 +18,7 @@ test_that("same stt_stable for system only has plant rates or animal rates", {
     transprob = 0
   )
 
-  mutualism_pars2 <- create_mutualism_pars(
+  mutualism_pars2 <- create_mutual_pars(
     lac_pars = c(0, 2),
     mu_pars = c(0, 2, 0, 0),
     K_pars = c(Inf, Inf, Inf, Inf),

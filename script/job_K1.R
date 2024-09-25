@@ -9,7 +9,7 @@ load("~/specmutual/script/M0.RData")
 K1 <- seq(0, 1000, 50)
 mutualism_pool <- list()
 for (i in seq(length(K1))) {
-  mutualism_pars <- create_mutualism_pars(
+  mutualism_pars <- create_mutual_pars(
     lac_pars = c(0.3, 0.3),
     mu_pars = c(0.1, 0.1, 0, 0),
     K_pars = c(50, 50, K1[i], K1[i]),

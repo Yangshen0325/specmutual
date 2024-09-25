@@ -8,7 +8,7 @@ test_that("rates are feasible", {
         },
         status_p = matrix(0, ncol = 1, nrow = 5),
         status_a = matrix(0, ncol = 1, nrow = 4),
-        mutualism_pars = create_mutualism_pars(
+        mutualism_pars = create_mutual_pars(
           lac_pars = c(2, 2.5),
           mu_pars = c(2, 2, 0.5, 0.5),
           K_pars = c(Inf, Inf, Inf, Inf),
@@ -38,7 +38,7 @@ test_that("four rates for plant equals to that for animal without mutualism
       Mt = matrix(sample(c(0, 1), 25, replace = TRUE), ncol = 5, nrow = 5),
       status_p = matrix(1, ncol = 1, nrow = 5),
       status_a = matrix(1, ncol = 1, nrow = 5),
-      mutualism_pars = create_mutualism_pars(
+      mutualism_pars = create_mutual_pars(
         lac_pars = c(2, 0),
         mu_pars = c(2, 0, 0, 0),
         K_pars = c(Inf, Inf, Inf, Inf),
@@ -59,7 +59,7 @@ test_that("four rates for plant equals to that for animal without mutualism
       Mt = matrix(sample(c(0, 1), 25, replace = TRUE), ncol = 5, nrow = 5),
       status_p = matrix(1, ncol = 1, nrow = 5),
       status_a = matrix(1, ncol = 1, nrow = 5),
-      mutualism_pars = create_mutualism_pars(
+      mutualism_pars = create_mutual_pars(
         lac_pars = c(0, 2),
         mu_pars = c(0, 2, 0, 0),
         K_pars = c(Inf, Inf, Inf, Inf),
@@ -85,7 +85,7 @@ test_that("immigration and anagenesis only happen to species from mainland", {
   Mt <- matrix(sample(c(0, 1), 25, replace = TRUE), ncol = 5, nrow = 5)
   status_p <- matrix(1, ncol = 1, nrow = 5)
   status_a <- matrix(1, ncol = 1, nrow = 5)
-  mutualism_pars <- create_mutualism_pars(
+  mutualism_pars <- create_mutual_pars(
     lac_pars = c(2, 0),
     mu_pars = c(2, 0, 0, 0),
     K_pars = c(Inf, Inf, Inf, Inf),
@@ -136,7 +136,7 @@ test_that("extinction and cladogenesis happen to all species on island", {
   Mt <- matrix(sample(c(0, 1), 25, replace = TRUE), ncol = 5, nrow = 5)
   status_p <- matrix(1, ncol = 1, nrow = 5)
   status_a <- matrix(1, ncol = 1, nrow = 5)
-  mutualism_pars <- create_mutualism_pars(
+  mutualism_pars <- create_mutual_pars(
     lac_pars = c(2, 0),
     mu_pars = c(2, 1, 0, 0),
     K_pars = c(Inf, Inf, Inf, Inf),
@@ -185,7 +185,7 @@ test_that("cospeciation, gain and loss rates for each pair of species", {
   Mt <- matrix(sample(c(0, 1), 25, replace = TRUE), ncol = 5, nrow = 5)
   status_p <- matrix(1, ncol = 1, nrow = 5)
   status_a <- matrix(1, ncol = 1, nrow = 5)
-  mutualism_pars <- create_mutualism_pars(
+  mutualism_pars <- create_mutual_pars(
     lac_pars = c(2, 0),
     mu_pars = c(2, 1, 0, 0),
     K_pars = c(Inf, Inf, Inf, Inf),

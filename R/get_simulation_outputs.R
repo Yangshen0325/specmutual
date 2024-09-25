@@ -32,7 +32,7 @@ get_simulation_outputs <- function(the_path,
 
   check_and_create_folder(the_path, prefix)
 
-  params <- create_mutualism_pars(
+  params <- create_mutual_pars(
     lac_pars = c(lac0, lac0),
     mu_pars = c(mu0, mu0, mutualism_effects[[effect]]$mu1, mutualism_effects[[effect]]$mu1),
     K_pars = c(K0, K0, mutualism_effects[[effect]]$K1, mutualism_effects[[effect]]$K1),

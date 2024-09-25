@@ -2,13 +2,38 @@
 % Please edit documentation in R/sim_core_mutualism.R
 \name{sim_core_mutualism}
 \alias{sim_core_mutualism}
-\title{Internal function of simulation}
+\title{sim_core_mutualism}
 \usage{
 sim_core_mutualism(total_time, mutualism_pars)
 }
+\arguments{
+\item{total_time}{Numeric. Total time for the simulation.}
+
+\item{mutualism_pars}{List. Parameters used in the simulation.}
+}
 \value{
-a named list with island information
+A list which contains:
+  - `Mt`: A matrix representing the "false" matrix on the island, including some extinct and non-immigrated species occupying
+           their original indices from the mainland.
+  - `M_true_list`: A list of "true" matrices recorded at every 0.5 time steps until `total_time`.
+  - `status_p`: A vector indicating whether each plant species is present on the island (1 for present, 0 for absent).
+  - `status_a`: A vector indicating whether each animal species is present on the island (1 for present, 0 for absent).
+  - `island_spec`: A table showing the evolutionary trajectory of species on the island, including their colonization
+                   and branching details.
+  - `island`: A list containing three components: `stt_table`, `clades_info_plant`, and `clades_info_animal`.
+  - `evo_table`: A list with two elements: a table showing time steps from the start to `total_time`, and another
+                 indicating which events have occurred; the last row corresponds to the final state of `stt_table`.
 }
 \description{
+This internal function runs a Monte Carlo simulation to model the dynamics of mutualistic relationships
+between plant and animal species on the island. The simulation tracks species interactions over time
+based on defined parameters and generates an island state table reflecting species composition,
+colonization events, and other relevant metrics.
+The function requires a set of parameters (`mutualism_pars`) that define the initial conditions and rules
+governing interactions, such as colonization rates and species dynamics. It returns a comprehensive
+list containing the final state of the island, including species status, interaction matrices,
+and an evolution table documenting significant events throughout the simulation.
+}
+\details{
 Internal function of simulation
 }

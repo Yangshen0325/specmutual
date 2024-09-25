@@ -2,7 +2,7 @@
 % Please edit documentation in R/update_rates_mutual.R
 \name{update_rates_mutual}
 \alias{update_rates_mutual}
-\title{Calculates algorithm rates}
+\title{update_rates_mutual}
 \usage{
 update_rates_mutual(
   M0,
@@ -23,8 +23,11 @@ update_rates_mutual(
 )
 }
 \value{
-a named list with the updated rates.
+A named list with the updated rates.
 }
 \description{
 Internal function that updates the all the rates at time t.
+}
+\details{
+Calculates algorithm rates
 }

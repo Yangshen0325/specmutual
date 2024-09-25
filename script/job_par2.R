@@ -1,6 +1,6 @@
 library(specmutual)
 load("~/specmutual/script/M0.RData")
-mutualism_pars <- create_mutualism_pars(
+mutualism_pars <- create_mutual_pars(
   lac_pars = c(0.4, 0.4),
   mu_pars = c(0.2, 0.2, 0.001, 0.001),
   K_pars = c(Inf, Inf, 0.5, 0.5), #mutualism affects immigration with 1.0

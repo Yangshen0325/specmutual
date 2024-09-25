@@ -114,7 +114,7 @@ M0 <- matrix(1, ncol = 20, nrow = 20)
 M0[lower.tri(M0)] <-0
 M0<-M0[,c(20:1)]
 
-set <- create_mutualism_pars(
+set <- create_mutual_pars(
   lac_pars = c(0.0, 0.0),
   mu_pars = c(0.0, 0.0, 0.0, 0.0),
   K_pars = c(100, 100, 1.0, 1.0),

@@ -1,6 +1,6 @@
 # load M0. it's located in script folder
 #load("~/specmutual/script/M0.RData")
-mutualism_pars <- create_mutualism_pars(
+mutualism_pars <- create_mutual_pars(
   lac_pars = c(2.0, 2.0),
   mu_pars = c(0.1, 0.1, 0.001, 0.001),
   K_pars = c(50, 50, 1.0, 1.0),
