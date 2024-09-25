@@ -93,9 +93,12 @@ update_states_mutual <- function(M0,
     )
 
     typeofspecies <- island_spec[ind, 4]
+    # Remove the species directly if it's immigrant or anagensis
     if (typeofspecies == "I" | typeofspecies == "A") {
       island_spec <- island_spec[-ind, ]
     }
+
+    # Remove the species  and change the type of it's cladogenesis
     if (typeofspecies == "C") {
       # first find species with same ancestor and arrival time
       sisters <- intersect(
@@ -419,10 +422,9 @@ update_states_mutual <- function(M0,
     #                        replace = FALSE,
     #                        prob = cospec_rate)
     copairs <- fastsample(as.vector(cospec_rate))
-
-
     cospec_plant <- 1 + (copairs - 1) %% nrow(cospec_rate)
     cospec_animal <- 1 + floor((copairs - 1) / nrow(cospec_rate))
+
     status_p[cospec_plant] <- 0
     status_a[cospec_animal] <- 0
     status_p <- rbind(status_p, 1, 1)
