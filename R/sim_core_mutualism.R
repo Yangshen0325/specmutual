@@ -1,16 +1,42 @@
 #' Internal function of simulation
-#' @return a named list with island information
+#' @title sim_core_mutualism
+#'
+#' @description
+#' This internal function runs a Monte Carlo simulation to model the dynamics of mutualistic relationships
+#' between plant and animal species on the island. The simulation tracks species interactions over time
+#' based on defined parameters and generates an island state table reflecting species composition,
+#' colonization events, and other relevant metrics.
+#' The function requires a set of parameters (`mutualism_pars`) that define the initial conditions and rules
+#' governing interactions, such as colonization rates and species dynamics. It returns a comprehensive
+#' list containing the final state of the island, including species status, interaction matrices,
+#' and an evolution table documenting significant events throughout the simulation.
+#'
+#' @param total_time Numeric. Total time for the simulation.
+#' @param mutualism_pars List. Parameters used in the simulation.
+#'
+#' @return A list which contains:
+#'   - `Mt`: A matrix representing the "false" matrix on the island, including some extinct and non-immigrated species occupying
+#'            their original indices from the mainland.
+#'   - `M_true_list`: A list of "true" matrices recorded at every 0.5 time steps until `total_time`.
+#'   - `status_p`: A vector indicating whether each plant species is present on the island (1 for present, 0 for absent).
+#'   - `status_a`: A vector indicating whether each animal species is present on the island (1 for present, 0 for absent).
+#'   - `island_spec`: A table showing the evolutionary trajectory of species on the island, including their colonization
+#'                    and branching details.
+#'   - `island`: A list containing three components: `stt_table`, `clades_info_plant`, and `clades_info_animal`.
+#'   - `evo_table`: A list with two elements: a table showing time steps from the start to `total_time`, and another
+#'                  indicating which events have occurred; the last row corresponds to the final state of `stt_table`.
 #'
 sim_core_mutualism <- function(total_time, mutualism_pars) {
+
   #### Initialization ####
 
-  # test if the structure of `mutualism_pars`
+  # Validate the structure of `mutualism_pars`
   testit::assert(are_mutualism_pars(mutualism_pars))
 
+  # Initialize varaibles
   timeval <- 0
   M0 <- mutualism_pars$M0
   Mt <- M0
-
   alpha <- mutualism_pars$alpha
   maxplantID <- nrow(M0)
   maxanimalID <- ncol(M0)
@@ -23,6 +49,7 @@ sim_core_mutualism <- function(total_time, mutualism_pars) {
   colnames(stt_table) <- c("Time", "nIp", "nAp", "nCp", "nIa", "nAa", "nCa")
   stt_table[1, ] <- c(total_time, 0, 0, 0, 0, 0, 0)
 
+  # Extract parameters
   lac_pars <- mutualism_pars$lac_pars
   mu_pars <- mutualism_pars$mu_pars
   K_pars <- mutualism_pars$K_pars
@@ -42,8 +69,7 @@ sim_core_mutualism <- function(total_time, mutualism_pars) {
     colonisation is zero. Island cannot be colonised.")
   }
 
-  # evolution table, with the first element represents what event is happening
-  # at what time, and second element represents
+  # Initialize evolution table
   evo_table <- list(c(), NULL)
 
   #### Start Monte Carlo iterations ####
@@ -69,27 +95,28 @@ sim_core_mutualism <- function(total_time, mutualism_pars) {
 
     testit::assert(are_rates(rates))
 
-    # next time
+    # Determine next time step
     timeval_and_dt <- sample_time_mutual(rates = rates, timeval = timeval)
     timeval <- timeval_and_dt$timeval
 
-    # save matrix on island every 0.5 time step
+    # Store matrix on island every 0.5 time step
     if (timeval > measure_time &&
       timeval - timeval_and_dt$dt < measure_time) {
-      M_true <- Mt[which(status_p == 1), which(status_a == 1)]
 
+      M_true <- Mt[which(status_p == 1), which(status_a == 1)]
       store_index <- floor(timeval / measure_interval)
       M_true_list[[store_index]] <- M_true
-      # print(store_index)
       measure_time <- (store_index + 1) * measure_interval
+
     }
 
     if (timeval <= total_time) {
-      # next event
+
+      # Select next event
       possible_event <- sample_event_mutual(rates = rates)
       evo_table[[1]] <- rbind(evo_table[[1]], c(timeval, possible_event))
 
-      # next state based on event
+      # Update states based on the selected event
       updated_states <- update_states_mutual(
         M0 = M0,
         Mt = Mt,
@@ -135,7 +162,8 @@ sim_core_mutualism <- function(total_time, mutualism_pars) {
       "Species state"
     )
     colnames(island_spec) <- cnames
-    ### set ages as counting backwards from present
+
+    # Adjust ages counting backward from present
     island_spec[, "branching time (BP)"] <- total_time -
       as.numeric(island_spec[, "branching time (BP)"])
     island_spec[, "Colonisation time (BP)"] <- total_time -
@@ -147,7 +175,6 @@ sim_core_mutualism <- function(total_time, mutualism_pars) {
     total_time = total_time,
     island_spec = island_spec
   )
-
 
   return(list(
     Mt = Mt,
