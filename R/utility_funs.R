@@ -1,4 +1,3 @@
-
 #' Some functions used for simulation
 #'
 #'
@@ -9,33 +8,37 @@
 newMt_clado <- function(M,
                         tosplit,
                         transprob) {
-  newrows <- list()
 
-  # for the two new cladogenesis species, it has three scenarios for inheriting links from parental species
-  possible_output <- list(
-    c(1, 1),
-    c(1, 0),
-    c(0, 1)
-  )
+  # Validate input
+  if (tosplit <= 0 || tosplit > nrow(M)) {
+    stop("Invalid index for tosplit.")
+  }
+  if (transprob < 0 || transprob > 1) {
+    stop("transprob must be between 0 and 1.")
+  }
 
-  # when the parental link is 0, keep 0 for the two new cladogenesis
-  newrows[which(M[tosplit, ] == 0)] <- list(c(0, 0))
+  # Initialize new rows for the two new cladogenesis species
+  newrows <- matrix(0, nrow = 2, ncol = ncol(M))
 
+  # For the links where the parental species has connections
   matches <- which(M[tosplit, ] == 1)
-
-  newrows[matches] <- sample(possible_output,
-    size = length(matches),
-    replace = TRUE,
-    prob = c(
-      transprob,
-      (1 - transprob) / 2,
-      (1 - transprob) / 2
+  # Inherit interactions based on the defined probabilities
+  if (length(matches) > 0) {
+    newrows[1, matches] <- sample(c(1, 0),
+                                  size = length(matches),
+                                  replace = TRUE,
+                                  prob = c(transprob, 1 - transprob)
     )
-  )
+    newrows[2, matches] <- sample(c(1, 0),
+                                  size = length(matches),
+                                  replace = TRUE,
+                                  prob = c(transprob, 1 - transprob)
+    )
+  }
 
-  # append the new rows
-  newrows <- matrix(unlist(newrows), nrow = 2, ncol = ncol(M))
-  return(rbind(M, newrows))
+  # Append the new rows to the original matrix
+  M <- rbind(M, newrows)
+  return(M)
 }
 
 # new matrix on island due to anagenesis ----------------------------------
@@ -43,20 +46,30 @@ newMt_clado <- function(M,
 newMt_ana <- function(M,
                       anagenesis,
                       transprob) {
-  newrows <- list()
 
-  # we keep the new anagensis species inherit 0 from parental species, while with
-  # `transprob` probability to inherit 1 (i.e. 1-`tranprob` to have 0)
-  newrows[which(M[anagenesis, ] == 0)] <- 0
-  newrows[which(M[anagenesis, ] == 1)] <- sample(c(1, 0),
-    size = length(which(M[anagenesis, ] == 1)),
-    replace = TRUE,
-    prob = c(transprob, 1 - transprob)
-  )
+  # Validate input
+  if (anagenesis <= 0 || anagenesis > nrow(M)) {
+    stop("Invalid index for anagenesis.")
+  }
+  if (transprob < 0 || transprob > 1) {
+    stop("transprob must be between 0 and 1.")
+  }
 
-  # append the new row
-  newrows <- matrix(unlist(newrows), nrow = 1, ncol = ncol(M))
-  M <- rbind(M, newrows)
+  # Initialize a new row for the anagenesis species
+  newrow <- numeric(ncol(M))  # Start with a row of zeros
+
+  # Inherit interactions with specified probability
+  if (any(M[anagenesis, ] == 1)) {
+    newrow[M[anagenesis, ] == 1] <- sample(c(1, 0),
+                                           size = sum(M[anagenesis, ] == 1),
+                                           replace = TRUE,
+                                           prob = c(transprob, 1 - transprob)
+    )
+  }
+
+  # Append the new row to the original matrix
+  M <- rbind(M, newrow)
+
   return(M)
 }
 
@@ -66,14 +79,17 @@ newMt_cospec <- function(M,
                          cospec_plant,
                          cospec_animal,
                          transprob) {
+  # Initialize lists for new rows and columns
   newrows <- list()
   newcols <- list()
 
+  # Possible outputs for inheriting links
   possible_output <- list(c(1, 1), c(1, 0), c(0, 1))
 
+  # Handle the new rows from cospeciation of plants
   newrows[which(M[cospec_plant, ] == 0)] <- list(c(0, 0))
   newrows[which(M[cospec_plant, ] == 1)] <- sample(possible_output,
-    size = length(which(M[cospec_plant, ] == 1)),
+    size = sum(M[cospec_plant, ] == 1),
     replace = TRUE,
     prob = c(
       transprob,
@@ -82,12 +98,14 @@ newMt_cospec <- function(M,
     )
   )
 
+  # Create the new rows matrix
   newrows <- matrix(unlist(newrows), nrow = 2, ncol = ncol(M))
   newrows <- cbind(newrows, diag(1, 2, 2))
 
+  # Handle the new columns from cospeciation of animals
   newcols[which(M[, cospec_animal] == 0)] <- list(c(0, 0))
   newcols[which(M[, cospec_animal] == 1)] <- sample(possible_output,
-    size = length(which(M[, cospec_animal] == 1)),
+    size = sum(M[, cospec_animal] == 1),
     replace = TRUE,
     prob = c(
       transprob,
@@ -96,14 +114,16 @@ newMt_cospec <- function(M,
     )
   )
 
+  # Create the new columns matrix
   newcols <- t(matrix(unlist(newcols), nrow = 2, ncol = nrow(M)))
   M <- rbind(cbind(M, newcols), newrows)
   return(M)
 }
 
+# Get the number of interacting partners ----------------------
 
-# get the number of interacting partners ----------------------
-
+# partners_list[[1]] = sum_{j=1}{N_A} M_{ij} * A_j, plant partners present
+# partners_list[[2]] = sum_{i=1}{N_P} M_{ji} * P_i, animal partners present
 
 get_partners <- function(Mt, status_p, status_a) {
   partners_p <- Mt %*% status_a
@@ -117,33 +137,35 @@ get_partners <- function(Mt, status_p, status_a) {
   return(partners_list)
 }
 
-# get exp(-alpha / max(0, K0+K1*partners - N_present))-----------------------
-# Here I call it `wrates`, how much mutualism affect for the original rates
+# Get exp(-alpha / max(0, K0 + K1 * partners - N_present))-----------------------
+# It defines how much mutualism affect the original rates, especially immigration and cladogenesis
 
-get_wrates <- function(alpha,
-                       status_p,
-                       status_a,
-                       K_pars,
-                       partners_list) {
-  # Calculate wp_rates
-  wp_denominator <- K_pars[1] + K_pars[3] * partners_list[[1]] - sum(status_p)
-  wp_rates <- ifelse(wp_denominator > 0,
-                     exp(-alpha / wp_denominator),
-                     0)
-
-  # Calculate wa_rates
-  wa_denominator <- K_pars[2] + K_pars[4] * partners_list[[2]] - sum(status_a)
-  wa_rates <- ifelse(wa_denominator > 0,
-                     exp(-alpha / wa_denominator),
-                     0)
-
-  # Create the result list
-  wrates_list <- list(
-    wp_rates = wp_rates,
-    wa_rates = wa_rates
+calculate_mutualism_effect <- function(alpha,
+                                       status_p,
+                                       status_a,
+                                       K_pars,
+                                       partners_list) {
+  # Calculate mutualism effect for plants
+  denominator_p <- K_pars[1] + K_pars[3] * partners_list[[1]] - sum(status_p)
+  mutualism_effect_p <- ifelse(denominator_p > 0,
+    exp(-alpha / denominator_p),
+    0
   )
 
-  return(wrates_list)
+  # Calculate mutualism effect for animals
+  denominator_a <- K_pars[2] + K_pars[4] * partners_list[[2]] - sum(status_a)
+  mutualism_effect_a <- ifelse(denominator_a > 0,
+    exp(-alpha / denominator_a),
+    0
+  )
+
+  # Create the result list
+  mutualism_effect_list <- list(
+    mutualism_effect_p = mutualism_effect_p,
+    mutualism_effect_a = mutualism_effect_a
+  )
+
+  return(mutualism_effect_list)
 }
 
 
@@ -220,14 +242,15 @@ get_M0 <- function(plant) {
 get_pa_table <- function(status_p,
                          status_a,
                          t_status_a) {
-
   PA_both <- status_p %*% t_status_a # P_i* A_j
-  Pno_A <-  (1 - status_p) %*% t_status_a # (1 - P_i) * A_j
+  Pno_A <- (1 - status_p) %*% t_status_a # (1 - P_i) * A_j
   P_Ano <- status_p %*% (1 - t_status_a) # P_i * (1 - A_j)
 
-  pa_table = list(PA_both = PA_both,
-                  Pno_A = Pno_A,
-                  P_Ano = P_Ano)
+  pa_table <- list(
+    PA_both = PA_both,
+    Pno_A = Pno_A,
+    P_Ano = P_Ano
+  )
 
   return(pa_table)
 }
@@ -250,16 +273,3 @@ save_parameters <- function(out, the_path, folder_name, effect) {
   file_name <- paste0(the_path, "/", folder_name, "/", folder_name, "_", effect, ".rds")
   saveRDS(out, file = file_name)
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
