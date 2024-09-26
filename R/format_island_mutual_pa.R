@@ -6,13 +6,13 @@
 format_island_mutual_pa <- function(island_replicates,
                                  total_time,
                                  sample_freq,
-                                 mutualism_pars,
+                                 M0,
                                  verbose = verbose) {
   if (is.infinite(sample_freq)) {
     several_islands <- format_full_stt_pa(
       island_replicates = island_replicates,
       total_time = total_time,
-      mutualism_pars = mutualism_pars,
+      M0 = M0,
       verbose = verbose
     )
   } else {
@@ -20,7 +20,7 @@ format_island_mutual_pa <- function(island_replicates,
       island_replicates = island_replicates,
       total_time = total_time,
       sample_freq = sample_freq,
-      mutualism_pars = mutualism_pars,
+      M0 = M0,
       verbose = verbose
     )
   }
@@ -33,9 +33,8 @@ format_island_mutual_pa <- function(island_replicates,
 # full table containing all information
 format_full_stt_pa <- function(island_replicates,
                             total_time,
-                            mutualism_pars,
+                            M0,
                             verbose = verbose) {
-  M0 <- mutualism_pars$M0
 
   several_islands_plant <- list()
   several_islands_animal <- list()
@@ -119,17 +118,21 @@ format_full_stt_pa <- function(island_replicates,
 format_sampled_stt_pa <- function(island_replicates,
                                total_time,
                                sample_freq,
-                               mutualism_pars,
+                               M0,
                                verbose) {
-  M0 <- mutualism_pars$M0
+
   several_islands_plant <- list()
   several_islands_animal <- list()
-  for (rep in 1:length(island_replicates)) {
+
+  for (rep in seq_along(island_replicates)) {
+
+    # Extract one replicate info
     the_island <- island_replicates[[rep]][["island"]]
     the_stt <- the_island$stt_table
     clades_info_plant <- the_island$clades_info_plant
     clades_info_animal <- the_island$clades_info_animal
 
+    # Initialize the formatting stt table
     stt_all <- matrix(ncol = 7, nrow = sample_freq + 1)
     colnames(stt_all) <- c("Time", "nIp", "nAp", "nCp", "nIa", "nAa", "nCa")
     stt_all[, "Time"] <- rev(seq(
@@ -138,20 +141,25 @@ format_sampled_stt_pa <- function(island_replicates,
       length.out = sample_freq + 1
     ))
     stt_all[1, 2:7] <- c(0, 0, 0, 0, 0, 0)
+
+    # Format the info into the structured table `stt_all`
     for (j in 2:nrow(stt_all)) {
       the_age <- stt_all[j, "Time"]
       stt_all[j, 2:7] <- the_stt[max(which(the_stt[, "Time"] >= the_age)), 2:7]
     }
 
+    # Initialize space for saving info of plant taxon, their branching time,
+    # stac, and missing species. The first element will always be the island
+    # information: island age, the number of clades not present on the island, the formatted stt table
     island_list_plant <- list()
-    island_list_animal <- list()
+
     if (sum(the_stt[nrow(the_stt), 2:4]) == 0) {
       island_list_plant[[1]] <- list(
         island_age = total_time,
         not_present_p = nrow(M0),
         stt_plant = stt_all[, 1:4]
       )
-    } else {
+    } else { # nrow(M0) minus the number of clades of plant species
       island_list_plant[[1]] <- list(
         island_age = total_time,
         not_present_p = nrow(M0) - length(clades_info_plant),
@@ -161,6 +169,11 @@ format_sampled_stt_pa <- function(island_replicates,
         island_list_plant[[y + 1]] <- clades_info_plant[[y]]
       }
     }
+
+    # Initialize space for saving info of animal taxon, their branching time,
+    # stac, and missing species. The first element will always be the island
+    # information: island age, the number of clades not present on the island, the formatted stt table
+    island_list_animal <- list()
     if (sum(the_stt[nrow(the_stt), 5:7]) == 0) {
       island_list_animal[[1]] <- list(
         island_age = total_time,
