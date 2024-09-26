@@ -8,13 +8,13 @@
 format_island_mutual_all <- function(island_replicates,
                                      total_time,
                                      sample_freq,
-                                     mutualism_pars,
+                                     M0,
                                      verbose) {
   if (is.infinite(sample_freq)) {
     several_islands <- format_full_stt_all( # without `sample_freq`, full table
       island_replicates = island_replicates,
       total_time = total_time,
-      mutualism_pars = mutualism_pars,
+      M0 = M0,
       verbose = verbose
     )
   } else {
@@ -22,7 +22,7 @@ format_island_mutual_all <- function(island_replicates,
       island_replicates = island_replicates,
       total_time = total_time,
       sample_freq = sample_freq,
-      mutualism_pars = mutualism_pars,
+      M0 = M0,
       verbose = verbose
     )
   }
@@ -37,9 +37,9 @@ format_island_mutual_all <- function(island_replicates,
 
 format_full_stt_all <- function(island_replicates,
                                 total_time,
-                                mutualism_pars,
+                                M0,
                                 verbose) {
-  M0 <- mutualism_pars$M0
+
   several_islands <- list()
   for (rep in 1:length(island_replicates)) {
     the_island <- island_replicates[[rep]][["island"]]
@@ -94,9 +94,9 @@ format_full_stt_all <- function(island_replicates,
 format_sampled_stt_all <- function(island_replicates,
                                    total_time,
                                    sample_freq,
-                                   mutualism_pars,
+                                   M0,
                                    verbose) {
-  M0 <- mutualism_pars$M0
+
   several_islands <- list()
   for (rep in 1:length(island_replicates)) {
     the_island <- island_replicates[[rep]][["island"]]
