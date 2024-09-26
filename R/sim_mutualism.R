@@ -54,12 +54,15 @@ sim_mutualism <- function(total_time,
     }
   }
 
+  # M0 will be used to format the island information
+  M0 <- mutualism_pars$M0
+
   # Format data for plants and animals separately
   island_segments <- format_island_mutual_pa(
     island_replicates = island_replicates,
     total_time = total_time,
     sample_freq = sample_freq,
-    mutualism_pars = mutualism_pars,
+    M0 = M0,
     verbose = verbose
   )
 
@@ -68,7 +71,7 @@ sim_mutualism <- function(total_time,
     island_replicates = island_replicates,
     total_time = total_time,
     sample_freq = sample_freq,
-    mutualism_pars = mutualism_pars,
+    M0 = M0,
     verbose = verbose
   )
 
