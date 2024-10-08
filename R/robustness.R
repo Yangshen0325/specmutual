@@ -14,7 +14,7 @@
 #   lambda0 = 0.005,
 #   M0 = M0,
 #   transprob = 1.0,
-#   alphaa = 100
+#   alpha = 100
 # )
 #
 # run_robustness <- function(mutualism_pars,

@@ -9,7 +9,7 @@ sim_test_dynamicsrates <- function(total_time, mutualism_pars) {
   timeval <- 0
   M0 <- mutualism_pars$M0
   Mt <- M0
-  alphaa <- mutualism_pars$alphaa
+  alpha <- mutualism_pars$alpha
   M_true_list <- list()
   maxplantID <- nrow(M0)
   maxanimalID <- ncol(M0)
@@ -51,7 +51,7 @@ sim_test_dynamicsrates <- function(total_time, mutualism_pars) {
     rates <- update_rates_mutual(
       M0 = M0,
       Mt = Mt,
-      alphaa = alphaa,
+      alpha = alpha,
       status_p = status_p,
       status_a = status_a,
       lac_pars = lac_pars,

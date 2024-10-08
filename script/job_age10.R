@@ -16,7 +16,7 @@ mutualism_pars <- create_mutual_pars(
   lambda0 = 0.005,
   M0 = M0,
   transprob = 1.0,
-  alphaa = 100)
+  alpha = 100)
 
 for (i in 1:100) {
 

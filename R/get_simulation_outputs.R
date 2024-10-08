@@ -43,7 +43,7 @@ get_simulation_outputs <- function(the_path,
     lambda0 = as.numeric(mutualism_effects[[effect]]$lambda_0),
     M0 = M0,
     transprob = transprob,
-    alphaa = alphaa
+    alpha = alpha
   )
 
     message("Running mutualism effects case: ", prefix, "_", effect)

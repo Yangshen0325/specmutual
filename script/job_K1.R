@@ -20,7 +20,7 @@ for (i in seq(length(K1))) {
     lambda0 = 0.005,
     M0 = M0,
     transprob = 1.0,
-    alphaa = 100)
+    alpha = 100)
   mutualism_pool[[i]] <- mutualism_pars
 }
 
