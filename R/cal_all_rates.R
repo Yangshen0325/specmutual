@@ -108,12 +108,15 @@ get_cospec_rate <- function(Mt,
   N_P <- sum(status_p)
   N_A <- sum(status_a)
 
-  # Handle the exponential parts based on N_P and N_A conditions
-  exp_p <- ifelse(N_P < K_pars[1], exp(-alpha / (K_pars[1] - N_P)), 0)
-  exp_a <- ifelse(N_A < K_pars[2], exp(-alpha / (K_pars[2] - N_A)), 0)
+  denominator <- min(K_pars[1] - N_P, K_pars[2] - N_A)
+  if (denominator <= 0) {
+    return(0)
+  }
+  # Calculate the exponential term
+  exp_term <- exp(-alpha / denominator)
 
   # pa_table[[1]]: both plant n animal are present on the island: P_i * A_j
-  cospec_rate <- lambda0 * Mt * pa_table[[1]] * exp_p * exp_a
+  cospec_rate <- lambda0 * Mt * pa_table[[1]] * exp_term
 
   return(cospec_rate)
 }
