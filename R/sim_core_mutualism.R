@@ -78,7 +78,7 @@ sim_core_mutualism <- function(total_time, mutualism_pars, return_parts) {
     }
 
     # Initialize evolution table
-    evo_table <- list(c(), NULL)
+    evo_table <- c()
 
     #### Start Monte Carlo iterations ####
 
@@ -122,7 +122,7 @@ sim_core_mutualism <- function(total_time, mutualism_pars, return_parts) {
 
         # Select next event
         possible_event <- sample_event_mutual(rates = rates)
-        evo_table[[1]] <- rbind(evo_table[[1]], c(timeval, possible_event))
+        evo_table <- rbind(evo_table, c(total_time - timeval, possible_event))
 
         # Update states based on the selected event
         updated_states <- update_states_mutual(
@@ -150,12 +150,15 @@ sim_core_mutualism <- function(total_time, mutualism_pars, return_parts) {
       }
     }
 
+    #### Finalize `evo_table` ####
+
+    colnames(evo_table) <- c("Time", "Event_id")
+
     #### Finalize STT ####
     stt_table <- rbind(
       stt_table,
       c(0, stt_table[nrow(stt_table), 2:7])
     )
-    evo_table[[2]] <- stt_table[nrow(stt_table), ]
 
     #### Finalize island_spec ####
     if (length(island_spec) != 0) {
