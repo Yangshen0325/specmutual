@@ -294,8 +294,8 @@ sim_core_mutualism <- function(total_time, mutualism_pars, return_parts) {
       }
     }
 
-    return(list(rates_lists = rates_lists,
-                timeval_lists = timeval_lists,
+    return(list(rates_list = rates_list,
+                timeval_list = timeval_list,
                 richness_p_list = richness_p_list,
                 richness_a_list = richness_a_list))
   }
