@@ -50,10 +50,6 @@ sim_core_mutualism <- function(total_time, mutualism_pars, return_parts) {
     maxanimalID <- ncol(M0)
     status_p <- matrix(0, nrow = nrow(M0), ncol = 1)
     status_a <- matrix(0, nrow = ncol(M0), ncol = 1)
-    rates_list <- list()
-    timeval_list <- list()
-    richness_p_list <- list()
-    richness_a_list <- list()
 
     island_spec <- c()
     stt_table <- matrix(ncol = 7)
@@ -106,15 +102,10 @@ sim_core_mutualism <- function(total_time, mutualism_pars, return_parts) {
       )
 
       testit::assert(are_rates(rates))
-      # Save rates list
-      rates_list[[length(rates_list) + 1 ]] <- rates
 
       # Determine next time step
       timeval_and_dt <- sample_time_mutual(rates = rates, timeval = timeval)
       timeval <- timeval_and_dt$timeval
-
-      # Save time values
-      timeval_list[[length(timeval_list) + 1]] <- timeval
 
       # Store matrix on island every 0.5 time step
       if (timeval > measure_time &&
@@ -156,10 +147,6 @@ sim_core_mutualism <- function(total_time, mutualism_pars, return_parts) {
         maxanimalID <- updated_states$maxanimalID
         island_spec <- updated_states$island_spec
         stt_table <- updated_states$stt_table
-
-        # Save richness for plants and animals
-        richness_p_list[[length(richness_p_list) + 1]] <- sum(status_p)
-        richness_a_list[[length(richness_a_list) + 1]] <- sum(status_a)
       }
     }
 
@@ -204,11 +191,7 @@ sim_core_mutualism <- function(total_time, mutualism_pars, return_parts) {
       status_a = status_a,
       island_spec = island_spec,
       island = island,
-      evo_table = evo_table,
-      rates_list = rates_list,
-      timeval_list = timeval_list,
-      richness_p_list = richness_p_list,
-      richness_a_list = richness_a_list
+      evo_table = evo_table
     ))
 
   }
