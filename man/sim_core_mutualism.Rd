@@ -23,6 +23,10 @@ A list which contains:
   - `island`: A list containing three components: `stt_table`, `clades_info_plant`, and `clades_info_animal`.
   - `evo_table`: A list with two elements: a table showing time steps from the start to `total_time`, and another
                  indicating which events have occurred; the last row corresponds to the final state of `stt_table`.
+  - `rates_list`: A list containing all types of rates
+  - `timeval_list`: A list containing all values of time
+  - `richness_p_list`: A list containing all plant richness on the island across simulation time
+  - `richness_a_list`: A list containing all animal richness on the island across simulation time
 }
 \description{
 This internal function runs a Monte Carlo simulation to model the dynamics of mutualistic relationships
