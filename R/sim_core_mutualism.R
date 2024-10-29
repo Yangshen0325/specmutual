@@ -25,6 +25,10 @@
 #'   - `island`: A list containing three components: `stt_table`, `clades_info_plant`, and `clades_info_animal`.
 #'   - `evo_table`: A list with two elements: a table showing time steps from the start to `total_time`, and another
 #'                  indicating which events have occurred; the last row corresponds to the final state of `stt_table`.
+#'   - `rates_list`: A list containing all types of rates
+#'   - `timeval_list`: A list containing all values of time
+#'   - `richness_p_list`: A list containing all plant richness on the island across simulation time
+#'   - `richness_a_list`: A list containing all animal richness on the island across simulation time
 #'
 sim_core_mutualism <- function(total_time, mutualism_pars) {
 
@@ -42,6 +46,10 @@ sim_core_mutualism <- function(total_time, mutualism_pars) {
   maxanimalID <- ncol(M0)
   status_p <- matrix(0, nrow = nrow(M0), ncol = 1)
   status_a <- matrix(0, nrow = ncol(M0), ncol = 1)
+  rates_list <- list()
+  timeval_list <- list()
+  richness_p_list <- list()
+  richness_a_list <- list()
 
   island_spec <- c()
   stt_table <- matrix(ncol = 7)
@@ -94,10 +102,15 @@ sim_core_mutualism <- function(total_time, mutualism_pars) {
     )
 
     testit::assert(are_rates(rates))
+    # Save rates list
+    rates_list[[length(rates_list) + 1 ]] <- rates
 
     # Determine next time step
     timeval_and_dt <- sample_time_mutual(rates = rates, timeval = timeval)
     timeval <- timeval_and_dt$timeval
+
+    # Save time values
+    timeval_list[[length(timeval_list) + 1]] <- timeval
 
     # Store matrix on island every 0.5 time step
     if (timeval > measure_time &&
@@ -139,6 +152,10 @@ sim_core_mutualism <- function(total_time, mutualism_pars) {
       maxanimalID <- updated_states$maxanimalID
       island_spec <- updated_states$island_spec
       stt_table <- updated_states$stt_table
+
+      # Save richness for plants and animals
+      richness_p_list[[length(richness_p_list) + 1]] <- sum(status_p)
+      richness_a_list[[length(richness_a_list) + 1]] <- sum(status_a)
     }
   }
 
@@ -183,6 +200,10 @@ sim_core_mutualism <- function(total_time, mutualism_pars) {
     status_a = status_a,
     island_spec = island_spec,
     island = island,
-    evo_table = evo_table
+    evo_table = evo_table,
+    rates_list = rates_list,
+    timeval_list = timeval_list,
+    richness_p_list = richness_p_list,
+    richness_a_list = richness_a_list
   ))
 }
