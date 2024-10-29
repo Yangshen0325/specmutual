@@ -4,7 +4,13 @@
 \alias{peregrine_sim}
 \title{Running it in cluster}
 \usage{
-peregrine_sim(total_time, replicates, mutualism_pars, verbose = TRUE)
+peregrine_sim(
+  total_time,
+  replicates,
+  mutualism_pars,
+  return_parts,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{total_time}{simulation time}

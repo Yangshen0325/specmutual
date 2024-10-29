@@ -4,12 +4,15 @@
 \alias{sim_core_mutualism}
 \title{sim_core_mutualism}
 \usage{
-sim_core_mutualism(total_time, mutualism_pars)
+sim_core_mutualism(total_time, mutualism_pars, return_parts)
 }
 \arguments{
 \item{total_time}{Numeric. Total time for the simulation.}
 
-\item{mutualism_pars}{List. Parameters used in the simulation.}
+\item{mutualism_pars}{List. Parameters used in the simulation.
+#' @param return_parts Character. Specifies which part of the result to return. Options are:
+- `"island_parts"` (default): Returns only the core simulation results, such as the final mutualism matrix and evolution table.
+- `"additional_parts"`: Returns only additional information, such as time values, richness lists, and rate lists.}
 }
 \value{
 A list which contains:

@@ -11,6 +11,7 @@ sim_mutualism(
   sample_freq,
   cond_p,
   cond_a,
+  return_parts = "island_parts",
   verbose
 )
 }
@@ -26,6 +27,10 @@ sim_mutualism(
 \item{cond_p}{Integer. Condition for plants (e.g., minimum number of present plants on the island).}
 
 \item{cond_a}{Integer. Condition for animals (e.g., minimum number of present animals on the island).}
+
+\item{return_parts}{Character. Specifies which part of the result to return. Options are:
+- `"island_parts"` (default): Returns only the core simulation results, such as the final mutualism matrix and evolution table.
+- `"additional_parts"`: Returns only additional information, such as time values, richness lists, and rate lists.}
 
 \item{verbose}{Logical. If TRUE, prints progress updates.}
 }
