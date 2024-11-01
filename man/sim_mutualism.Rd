@@ -16,21 +16,36 @@ sim_mutualism(
 )
 }
 \arguments{
-\item{total_time}{Numeric. Total time for the simulation.}
+\item{total_time}{Numeric. Total time for the simulation (island age)}
 
 \item{replicates}{Integer. Number of replicates to run.}
 
 \item{mutualism_pars}{List. Parameters used in the simulation.}
 
-\item{sample_freq}{Numeric. Frequency of sampling data, fpr plotting.}
+\item{sample_freq}{Numeric. Frequency of sampling data, for plotting.}
 
-\item{cond_p}{Integer. Condition for plants (e.g., minimum number of present plants on the island).}
+\item{cond_p}{Integer. Condition for plants (e.g., minimum number of present plant clades on the island).}
 
-\item{cond_a}{Integer. Condition for animals (e.g., minimum number of present animals on the island).}
+\item{cond_a}{Integer. Condition for animals (e.g., minimum number of present animal clades on the island).}
 
 \item{return_parts}{Character. Specifies which part of the result to return. Options are:
-- `"island_parts"` (default): Returns only the core simulation results, such as the final mutualism matrix and evolution table.
-- `"additional_parts"`: Returns only additional information, such as time values, richness lists, and rate lists.}
+- `"island_parts"` (default): Returns only the core simulation results, including the following elements:
+  - `Mt`: A matrix representing the "false" matrix on the island, including extinct and non-immigrated species occupying
+           their original indices from the mainland.
+  - `M_true_list`: A list of "true" matrices left on the island (every certain ages).
+  - `status_p`: A one column matrix indicating the presence of the plant species
+  on the island (Presence (1) or absence (0)).
+  - `status_a`: A one column matrix indicating the presence of the animal species
+  on the island (Presence (1) or absence (0)).
+  - `island_spec`: DAISIE-alike data frame. A table showing the evolutionary trajectory of species on the island, including their colonization
+                   and branching details.
+  - `island`: DAISIE-alike island information. A list containing three components: `stt_table`, `clades_info_plant`, and `clades_info_animal`.
+  - `evo_table`: A data frame summarizing the evolutionary history of the species, including branching times and other evolutionary metrics.
+- `"additional_parts"`: Returns only additional information,for checking the rates and species richness. It contains:
+  - `rates_list`: A list containing all types of rates
+  - `timeval_list`: A list containing all values of time
+  - `richness_p_list`: A list containing all plant richness on the island across simulation time
+  - `richness_a_list`: A list containing all animal richness on the island across simulation time}
 
 \item{verbose}{Logical. If TRUE, prints progress updates.}
 }
@@ -41,5 +56,5 @@ A list containing:
   - island_total: Formatted data for plants and animals combined.
 }
 \description{
-Simulates mutualistic interactions over macro-evolutionary time with specified parameters.
+Simulate mutualistic interactions over macro-evolutionary time with specified parameters.
 }
