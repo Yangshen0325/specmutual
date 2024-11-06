@@ -112,7 +112,7 @@ sim_core_mutualism <- function(total_time, mutualism_pars, return_parts) {
       if (timeval > measure_time &&
           timeval - timeval_and_dt$dt < measure_time) {
 
-        M_true <- Mt[which(status_p == 1), which(status_a == 1)]
+        M_true <- Mt[which(status_p == 1), which(status_a == 1), drop = FALSE]
         store_index <- floor(timeval / measure_interval)
         M_true_list[[store_index]] <- M_true
         measure_time <- (store_index + 1) * measure_interval
