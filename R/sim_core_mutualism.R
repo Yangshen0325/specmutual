@@ -253,8 +253,8 @@ sim_core_mutualism <- function(total_time, mutualism_pars, return_parts) {
         status_a = status_a
       )
 
-      sum_partners_p[[sum_partners_p + 1]] <- sum(partners_list$partners_p)
-      sum_partners_a[[sum_partners_a + 1]] <- sum(partners_list$partners_a)
+      sum_partners_p[[length(sum_partners_p) + 1]] <- sum(partners_list$partners_p)
+      sum_partners_a[[length(sum_partners_a) + 1]] <- sum(partners_list$partners_a)
 
       rates <- update_rates_mutual(
         M0 = M0,
