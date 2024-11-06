@@ -84,6 +84,7 @@ sim_core_mutualism <- function(total_time, mutualism_pars, return_parts) {
     #### Start Monte Carlo iterations ####
 
     while (timeval < total_time) {
+
       rates <- update_rates_mutual(
         M0 = M0,
         Mt = Mt,
@@ -99,6 +100,7 @@ sim_core_mutualism <- function(total_time, mutualism_pars, return_parts) {
         qloss = qloss,
         lambda0 = lambda0,
         transprob = transprob,
+        partners_list = partners_list,
         island_spec = island_spec
       )
 
@@ -233,8 +235,21 @@ sim_core_mutualism <- function(total_time, mutualism_pars, return_parts) {
     richness_p_list <- list()
     richness_a_list <- list()
 
+    sum_partners_p <- list()
+    sum_partners_a <- list()
+
     # Start Monte Carlo iterations
     while (timeval < total_time) {
+
+      partners_list <- get_partners(
+        Mt = Mt,
+        status_p = status_p,
+        status_a = status_a
+      )
+
+      sum_partners_p[[sum_partners_p + 1]] <- sum(partners_list$partners_p)
+      sum_partners_a[[sum_partners_a + 1]] <- sum(partners_list$partners_a)
+
       rates <- update_rates_mutual(
         M0 = M0,
         Mt = Mt,
@@ -250,6 +265,7 @@ sim_core_mutualism <- function(total_time, mutualism_pars, return_parts) {
         qloss = qloss,
         lambda0 = lambda0,
         transprob = transprob,
+        partners_list = partners_list,
         island_spec = island_spec
       )
 
@@ -301,7 +317,9 @@ sim_core_mutualism <- function(total_time, mutualism_pars, return_parts) {
     return(list(rates_list = rates_list,
                 timeval_list = timeval_list,
                 richness_p_list = richness_p_list,
-                richness_a_list = richness_a_list))
+                richness_a_list = richness_a_list,
+                sum_partners_p = sum_partners_p,
+                sum_partners_a = sum_partners_a))
   }
 
   }
