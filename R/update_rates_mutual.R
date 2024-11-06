@@ -19,14 +19,9 @@ update_rates_mutual <- function(M0,
                                 qloss,
                                 lambda0,
                                 transprob,
+                                partners_list,
                                 island_spec) {
 
-  # Get the number of interacting partners on the island for plants and animals, respectively.
-  partners_list <- get_partners(
-    Mt = Mt,
-    status_p = status_p,
-    status_a = status_a
-  )
 
   # Get the mutualism effects for immigration and cladogenesis
   mutualism_effect_list <- calculate_mutualism_effect(
