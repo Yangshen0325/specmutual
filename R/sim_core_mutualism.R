@@ -85,6 +85,12 @@ sim_core_mutualism <- function(total_time, mutualism_pars, return_parts) {
 
     while (timeval < total_time) {
 
+      partners_list <- get_partners(
+        Mt = Mt,
+        status_p = status_p,
+        status_a = status_a
+      )
+
       rates <- update_rates_mutual(
         M0 = M0,
         Mt = Mt,
