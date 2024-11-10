@@ -63,6 +63,7 @@ get_simulation_outputs <- function(the_path,
     out <- peregrine_sim(total_time = total_time,
                         replicates = replicates,
                         mutualism_pars = params,
+                        return_parts = "island_parts",
                         verbose = TRUE)
 
     save_parameters(out, the_path, prefix, effect)
