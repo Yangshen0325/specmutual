@@ -79,7 +79,7 @@ sim_core_mutualism <- function(total_time, mutualism_pars, return_parts) {
     }
 
     # Initialize evolution table
-    evo_table <- c()
+    evo_table <- data.frame(Time = numeric(0), Event_id = numeric(0))
 
     #### Start Monte Carlo iterations ####
 
@@ -158,10 +158,6 @@ sim_core_mutualism <- function(total_time, mutualism_pars, return_parts) {
         stt_table <- updated_states$stt_table
       }
     }
-
-    #### Finalize `evo_table` ####
-
-    colnames(evo_table) <- c("Time", "Event_id")
 
     #### Finalize STT ####
     stt_table <- rbind(
