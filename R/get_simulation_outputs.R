@@ -52,7 +52,7 @@ get_simulation_outputs <- function(the_path,
     alpha = alpha
   )
 
-    cat("Running mutualism effects case: ", prefix, "_", effect)
+    cat("Running mutualism effects case: ", prefix, "_", effect, "\n")
     cat("cladogenensis is: ", params$lac_pars[1], "\n",
         "extinction is: ", params$mu_pars[1], "\n",
         "immigration is: ", params$gam_pars[1], "\n",
