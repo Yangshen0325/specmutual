@@ -46,7 +46,13 @@ get_simulation_outputs <- function(the_path,
     alpha = alpha
   )
 
-    message("Running mutualism effects case: ", prefix, "_", effect)
+    cat("Running mutualism effects case: ", prefix, "_", effect)
+    cat("cladogenensis is: ", params$lac_pars[1], "\n",
+        "extinction is: ", params$mu_pars[1], "\n",
+        "immigration is: ", params$gam_pars[1], "\n",
+        "anagenesis is: ", params$laa_pars[1], "\n",
+        "effect on K1, mu1, laa1: ", params$K_pars[3], params$mu_pars[3], params$laa_pars[3], "\n"
+        )
 
     out <- peregrine_sim(total_time = total_time,
                         replicates = replicates,
