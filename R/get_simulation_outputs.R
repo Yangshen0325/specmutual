@@ -19,17 +19,7 @@
 #' @export
 
 get_simulation_outputs <- function(the_path,
-                                      lac0,
-                                      mu0,
-                                      K0,
-                                      gam0,
-                                      laa0,
-                                      qgain,
-                                      qloss,
-                                   lambda0,
-                                       M0,
-                                   transprob,
-                                    alpha,
+                                    params,
                                       effect,
                                       prefix,
                                    total_time,
@@ -37,28 +27,6 @@ get_simulation_outputs <- function(the_path,
 
 
   check_and_create_folder(the_path, prefix)
-
-  params <- create_mutual_pars(
-    lac_pars = c(lac0, lac0),
-    mu_pars = c(mu0, mu0, mutualism_effects[[effect]]$mu1, mutualism_effects[[effect]]$mu1),
-    K_pars = c(K0, K0, mutualism_effects[[effect]]$K1, mutualism_effects[[effect]]$K1),
-    gam_pars = c(gam0, gam0),
-    laa_pars = c(laa0, laa0, mutualism_effects[[effect]]$laa1, mutualism_effects[[effect]]$laa1),
-    qgain = qgain,
-    qloss = qloss,
-    lambda0 = lambda0,
-    M0 = M0,
-    transprob = transprob,
-    alpha = alpha
-  )
-
-    cat("Running mutualism effects case: ", prefix, "_", effect, "\n")
-    cat("cladogenensis is: ", params$lac_pars[1], "\n",
-        "extinction is: ", params$mu_pars[1], "\n",
-        "immigration is: ", params$gam_pars[1], "\n",
-        "anagenesis is: ", params$laa_pars[1], "\n",
-        "effect on K1, mu1, laa1: ", params$K_pars[3], params$mu_pars[3], params$laa_pars[3], "\n"
-        )
 
     out <- peregrine_sim(total_time = total_time,
                         replicates = replicates,
