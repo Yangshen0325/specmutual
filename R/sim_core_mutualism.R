@@ -131,7 +131,9 @@ sim_core_mutualism <- function(total_time, mutualism_pars, return_parts) {
 
         # Select next event
         possible_event <- sample_event_mutual(rates = rates)
-        evo_table <- rbind(evo_table, c(total_time - timeval, possible_event))
+        # Update evo_table
+        new_row <- data.frame(Time = total_time - timeval, Event_id = possible_event)  # Name columns explicitly
+        evo_table <- rbind(evo_table, new_row)
 
         # Update states based on the selected event
         updated_states <- update_states_mutual(
