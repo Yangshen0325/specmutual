@@ -36,10 +36,11 @@ peregrine_sim <- function(total_time,
     # Check if the network is at least 2 x 2
     if(nrow(true_Mt) >= 2 && ncol(true_Mt) >= 2) {
       island_replicates[[i]] <- sim_output
-      i <- i + 1
+
       if (verbose == TRUE) {
         print(paste("Island replicate ", i, sep = ""))
       }
+      i <- i + 1
     } else {
       message("Simulation attempt ", tried, " dropped: true_Mt is smaller than 2x2.")
     }
