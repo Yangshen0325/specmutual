@@ -3,7 +3,7 @@
 #'
 #' @param total_time Numeric. Total time for the simulation (island age)
 #' @param replicates Integer. Number of replicates to run.
-#' @param mutualism_pars List. Parameters used in the simulation.
+#' @param mutualism_pars List. Parameters related to mutualism used in the simulation.
 #' @param sample_freq Numeric. Frequency of sampling data, for plotting.
 #' @param cond_p Integer. Condition for plants (e.g., minimum number of present plant clades on the island).
 #' @param cond_a Integer. Condition for animals (e.g., minimum number of present animal clades on the island).
