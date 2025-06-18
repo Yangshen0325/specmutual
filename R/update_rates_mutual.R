@@ -1,10 +1,32 @@
-#' Calculates algorithm rates
-#' @title update_rates_mutual
+#' Update Rates at Time t
 #'
-#' @description Internal function that updates the all the rates at time t.
+#' Internal function that calculates and returns all updated rates
+#' for plants and animals at a given time step, considering mutualistic interactions and species status.
 #'
-#' @return A named list with the updated rates.
+#' @param M0 A matrix. Mainland interaction matrix, where rows represent plant species and columns represent animal species.
+#' @param Mt A matrix. Representing the "false" matrix on the island, including extinct and non-immigrated species occupying
+#'            their original indices from the mainland.
+#' @param alpha A numeric value. Coefficient to mediate rates.
+#' @param status_p A one column matrix indicating the presence of the plant species
+#'   on the island (Presence (1) or absence (0)).
+#' @param status_a A one column matrix indicating the presence of the animal species
+#'   on the island (Presence (1) or absence (0)).
+#' @param lac_pars Numeric vector of length 2. Cladogenesis rates: \code{c(lac_plant, lac_animal)}.
+#' @param mu_pars Numeric vector of length 4. Extinction rates: \code{c(mu_P0, mu_A0, mu_P1, mu_A1)}.
+#' @param K_pars Numeric vector of length 4. Carrying capacities: \code{c(K_P0, K_A0, K_P1, K_A1)}.
+#' @param gam_pars Numeric vector of length 2. Immigration rates: \code{c(gam_plant, gam_animal)}.
+#' @param laa_pars Numeric vector of length 4. Anagenesis rates: \code{c(laa_P0, laa_A0, laa_P1, laa_A1)}.
+#' @param qgain Numeric. Rate of gaining a new link.
+#' @param qloss Numeric. Rate of losing a link.
+#' @param lambda0 A numeric value. Intrinsic cospeciation rate.
+#' @param transprob  A numeric value. Probability for daughter species to inherit the link from the mainland ancestors.
+#' @param partners_list A list. Each element contains the indices of mutualistic partners for a species.
+#' @param island_spec A data frame. Current island species composition and their status.
 #'
+#' @return A named list containing the updated rates.
+#'
+#'
+#' @export
 update_rates_mutual <- function(M0,
                                 Mt,
                                 alpha,
