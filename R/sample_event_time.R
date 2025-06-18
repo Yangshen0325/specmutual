@@ -1,6 +1,9 @@
 
 #' Samples what event to happen next
 #'
+#' @param rates A named list of all kinds of rates as returned by
+#' \code{\link{update_rates_mutual}}.
+#'
 #' @return Numeric indicating what event will happen
 #' \itemize{
 #'   \item{[1]: immigration event with plant species}
@@ -51,7 +54,7 @@ sample_event_mutual <- function(rates) {
 #' \code{\link{update_rates_mutual}}.
 #'
 #' @return A named list with numeric vector containing the time of the next
-#' timestep and the change in time.
+#' time step and the change in time.
 #'
 sample_time_mutual <- function(rates, timeval) {
   totalrate <- do.call(sum, rates)
