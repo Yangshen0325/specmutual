@@ -32,9 +32,19 @@
 #'   - island_segments: Formatted data for plants and animals separated.
 #'   - island_total: Formatted data for plants and animals combined.
 #'
+#' @examples
+#' mutualism_pars_example <- readRDS("data/mutualism_pars_example.rds")
+#' result <- sim_mutualism(
+#'   total_time = 1,
+#'   replicates = 2,
+#'   mutualism_pars = mutualism_pars_example,
+#'   sample_freq = Inf,
+#'   cond_p = 2,
+#'   cond_a = 2,
+#'   verbose = FALSE
+#' )
 #' @export sim_mutualism
-#'
-#'
+
 sim_mutualism <- function(total_time,
                           replicates,
                           mutualism_pars,
