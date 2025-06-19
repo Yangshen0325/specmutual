@@ -6,11 +6,7 @@
 \usage{
 get_simulation_outputs(
   the_path,
-  lac0,
-  mu0,
-  K0,
-  gam0,
-  laa0,
+  params,
   effect,
   prefix,
   total_time,
@@ -19,6 +15,14 @@ get_simulation_outputs(
 }
 \arguments{
 \item{the_path}{save the outputs}
+
+\item{effect}{mutualsim effects, could be "none", "low", "medium", "high"}
+
+\item{prefix}{parameters combination}
+
+\item{total_time}{island age}
+
+\item{replicates}{replicates}
 
 \item{lac0}{initial cladogenesis value}
 
@@ -29,14 +33,6 @@ get_simulation_outputs(
 \item{gam0}{initial immigration value}
 
 \item{laa0}{initial anagenesis}
-
-\item{effect}{mutualsim effects, could be "none", "low", "medium", "high"}
-
-\item{prefix}{parameters combination}
-
-\item{total_time}{island age}
-
-\item{replicates}{replicates}
 }
 \value{
 simulation outputs

@@ -6,6 +6,10 @@
 \usage{
 sample_event_mutual(rates)
 }
+\arguments{
+\item{rates}{A named list of all kinds of rates as returned by
+\code{\link{update_rates_mutual}}.}
+}
 \value{
 Numeric indicating what event will happen
 \itemize{

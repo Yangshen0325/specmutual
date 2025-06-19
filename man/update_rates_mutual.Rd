@@ -2,7 +2,7 @@
 % Please edit documentation in R/update_rates_mutual.R
 \name{update_rates_mutual}
 \alias{update_rates_mutual}
-\title{update_rates_mutual}
+\title{Update Rates at Time t}
 \usage{
 update_rates_mutual(
   M0,
@@ -19,15 +19,50 @@ update_rates_mutual(
   qloss,
   lambda0,
   transprob,
+  partners_list,
   island_spec
 )
 }
+\arguments{
+\item{M0}{A matrix. Mainland interaction matrix, where rows represent plant species and columns represent animal species.}
+
+\item{Mt}{A matrix. Representing the "false" matrix on the island, including extinct and non-immigrated species occupying
+their original indices from the mainland.}
+
+\item{alpha}{A numeric value. Coefficient to mediate rates.}
+
+\item{status_p}{A one column matrix indicating the presence of the plant species
+on the island (Presence (1) or absence (0)).}
+
+\item{status_a}{A one column matrix indicating the presence of the animal species
+on the island (Presence (1) or absence (0)).}
+
+\item{lac_pars}{Numeric vector of length 2. Cladogenesis rates: \code{c(lac_plant, lac_animal)}.}
+
+\item{mu_pars}{Numeric vector of length 4. Extinction rates: \code{c(mu_P0, mu_A0, mu_P1, mu_A1)}.}
+
+\item{K_pars}{Numeric vector of length 4. Carrying capacities: \code{c(K_P0, K_A0, K_P1, K_A1)}.}
+
+\item{gam_pars}{Numeric vector of length 2. Immigration rates: \code{c(gam_plant, gam_animal)}.}
+
+\item{laa_pars}{Numeric vector of length 4. Anagenesis rates: \code{c(laa_P0, laa_A0, laa_P1, laa_A1)}.}
+
+\item{qgain}{Numeric. Rate of gaining a new link.}
+
+\item{qloss}{Numeric. Rate of losing a link.}
+
+\item{lambda0}{A numeric value. Intrinsic cospeciation rate.}
+
+\item{transprob}{A numeric value. Probability for daughter species to inherit the link from the mainland ancestors.}
+
+\item{partners_list}{A list. Each element contains the indices of mutualistic partners for a species.}
+
+\item{island_spec}{A data frame. Current island species composition and their status.}
+}
 \value{
-A named list with the updated rates.
+A named list containing the updated rates.
 }
 \description{
-Internal function that updates the all the rates at time t.
-}
-\details{
-Calculates algorithm rates
+Internal function that calculates and returns all updated rates
+for plants and animals at a given time step, considering mutualistic interactions and species status.
 }

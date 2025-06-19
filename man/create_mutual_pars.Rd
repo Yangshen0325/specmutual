@@ -2,7 +2,7 @@
 % Please edit documentation in R/create_pars.R
 \name{create_mutual_pars}
 \alias{create_mutual_pars}
-\title{Title}
+\title{Create a Mutualism-Related Parameter List for Simulation}
 \usage{
 create_mutual_pars(
   lac_pars,
@@ -18,6 +18,49 @@ create_mutual_pars(
   alpha
 )
 }
+\arguments{
+\item{lac_pars}{A numeric vector of length 2. Intrinsic cladogenesis rates: \code{c(lac_plant, lac_animal)}.}
+
+\item{mu_pars}{A numeric vector of length 4. Intrinsic extinction rates: \code{c(mu_P0, mu_A0, mu_P1, mu_A1)}.}
+
+\item{K_pars}{A numeric vector of length 4. Intrinsic carrying capacities + coefficient: \code{c(K_P0, K_A0, K_P1, K_A1)}.}
+
+\item{gam_pars}{A numeric vector of length 2. Intrinsic immigration rates: \code{c(gam_plant, gam_animal)}.}
+
+\item{laa_pars}{A numeric vector of length 4. Intrinsic anagenesis rates + coefficient: \code{c(laa_P0, laa_A0, laa_P1, laa_A1)}.}
+
+\item{qgain}{A numeric value. Rate of a mutualistic link gain.}
+
+\item{qloss}{A numeric value. Rate of a mutualistic link loss.}
+
+\item{lambda0}{A numeric value. Intrinsic cospeciation rate.}
+
+\item{M0}{A matrix. Mainland interaction matrix, where rows represent plant species and columns represent animal species.}
+
+\item{transprob}{A numeric value. Probability for daughter species to inherit the link from the mainland ancestors.}
+
+\item{alpha}{A numeric value. Coefficient to mediate rates.}
+}
+\value{
+A named list containing all input parameters, structured for use in simulation.
+}
 \description{
-Title
+This function creates a named list of parameters related to mutualism used in the model.
+It bundles all required rates and constants into a single list.
+}
+\examples{
+mutualism_pars <- create_mutual_pars(
+      lac_pars = c(0.3, 0.3),
+      mu_pars = c(0.05, 0.05, 0.01, 0.01),
+      K_pars = c(50, 50, 100, 100),
+      gam_pars = c(0.04, 0.04),
+      laa_pars = c(0.01, 0.01, 0.01, 0.01),
+      qgain = 0.001,
+      qloss = 0.001,
+      lambda0 = 0.5,
+      M0 = {set.seed(123); matrix(runif(100, 0, 1), nrow = 10, ncol = 10)},
+      transprob = 1,
+      alpha = 100
+  )
+
 }

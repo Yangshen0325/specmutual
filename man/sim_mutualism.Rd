@@ -20,7 +20,7 @@ sim_mutualism(
 
 \item{replicates}{Integer. Number of replicates to run.}
 
-\item{mutualism_pars}{List. Parameters used in the simulation.}
+\item{mutualism_pars}{List. Parameters related to mutualism used in the simulation.}
 
 \item{sample_freq}{Numeric. Frequency of sampling data, for plotting.}
 
@@ -57,4 +57,16 @@ A list containing:
 }
 \description{
 Simulate mutualistic interactions over macro-evolutionary time with specified parameters.
+}
+\examples{
+mutualism_pars_example <- readRDS("data/mutualism_pars_example.rds")
+result <- sim_mutualism(
+  total_time = 1,
+  replicates = 2,
+  mutualism_pars = mutualism_pars_example,
+  sample_freq = Inf,
+  cond_p = 2,
+  cond_a = 2,
+  verbose = FALSE
+)
 }

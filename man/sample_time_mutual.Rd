@@ -14,7 +14,7 @@ sample_time_mutual(rates, timeval)
 }
 \value{
 A named list with numeric vector containing the time of the next
-timestep and the change in time.
+time step and the change in time.
 }
 \description{
 Samples the next time value
