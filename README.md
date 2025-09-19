@@ -5,7 +5,7 @@ and it contains code for simulating and analyzing data under this framework.
 ## Overview
 
 Main features:
-- Simulation of island colonization and diversification of species embedded in mu.tualistic networks.
+- Simulation of island colonization and diversification of species embedded in mutualistic networks.
 - Integration of mutualistic network constraints on macroevolutionary processes.
 
 
