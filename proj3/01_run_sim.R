@@ -44,7 +44,7 @@ print(as.data.frame(p))
 # ---------------------------------------------------------------------------
 # Build mutualism_pars (symmetric for plants and animals)
 # ---------------------------------------------------------------------------
-mutualism_pars <- create_mutual_pars(
+mutualism_pars <- specmutual::create_mutual_pars(
   lac_pars  = c(p$lac_0, p$lac_0),
   mu_pars   = c(p$mu_0,  p$mu_0,  p$mu_1,  p$mu_1),
   K_pars    = c(p$K_0,   p$K_0,   p$K_1,   p$K_1),
@@ -82,7 +82,7 @@ safe_sim <- function(total_time, n_reps, mutualism_pars, max_attempts) {
     tried <- tried + 1
 
     sim_output <- tryCatch(
-      sim_core_mutualism(
+      specmutual::sim_core_mutualism(
         total_time     = total_time,
         mutualism_pars = mutualism_pars,
         return_parts   = "island_parts"
