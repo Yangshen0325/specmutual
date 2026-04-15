@@ -34,6 +34,8 @@
 mkdir -p ~/specmutual/proj3/logs
 mkdir -p ~/specmutual/proj3/results
 
+set -euo pipefail # stop immediately if anything goes wrong
+
 # --- Load R module ------------------------------------------------------------
 ml R
 
