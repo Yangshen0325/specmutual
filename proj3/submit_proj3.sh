@@ -37,8 +37,6 @@ mkdir -p ~/specmutual/proj3/results
 # --- Load R module ------------------------------------------------------------
 ml R
 
-# --- Install package (safe to re-run; skips if already installed) -------------
-Rscript -e "if (!requireNamespace('specmutual', quietly = TRUE)) remotes::install_github('Yangshen0325/specmutual')"
 
 # --- Run simulation for this array task ---------------------------------------
 combo_id=$SLURM_ARRAY_TASK_ID
