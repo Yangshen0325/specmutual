@@ -33,6 +33,7 @@
 #'   - `richness_a_list`: A list containing all animal richness on the island across simulation time
 #'
 #' @return A list
+#' @export sim_core_mutualism
 
 sim_core_mutualism <- function(total_time, mutualism_pars, return_parts) {
 
