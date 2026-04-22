@@ -31,8 +31,9 @@
 #SBATCH --array=1-500%100
 
 # --- Create log directory if it does not exist --------------------------------
-mkdir -p ~/specmutual/proj3/logs
-mkdir -p ~/specmutual/proj3/results
+mkdir -p ~/specmutual/proj3/logs_Nomutual
+# mkdir -p ~/specmutual/proj3/results
+mkdir -p ~/specmutual/proj3/results_Nomutual
 
 set -euo pipefail # stop immediately if anything goes wrong
 

@@ -24,9 +24,13 @@ library(specmutual)
 # On the cluster the repo is typically at ~/specmutual/
 # ---------------------------------------------------------------------------
 base_dir  <- "~/specmutual"
-param_csv <- file.path(base_dir, "proj3", "param_table.csv")
+
+# param_csv <- file.path(base_dir, "proj3", "param_table.csv")
+param_csv <- file.path(base_dir, "proj3", "param_table_Nomutual.csv") # use this to explore
+# no mutualism effect scenarios
+
 m0_path   <- file.path(base_dir, "script", "M0.RData")
-out_dir   <- file.path(base_dir, "proj3", "results")
+out_dir   <- file.path(base_dir, "proj3", "results_Nomutual")
 
 # ---------------------------------------------------------------------------
 # Load inputs
@@ -147,6 +151,9 @@ result <- list(
   sim_output = sim_output
 )
 
-outfile <- file.path(out_dir, sprintf("combo_%03d.rds", combo_id))
+# outfile <- file.path(out_dir, sprintf("combo_%03d.rds", combo_id))
+# alternative use
+outfile <- file.path(out_dir, sprintf("Nomutual_combo_%03d.rds", combo_id))
+
 saveRDS(result, file = outfile)
 cat("Saved to", outfile, "\n")
