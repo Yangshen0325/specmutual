@@ -26,14 +26,14 @@
 #SBATCH --time=2-00:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --mem=8GB
+#SBATCH --mem=20GB
 #SBATCH --partition=regular
 #SBATCH --array=1-500%100
 
 # --- Create log directory if it does not exist --------------------------------
-mkdir -p ~/specmutual/proj3/logs_Nomutual
-# mkdir -p ~/specmutual/proj3/results
-mkdir -p ~/specmutual/proj3/results_Nomutual
+mkdir -p ~/specmutual/proj3/logs
+mkdir -p ~/specmutual/proj3/results
+# mkdir -p ~/specmutual/proj3/results_Nomutual
 
 set -euo pipefail # stop immediately if anything goes wrong
 

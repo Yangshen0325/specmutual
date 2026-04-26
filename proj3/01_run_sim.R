@@ -17,6 +17,13 @@ args <- commandArgs(trailingOnly = TRUE)
 if (length(args) < 1) stop("Usage: Rscript 01_run_sim.R <combo_id>")
 combo_id <- as.numeric(args[1])
 
+# check if results are exist, if so skip
+result_file <- paste0("~/specmutual/proj3/results_/combo_", combo_id, ".rds")
+if (file.exists(result_file)) {
+  cat("Combo", combo_id, "already processed, skipping...\n")
+  quit(save = "no", status = 0)
+}
+
 library(specmutual)
 
 # ---------------------------------------------------------------------------
@@ -25,12 +32,14 @@ library(specmutual)
 # ---------------------------------------------------------------------------
 base_dir  <- "~/specmutual"
 
-# param_csv <- file.path(base_dir, "proj3", "param_table.csv")
-param_csv <- file.path(base_dir, "proj3", "param_table_Nomutual.csv") # use this to explore
+param_csv <- file.path(base_dir, "proj3", "param_table.csv")
+# param_csv <- file.path(base_dir, "proj3", "param_table_Nomutual.csv") # use this to explore
 # no mutualism effect scenarios
 
 m0_path   <- file.path(base_dir, "script", "M0.RData")
-out_dir   <- file.path(base_dir, "proj3", "results_Nomutual")
+out_dir   <- file.path(base_dir, "proj3", "results")
+# out_dir   <- file.path(base_dir, "proj3", "results_Nomutual")
+
 
 # ---------------------------------------------------------------------------
 # Load inputs
@@ -151,9 +160,10 @@ result <- list(
   sim_output = sim_output
 )
 
-# outfile <- file.path(out_dir, sprintf("combo_%03d.rds", combo_id))
+outfile <- file.path(out_dir, sprintf("combo_%03d.rds", combo_id))
+
 # alternative use
-outfile <- file.path(out_dir, sprintf("Nomutual_combo_%03d.rds", combo_id))
+# outfile <- file.path(out_dir, sprintf("Nomutual_combo_%03d.rds", combo_id))
 
 saveRDS(result, file = outfile)
 cat("Saved to", outfile, "\n")
