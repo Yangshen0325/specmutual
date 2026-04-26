@@ -18,7 +18,7 @@ if (length(args) < 1) stop("Usage: Rscript 01_run_sim.R <combo_id>")
 combo_id <- as.numeric(args[1])
 
 # check if results are exist, if so skip
-result_file <- paste0("~/specmutual/proj3/results_/combo_", combo_id, ".rds")
+result_file <- paste0("~/specmutual/proj3/results/combo_", combo_id, ".rds")
 if (file.exists(result_file)) {
   cat("Combo", combo_id, "already processed, skipping...\n")
   quit(save = "no", status = 0)
