@@ -23,10 +23,10 @@
 
 #SBATCH --job-name=proj3_sim
 #SBATCH --output=proj3/logs/proj3-%A_%a.log
-#SBATCH --time=2-00:00:00
+#SBATCH --time=3-00:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --mem=20GB
+#SBATCH --mem=30GB
 #SBATCH --partition=regular
 #SBATCH --array=1-500%100
 
