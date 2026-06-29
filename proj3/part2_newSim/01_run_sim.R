@@ -21,7 +21,7 @@ if (is.na(combo_id) || combo_id != as.integer(combo_id)) {
 }
 combo_id <- as.integer(combo_id)
 
-ase_dir <- "~/specmutual"
+base_dir <- "~/specmutual"
 base_dir <- path.expand(base_dir)
 
 param_csv <- file.path(base_dir, "proj3", "part2_newSim", "param_table.csv")
