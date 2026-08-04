@@ -28,27 +28,30 @@ anchor_groups <- c(
   "no_mutualism", "K1_only", "mu1_only", "laa1_only", "lambda0_only"
 )
 
+# log(x) = log(lower) + u * (log(upper) - log(lower))
 log_scale <- function(u, lower, upper) {
   exp(log(lower) + u * (log(upper) - log(lower)))
 }
 
 scale_design <- function(unit_design) {
   data.frame(
-    lac_0 = log_scale(unit_design[, 1], 0.03, 1.20),
-    mu_0 = log_scale(unit_design[, 2], 0.02, 0.80),
-    gam_0 = log_scale(unit_design[, 3], 0.005, 0.30),
-    laa_0 = log_scale(unit_design[, 4], 0.03, 2.50),
-    K_0 = 15 + unit_design[, 5] * (140 - 15),
-    K_1 = 90 * unit_design[, 6]^3,
-    mu_1 = 0.15 * unit_design[, 7],
-    laa_1 = 0.25 * unit_design[, 8],
-    lambda0 = 1.50 * unit_design[, 9],
+    lac_0 = log_scale(unit_design[, 1], 0.03, 1.20), # [0.03 - 1.2]
+    mu_0 = log_scale(unit_design[, 2], 0.02, 0.80), # [0.02 - 0.8]
+    gam_0 = log_scale(unit_design[, 3], 0.005, 0.30), # [0.005 - 0.3]
+    laa_0 = log_scale(unit_design[, 4], 0.03, 2.50), # [0.03 - 2.5]
+    K_0 = 15 + unit_design[, 5] * (140 - 15), # [15, 140]
+    K_1 = 90 * unit_design[, 6]^3, # [90, ]
+    mu_1 = 0.15 * unit_design[, 7], # 0.15
+    laa_1 = 0.25 * unit_design[, 8], # 0.25
+    lambda0 = 1.50 * unit_design[, 9], # 1.5
     check.names = FALSE
   )
 }
 
-# Broad, fully crossed design.
-broad_unit <- lhs::maximinLHS(n = n_broad, k = 9, dup = 5)
+# joint nine-dimensional LHS design
+# maximise the minimal distance between the points. At each step, generating 5 candidate points
+# and keeping the best one (the one best maximise the minimal distance to existing points)
+broad_unit <- lhs::maximinLHS(n = n_broad, k = 9, dup = 5) # n_broad * 9 matrix
 broad <- scale_design(broad_unit)
 broad$design_group <- "broad_lhs"
 
@@ -82,7 +85,7 @@ anchor_base$lambda0[anchor_base$design_group == "lambda0_only"] <-
   1.50 * active_u[anchor_base$design_group == "lambda0_only"]
 
 params <- rbind(broad, anchor_base)
-params <- params[sample(seq_len(nrow(params))), , drop = FALSE]
+params <- params[sample(seq_len(nrow(params))), , drop = FALSE] # randomly change the orders
 params$combo_id <- seq_len(nrow(params))
 params$seed <- 910000L + params$combo_id * 104729L
 params <- params[, c(
