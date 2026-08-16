@@ -149,7 +149,7 @@ params <- params[, c(
   "design_group", "anchor_set_id", parameter_names
 )]
 
-# Hard validation before any design file is written.
+# Checks
 if (nrow(params) != 1000L) stop("Final design must contain 1,000 rows.")
 if (anyNA(params[, c(
   "simulation_id", "simulation_key", "simulation_seed", "design_seed",
@@ -175,11 +175,12 @@ broad_rows <- params$design_group == "broad_lhs"
 for (parameter in parameter_names) {
   spec <- range_spec[range_spec$parameter == parameter, , drop = FALSE]
   values <- params[[parameter]][broad_rows]
-  if (any(values < spec$final_lower | values > spec$final_upper)) {
+  if (any(values < spec$final_lspecower | values > spec$final_upper)) {
     stop(parameter, " has a broad-design value outside its final bounds.")
   }
 }
 
+# check if the current mechanism is working and others are 0
 baseline <- params$design_group == "no_mutualism"
 if (!all(params[baseline, c("K_1", "mu_1", "laa_1", "lambda0")] == 0)) {
   stop("The no-mutualism anchors must have four exact zeros.")
