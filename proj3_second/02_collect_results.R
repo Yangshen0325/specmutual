@@ -79,14 +79,14 @@ short_runtime_ids <- if (
 retry_ids <- sort(unique(c(missing_ids, unreadable, short_runtime_ids)))
 array_spec <- compress_ids(retry_ids)
 
-saveRDS(combined, file.path(run_dir, "pilot_results_combined.rds"))
-write.csv(
-  combined,
-  file.path(run_dir, "pilot_results_combined.csv"),
-  row.names = FALSE,
-  na = ""
-)
-writeLines(array_spec, file.path(run_dir, "missing_array.txt"))
+# saveRDS(combined, file.path(run_dir, "pilot_results_combined.rds"))
+# write.csv(
+#   combined,
+#   file.path(run_dir, "pilot_results_combined.csv"),
+#   row.names = FALSE,
+#   na = ""
+# )
+# writeLines(array_spec, file.path(run_dir, "missing_array.txt"))
 
 cat("Parameter combinations:", nrow(params), "\n")
 cat("Readable results:", nrow(combined), "\n")

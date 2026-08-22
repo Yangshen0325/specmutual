@@ -17,8 +17,6 @@
 # Run from the package root:
 #   Rscript proj3_second/12_part1_inverse_inference.R
 #
-# Optional environment variables:
-#   PROJ3_PART1_CORES, PROJ3_PART1_TREES, PROJ3_PART1_PERMUTATIONS
 ###############################################################################
 
 rm(list = ls())

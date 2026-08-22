@@ -4,10 +4,6 @@
 # Usage:
 #   Rscript proj3_second/01_run_pilot.R <combo_id>
 #
-# Environment overrides:
-#   SPEC_MUTUAL_BASE, PROJ3_TOTAL_TIME, PROJ3_MAX_EVENTS,
-#   PROJ3_MAX_MATRIX_CELLS, PROJ3_MAX_SPECIES_PER_GUILD,
-#   PROJ3_MAX_RUNTIME_S, PROJ3_SAVE_STATE, PROJ3_FORCE
 ###############################################################################
 
 rm(list = ls())
@@ -46,7 +42,7 @@ max_matrix_cells <- env_number(
 max_species_per_guild <- env_number(
   "PROJ3_MAX_SPECIES_PER_GUILD", 1500, integer = TRUE
 )
-max_runtime_s <- env_number("PROJ3_MAX_RUNTIME_S", 25200)
+max_runtime_s <- env_number("PROJ3_MAX_RUNTIME_S", 25200) # 7 hours
 save_state <- identical(tolower(Sys.getenv("PROJ3_SAVE_STATE", "false")), "true")
 force <- identical(tolower(Sys.getenv("PROJ3_FORCE", "false")), "true")
 
