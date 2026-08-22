@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=part1_inverse
-#SBATCH --output=/home1/p302656/proj3_second/part1_logs/part1_%j.out
+#SBATCH --output=/home1/p302656/proj3_second/part1_logs/part1_%j.log
 #SBATCH --time=12:00:00
 #SBATCH --cpus-per-task=2
 #SBATCH --mem=16G
