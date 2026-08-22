@@ -7,7 +7,7 @@
 
 set -euo pipefail
 
-cd "$HOME/specmutual/proj3_second"
+cd "$HOME/specmutual"
 
 ml R
 
