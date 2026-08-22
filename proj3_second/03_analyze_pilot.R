@@ -17,6 +17,7 @@ source("proj3_second/utils_proj3_second.R")
 base_dir <- proj3_second_base_dir()
 run_dir <- file.path(base_dir, "proj3_second")
 data_path <- file.path(run_dir, "pilot_results_combined.rds")
+#data_path <- file.path(run_dir, "from_cluster_PILOT/pilot_results_combined.rds")
 if (!file.exists(data_path)) {
   stop("Run proj3_second/02_collect_results.R first.")
 }
@@ -232,7 +233,7 @@ report <- c(
   }
 )
 
-writeLines(report, file.path(run_dir, "PILOT_RESULTS_REPORT.md"))
+# writeLines(report, file.path(run_dir, "PILOT_RESULTS_REPORT.md"))
 
 figure_dir <- file.path(run_dir, "figures")
 dir.create(figure_dir, recursive = TRUE, showWarnings = FALSE)
@@ -294,14 +295,100 @@ if (nrow(broad) >= 20) {
     )
 }
 
-ggsave(
-  file.path(figure_dir, "pilot_process_response.png"),
-  plot_process,
-  width = 10,
-  height = 7,
-  units = "in",
-  dpi = 180
-)
+# ggsave(
+#   file.path(figure_dir, "pilot_process_response.png"),
+#   plot_process,
+#   width = 10,
+#   height = 7,
+#   units = "in",
+#   dpi = 180
+# )
 
 cat("Wrote proj3_second/PILOT_RESULTS_REPORT.md\n")
 cat("Wrote proj3_second/figures/pilot_process_response.png\n")
+
+# Plot the inactive, informative and strong fraction ----------------------
+
+library(ggplot2)
+
+exposure_data <- data.frame(
+  mechanism = rep(
+    c(
+      "mu[1] %.% d",
+      "(lambda[1]^a %.% D) / lambda[0]^a",
+      "K[1] %.% d / K[0]",
+      "K[1] %.% d / K[0] * '\\n(for mainland sp.)'"
+    ),
+    each = 3
+  ),
+  exposure_class = rep(
+    c("Inactive", "Informative", "Strong"),
+    times = 4
+  ),
+  median_fraction = c(
+    78.9, 12.5, 0.0,
+    100.0, 0.0, 0.0,
+    81.0, 7.0, 0.0,
+    95.9, 4.0, 0.0
+  )
+)
+
+exposure_data$mechanism <- factor(
+  exposure_data$mechanism,
+  levels = unique(exposure_data$mechanism)
+)
+
+exposure_data$exposure_class <- factor(
+  exposure_data$exposure_class,
+  levels = c("Inactive", "Informative", "Strong")
+)
+
+ggplot(
+  exposure_data,
+  aes(x = mechanism, y = median_fraction, fill = exposure_class)
+) +
+  geom_col(
+    position = position_dodge(width = 0.76),
+    width = 0.68
+  ) +
+  geom_text(
+    aes(label = sprintf("%.1f%%", median_fraction)),
+    position = position_dodge(width = 0.76),
+    vjust = -0.35,
+    size = 3.5
+  ) +
+  scale_fill_manual(
+    values = c(
+      "Inactive" = "#B7C0C8",
+      "Informative" = "#2F7F7B",
+      "Strong" = "#D17A55"
+    )
+  ) +
+  scale_x_discrete(labels = function(x) parse(text = x)) +
+  scale_y_continuous(
+    limits = c(0, 112),
+    breaks = seq(0, 100, 25),
+    labels = function(x) paste0(x, "%"),
+    expand = expansion(mult = c(0, 0))
+  ) +
+  labs(
+    x = "Mutualism-mediated term",
+    y = "Median fraction of effects",
+    fill = NULL
+    #title = "Mechanism exposure across simulations",
+    #caption = paste(
+    # "Each bar is the median, across simulations, of the fraction of time spent",
+    # "in the corresponding exposure class."
+  ) +
+  theme_classic(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold", size = 15),
+    plot.caption = element_text(colour = "#5A5A5A", hjust = 0),
+    axis.title.x = element_text(margin = margin(t = 10)),
+    axis.title.y = element_text(margin = margin(r = 10)),
+    axis.text.x = element_text(size = 11),
+    panel.grid.major.y = element_line(colour = "#DCE1E5", linewidth = 0.35),
+    panel.grid.minor = element_blank(),
+    legend.position = "bottom"
+  )
+
