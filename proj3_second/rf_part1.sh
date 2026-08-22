@@ -13,4 +13,4 @@ ml R
 
 export PROJ3_PART1_CORES="${SLURM_CPUS_PER_TASK:-2}"
 
-Rscript 12_part1_inverse_inference.R
+Rscript proj3_second/12_part1_inverse_inference.R
