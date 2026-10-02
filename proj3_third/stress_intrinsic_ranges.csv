@@ -1,0 +1,6 @@
+"parameter","original_lower","original_upper","lower","upper","sampling_scale"
+"lac_0",0.04,0.8,0.04,0.12,"log"
+"mu_0",0.03,0.6,0.3,0.6,"log"
+"gam_0",0.01,0.2,0.01,0.03,"log"
+"laa_0",0.03,0.8,0.03,0.8,"log"
+"K_0",40,120,40,120,"linear"
