@@ -2,7 +2,7 @@
 # Part I: recover model parameters from island community summaries.
 #
 # Research question:
-# To what extent do observable Richness, Network, and nLTT summaries retain
+# To what extent do observable Richness, Network, and nLTT (17 in total) summaries retain
 # sufficient information to recover each underlying model parameter?
 #
 # Design:
@@ -353,6 +353,18 @@ fit_parameter <- function(parameter_index) {
         task_seed <- forest_seed + parameter_index * 1000000L +
           repeat_id * 10000L + outer_fold_id * 100L + task_counter
 
+        # `tuned` returns a list of two: `tuned[best]` and `tuned[tuning]`
+        # e.g., > tuned[["best"]]
+        # mtry min.node.size  oob_rmse
+        # 1    1             3 0.7515302
+        # > tuned[["tuning"]]
+        # mtry min.node.size  oob_rmse
+        # 1     1             3 0.7515302
+        # 10    6            15 0.7525682
+        # 13    1            25 0.7570574
+        # 7    12             7 0.9120966
+        # 4    17             3 0.9671562
+        # 16   17            25 0.9680906
         tuned <- tune_forest(train_data, response, predictors, task_seed)
         best <- tuned$best # pick the best performance mtry and min_node
         model <- fit_forest(# then fit the specific(mtry = ~ and min_node = ~) model
@@ -360,6 +372,7 @@ fit_parameter <- function(parameter_index) {
           best$mtry, best$min.node.size, task_seed + 900001L
         )
         predicted_design <- predict_forest(model, test_data, predictors)
+        # returns the predicted values directly
 
         prediction_rows[[paste(parameter, split_id, predictor_set, sep = "_")]] <- data.frame(
           parameter = parameter,
@@ -537,6 +550,7 @@ metric_names <- c(
   "calibration_slope", "bias"
 )
 
+# lac_0.All.1.design, lac_0.All.1.original, ...
 performance_groups <- split(
   performance_by_repeat,
   interaction(
@@ -638,11 +652,13 @@ summary_group_lookup <- c(
 permutation_by_resample$summary_group <- unname(
   summary_group_lookup[permutation_by_resample$summary]
 )
+# `ave()` group-level statistics
 permutation_by_resample$rank_within_resample <- ave(
-  -permutation_by_resample$importance_delta_rmse,
-  interaction(permutation_by_resample$parameter, permutation_by_resample$split_id),
+  -permutation_by_resample$importance_delta_rmse, # make the highest value of importance rank 1
+  interaction(permutation_by_resample$parameter, permutation_by_resample$split_id), # lac_0.Repeat01Fold01
   FUN = function(x) rank(x, ties.method = "average")
-)
+) # rank 1: the most important predictor
+# rank 17: the least importance predictor
 
 importance_groups <- split(
   permutation_by_resample,

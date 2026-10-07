@@ -310,14 +310,15 @@ cat("Wrote proj3_second/figures/pilot_process_response.png\n")
 # Plot the inactive, informative and strong fraction ----------------------
 
 library(ggplot2)
+library(patchwork)
 
 exposure_data <- data.frame(
   mechanism = rep(
     c(
-      "mu[1] %.% d",
-      "(lambda[1]^a %.% D) / lambda[0]^a",
-      "K[1] %.% d / K[0]",
-      "K[1] %.% d / K[0] * '\\n(for mainland sp.)'"
+      "mu[G1] %.% d",
+      "(lambda[G1]^a %.% D) / lambda[G0]^a",
+      "K[G1] %.% d / K[G0]",
+      "K[G1] %.% d / K[G0] * '\\n(for mainland sp.)'"
     ),
     each = 3
   ),
@@ -343,7 +344,7 @@ exposure_data$exposure_class <- factor(
   levels = c("Inactive", "Informative", "Strong")
 )
 
-ggplot(
+p1 <- ggplot(
   exposure_data,
   aes(x = mechanism, y = median_fraction, fill = exposure_class)
 ) +
@@ -355,7 +356,7 @@ ggplot(
     aes(label = sprintf("%.1f%%", median_fraction)),
     position = position_dodge(width = 0.76),
     vjust = -0.35,
-    size = 3.5
+    size = 2
   ) +
   scale_fill_manual(
     values = c(
@@ -372,23 +373,23 @@ ggplot(
     expand = expansion(mult = c(0, 0))
   ) +
   labs(
-    x = "Mutualism-mediated term",
+    x = "Monitored term",
     y = "Median fraction of effects",
-    fill = NULL
-    #title = "Mechanism exposure across simulations",
+    fill = NULL,
+    title = "(a) In pilot simulations",
     #caption = paste(
     # "Each bar is the median, across simulations, of the fraction of time spent",
     # "in the corresponding exposure class."
   ) +
-  theme_classic(base_size = 12) +
+  theme_classic(base_size = 11) +
   theme(
-    plot.title = element_text(face = "bold", size = 15),
+    plot.title = element_text(face = "bold", size = 10, hjust =0.5),
     plot.caption = element_text(colour = "#5A5A5A", hjust = 0),
     axis.title.x = element_text(margin = margin(t = 10)),
     axis.title.y = element_text(margin = margin(r = 10)),
-    axis.text.x = element_text(size = 11),
+    axis.text.x = element_text(size = 9, angle = 45, hjust = 1, vjust = 1),
     panel.grid.major.y = element_line(colour = "#DCE1E5", linewidth = 0.35),
     panel.grid.minor = element_blank(),
     legend.position = "bottom"
   )
-
+# combine this plot with the one in `from_cluster_FINAL/01_analyze_final.R` p2
