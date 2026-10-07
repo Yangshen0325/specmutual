@@ -4,3 +4,22 @@
 .Ruserdata
 .DS_Store
 **/.DS_Store
+
+# proj3_second
+proj3_second/figures
+proj3_second/final_analysis_audit
+proj3_second/from_cluster_FINAL
+proj3_second/from_cluster_PILOT
+proj3_second/part1_inverse_inference
+
+
+# proj3_third
+proj3_third/data
+proj3_third/stress_rescue_results/
+
+# If some of them have been committed, remove them first by
+# git rm --cached path/to/file.
+# e.g., git rm -r --cached data/generated/
+# Then
+# git add .gitignore
+# git commit -m "Ignore generated data files"
