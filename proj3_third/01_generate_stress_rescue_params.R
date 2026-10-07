@@ -1,8 +1,6 @@
 ###############################################################################
 # Stressful intrinsic backgrounds with an expanded, continuous mutualism gradient.
 # 2,500 backgrounds x 4 scenarios = 10,000 independently seeded simulations
-# Maximin LHS follows the previous final-design sampling method.
-
 ###############################################################################
 
 rm(list = ls())
