@@ -7,11 +7,11 @@
 #SBATCH --job-name=proj3-rescue
 #SBATCH --output=proj3_third/stress_rescue_logs/rescue-%A_%a.log
 #SBATCH --error=proj3_third/stress_rescue_logs/rescue-%A_%a.log
-#SBATCH --time=1-12:00:00
+#SBATCH --time=2:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
-#SBATCH --mem=8G
+#SBATCH --mem=3G
 #SBATCH --partition=regular
 #SBATCH --array=1-1000%40
 
