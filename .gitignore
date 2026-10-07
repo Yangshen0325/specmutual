@@ -5,16 +5,25 @@
 .DS_Store
 **/.DS_Store
 
+data/JTB_accpt_paper.pdf
+
+# proj3
+proj3/data/
+
+
 # proj3_second
 proj3_second/figures
-proj3_second/final_analysis_audit
-proj3_second/from_cluster_FINAL
-proj3_second/from_cluster_PILOT
-proj3_second/part1_inverse_inference
+proj3_second/final_analysis_audit/
+proj3_second/from_cluster_FINAL/
+proj3_second/from_cluster_PILOT/
+proj3_second/part1_inverse_inference/
+proj3_second/to_plot_pilot_final_summary/
+proj3_second/Supplementary_parameter_calibration.tex
+
 
 
 # proj3_third
-proj3_third/data
+proj3_third/data/
 proj3_third/stress_rescue_results/
 
 # If some of them have been committed, remove them first by
