@@ -13,11 +13,11 @@
 #SBATCH --job-name=proj3-rf-intermediate
 #SBATCH --output=proj3_third/part1-rf-intermediate-%j.log
 #SBATCH --error=proj3_third/part1-rf-intermediate-%j.log
-#SBATCH --time=1-12:00:00
+#SBATCH --time=15:00:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=9
-#SBATCH --mem=32G
+#SBATCH --mem=6G
 #SBATCH --partition=regular
 
 set -euo pipefail
