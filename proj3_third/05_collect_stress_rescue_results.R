@@ -113,6 +113,13 @@ saveRDS(combined, file.path(processed_dir, "stress_rescue_results_combined.rds")
 saveRDS(endpoints, file.path(processed_dir, "stress_rescue_completed.rds"))
 # Save continuous ON rows for RF; identifiers are for grouping, never predictors.
 saveRDS(analysis_df, file.path(processed_dir, "part1_analysis_ready.rds"))
+# Save each completed ON band as a separate RF input. design_group is retained
+# only to select/check the dataset and label outputs; it is never an RF predictor.
+# Run this collector once before submitting the three independent RF jobs.
+for (group in on_groups) {
+  group_data <- analysis_df[analysis_df$design_group == group, , drop = FALSE]
+  saveRDS(group_data, file.path(processed_dir, paste0("part1_analysis_ready_", group, ".rds")))
+}
 # Save exact-zero controls separately from the continuous-parameter regressions.
 saveRDS(baselines, file.path(processed_dir, "stress_rescue_no_mutualism.rds"))
 
