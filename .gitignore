@@ -26,6 +26,17 @@ proj3_second/Supplementary_parameter_calibration.tex
 proj3_third/data/processed/
 proj3_third/stress_rescue_results/
 
+
+# proj3_fourth
+proj3_fourth/data/processed/
+
+# Separate higher-range 50,000-row experiment; keep generated inputs versionable.
+proj3_fourth_higher_range_50k/data/processed/
+proj3_fourth_higher_range_50k/simulation_results/
+proj3_fourth_higher_range_50k/simulation_logs/
+proj3_fourth_higher_range_50k/simulation_submissions.tsv
+proj3_fourth_higher_range_50k/part1-rf-*.log
+
 # If some of them have been committed, remove them first by
 # git rm --cached path/to/file.
 # e.g., git rm -r --cached data/generated/
