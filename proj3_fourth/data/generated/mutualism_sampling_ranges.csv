@@ -7,3 +7,7 @@
 "higher_range","mu_1",0.005,0.15,0.15,3,"log"
 "higher_range","laa_1",0,0.25,0.25,2.5,"linear"
 "higher_range","lambda0",0.05,1.5,1.5,15,"log"
+"mid_range","K_1",0.25,40,3,125,"log"
+"mid_range","mu_1",0.005,0.15,0.03,0.7,"log"
+"mid_range","laa_1",0,0.25,0.13,1.4,"linear"
+"mid_range","lambda0",0.05,1.5,0.27,4.7,"log"
