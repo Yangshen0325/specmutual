@@ -1,5 +1,5 @@
 ###############################################################################
-# Run ONE row from the parameter design, on a cluster compute node.
+# Run ONE mid_range row from the parameter design, on a cluster compute node.
 # Adapted from proj3_second/06_run_final_sim_proj3.R; the stochastic model,
 # fixed settings and summary definitions are unchanged.
 #
@@ -41,6 +41,9 @@ params <- read.csv(param_file, stringsAsFactors = FALSE, check.names = FALSE)
 p <- params[params$simulation_id == simulation_id, , drop = FALSE]
 if (nrow(p) != 1L) {
   stop("simulation_id ", simulation_id, " not found exactly once in ", param_file)
+}
+if (!identical(p$design_group, "mid_range")) {
+  stop("simulation_id ", simulation_id, " is outside the mid_range design.")
 }
 outfile <- file.path(out_dir, paste0(p$simulation_key, ".rds"))
 

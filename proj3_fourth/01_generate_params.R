@@ -1,6 +1,6 @@
 ###############################################################################
-# Broad intrinsic backgrounds matched across no/lower-range/higher-range mutualism.
-# 5,000 backgrounds x 3 scenarios = 15,000 independently seeded simulations.
+# Broad intrinsic backgrounds matched across no/lower/higher/mid-range mutualism.
+# Keep the original 15,000 rows and append 5,000 independently seeded mid-range rows.
 # Adapted from proj3_third/01_generate_stress_rescue_params.R.
 ###############################################################################
 
@@ -8,14 +8,7 @@ rm(list = ls())
 run_dir <- "proj3_fourth"
 generated_dir <- file.path(run_dir, "data", "generated")
 param_file <- file.path(generated_dir, "param_table.csv")
-if (file.exists(param_file)) {
-  stop("Design already exists. Keep it fixed once jobs have been submitted: ", param_file)
-}
-dir.create(run_dir, showWarnings = FALSE)
 dir.create(generated_dir, recursive = TRUE, showWarnings = FALSE)
-dir.create(file.path(run_dir, "data", "processed"), recursive = TRUE, showWarnings = FALSE)
-dir.create(file.path(run_dir, "simulation_logs"), showWarnings = FALSE)
-dir.create(file.path(run_dir, "simulation_results"), showWarnings = FALSE)
 
 design_seed <- 20261014L
 n_backgrounds <- 5000L
@@ -49,6 +42,13 @@ mutualism_ranges <- data.frame(
   sampling_scale = rep(c("log", "log", "linear", "log"), 2)
 )
 
+# Use the rounded bounds from mid_try with the original sampling scales.
+mid_range <- mutualism_ranges[mutualism_ranges$design_group == "lower_range", ]
+mid_range$design_group <- "mid_range"
+mid_range$lower <- c(3, 0.03, 0.13, 0.27)
+mid_range$upper <- c(125, 0.7, 1.4, 4.7)
+mutualism_ranges <- rbind(mutualism_ranges, mid_range)
+
 scale_range <- function(u, lower, upper, sampling_scale) {
   if (sampling_scale == "log") {
     exp(log(lower) + u * (log(upper) - log(lower)))
@@ -59,7 +59,7 @@ scale_range <- function(u, lower, upper, sampling_scale) {
 
 # Draw independent uniform values, then map them to the log/linear design scales.
 # runif() samples continuous ranges; sample() would require discrete candidates.
-# Reuse these backgrounds in all three scenarios to retain matched comparisons.
+# Reuse these backgrounds in all four scenarios to retain matched comparisons.
 background_unit <- matrix(runif(n_backgrounds * 5L), nrow = n_backgrounds)
 backgrounds <- data.frame(background_id = seq_len(n_backgrounds))
 for (j in seq_len(nrow(intrinsic_ranges))) {
@@ -69,7 +69,7 @@ for (j in seq_len(nrow(intrinsic_ranges))) {
   )
 }
 
-groups <- c("no_mutualism", "lower_range", "higher_range")
+groups <- c("no_mutualism", "lower_range", "higher_range", "mid_range")
 rows <- lapply(groups, function(group) {
   p <- backgrounds
   p$design_group <- group
@@ -94,7 +94,9 @@ rows <- lapply(groups, function(group) {
   p
 })
 params <- do.call(rbind, rows)
-params <- params[order(params$background_id, match(params$design_group, groups)), ]
+# Keep the first three groups in the original order so their IDs and seeds stay fixed.
+params <- params[order(params$design_group == "mid_range", params$background_id,
+                       match(params$design_group, groups)), ]
 row.names(params) <- NULL
 params$simulation_id <- seq_len(nrow(params))
 params$simulation_key <- sprintf("sim_%05d", params$simulation_id)
@@ -109,17 +111,26 @@ params <- params[, c(
 
 # Only the essential design checks: unique rows/seeds and complete matched sets.
 stopifnot(
-  nrow(params) == 15000L,
+  nrow(params) == 20000L,
+  !anyNA(params$simulation_seed),
   !anyDuplicated(params$simulation_seed),
   !anyDuplicated(params[, c(intrinsic_ranges$parameter,
                             unique(mutualism_ranges$parameter))]),
   all(table(params$background_id, params$design_group) == 1L)
 )
+# Accept the original table or this exact extension. Refuse to replace another design.
+if (file.exists(param_file)) {
+  existing <- read.csv(param_file, stringsAsFactors = FALSE)
+  if (!nrow(existing) %in% c(15000L, 20000L) ||
+      !isTRUE(all.equal(existing, params[seq_len(nrow(existing)), ], tolerance = 1e-12))) {
+    stop("Existing parameter table differs from the expected design: ", param_file)
+  }
+}
 # Save the full matched design, IDs and seeds (one row per simulation).
 write.csv(params, param_file, row.names = FALSE)
-# Save intrinsic bounds/scales used by both independent RF analyses.
+# Save intrinsic bounds/scales used by the independent RF analyses.
 write.csv(intrinsic_ranges, file.path(generated_dir, "intrinsic_ranges.csv"),
           row.names = FALSE)
-# Save lower/higher mutualism bounds/scales; the no-mutualism row values are all zero.
+# Save lower/higher/mid mutualism bounds/scales; the no-mutualism values are all zero.
 write.csv(mutualism_ranges, file.path(generated_dir, "mutualism_sampling_ranges.csv"),
           row.names = FALSE)

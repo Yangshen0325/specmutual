@@ -1,8 +1,8 @@
 ###############################################################################
-# Prepare community summaries before Part I random forests.
+# Prepare mid_range community summaries before Part I random forests.
 # Run from the repository root:
 #   Rscript proj3_fourth/05_collect_results.R
-# Keep all design rows, even if their cluster results have not arrived.
+# Keep all mid_range design rows, even if their cluster results have not arrived.
 # No imputation, averaging, or replacement of endpoints by partial trajectories.
 ###############################################################################
 rm(list = ls())
@@ -17,9 +17,12 @@ configured <- Sys.getenv("PROJ3_FOURTH_OUTPUT_DIR", unset = "")
 result_dir <- if (nzchar(configured)) path.expand(configured) else
   file.path(run_dir, "simulation_results")
 params <- read.csv(param_file, stringsAsFactors = FALSE)
+params <- params[params$design_group == "mid_range", , drop = FALSE]
+if (nrow(params) != 5000L) {
+  stop("Expected 5,000 mid_range rows in ", param_file)
+}
 total_time <- proj3_fourth_env_number("PROJ3_FOURTH_TOTAL_TIME", 10)
 summary_names <- proj3_fourth_community_stat_names()
-on_groups <- c("lower_range", "higher_range")
 if (anyDuplicated(params$simulation_id) || anyDuplicated(params$simulation_key)) {
   stop("The parameter table must have unique simulation IDs and keys.")
 }
@@ -101,40 +104,29 @@ for (i in seq_len(nrow(params))) {
 combined <- proj3_fourth_bind_rows(rows)
 endpoint_ok <- combined$success_status == "completed" &
   combined$summary_status == "available"
-combined$analysis_eligible <- endpoint_ok & combined$design_group %in% on_groups
+combined$analysis_eligible <- endpoint_ok
 endpoints <- combined[endpoint_ok, , drop = FALSE]
-analysis_df <- combined[combined$analysis_eligible, , drop = FALSE]
-baselines <- endpoints[endpoints$design_group == "no_mutualism", , drop = FALSE]
 
 dir.create(processed_dir, recursive = TRUE, showWarnings = FALSE)
-# Save every planned parameter row with completion and summary-availability status.
-saveRDS(combined, file.path(processed_dir, "simulation_results_combined.rds"))
-# Save successfully summarized endpoints from all scenarios for later comparisons.
-saveRDS(endpoints, file.path(processed_dir, "completed_simulations.rds"))
-# Save continuous ON rows for RF; identifiers are for grouping, never predictors.
-saveRDS(analysis_df, file.path(processed_dir, "part1_analysis_ready.rds"))
-# Save each completed ON band as a separate RF input. design_group is retained
-# only to select/check the dataset and label outputs; it is never an RF predictor.
-# Run this collector once before submitting the two independent RF jobs.
-for (group in on_groups) {
-  group_data <- analysis_df[analysis_df$design_group == group, , drop = FALSE]
-  saveRDS(group_data, file.path(processed_dir, paste0("part1_analysis_ready_", group, ".rds")))
-}
-# Save exact-zero controls separately from the continuous-parameter regressions.
-saveRDS(baselines, file.path(processed_dir, "no_mutualism_completed.rds"))
+# Save all mid_range rows separately from the archived combined results.
+saveRDS(combined, file.path(processed_dir, "simulation_results_combined_mid_range.rds"))
+# Save successfully summarized mid_range endpoints for RF.
+saveRDS(endpoints, file.path(processed_dir, "part1_analysis_ready_mid_range.rds"))
 
 counts <- as.data.frame(table(combined$design_group, combined$success_status,
                              combined$summary_status))
 names(counts) <- c("design_group", "success_status", "summary_status", "n")
 counts <- counts[counts$n > 0, ]
 # Save a small status table to track partial delivery and incomplete simulations.
-write.csv(counts, file.path(processed_dir, "simulation_status_counts.csv"), row.names = FALSE)
+write.csv(counts, file.path(processed_dir, "simulation_status_counts_mid_range.csv"),
+          row.names = FALSE)
 retry <- combined[!endpoint_ok, c("simulation_id", "simulation_key", "design_group",
                                   "success_status", "summary_status", "summary_error")]
 retry$batch_offset <- ((retry$simulation_id - 1L) %/% 1000L) * 1000L
 retry$array_task_id <- retry$simulation_id - retry$batch_offset
 # Save a REVIEW table, not an automatic retry command: absent files may be in transit.
-write.csv(retry, file.path(processed_dir, "simulation_retry_review.csv"), row.names = FALSE)
-cat("Expected rows:", nrow(params), "| Available completed endpoints:", nrow(endpoints),
-    "| Continuous ON rows for RF:", nrow(analysis_df), "\n")
+write.csv(retry, file.path(processed_dir, "simulation_retry_review_mid_range.csv"),
+          row.names = FALSE)
+cat("Expected mid_range rows:", nrow(params), "| Available completed endpoints:",
+    nrow(endpoints), "\n")
 print(counts)

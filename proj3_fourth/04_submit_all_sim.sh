@@ -1,7 +1,7 @@
 #!/bin/bash
 ###############################################################################
 # Submit from the repository root, ON THE CLUSTER, after transferring the design.
-# Fifteen arrays of 1,000 tasks cover all 15,000 simulations. Submit only while
+# Five arrays of 1,000 tasks cover all 5,000 mid_range simulations. Submit only while
 # the user's queue has room under the 6,000-task limit, then exit (do not wait).
 # Run this same command again after slots are released; recorded batches are
 # skipped. afterany dependencies retain at most 40 running simulations.
@@ -10,14 +10,17 @@
 set -euo pipefail
 export SPEC_MUTUAL_BASE="${SPEC_MUTUAL_BASE:-$(pwd)}"
 cd "${SPEC_MUTUAL_BASE}"
-test -f proj3_fourth/data/generated/param_table.csv || {
-  echo "Missing parameter table. Transfer the prepared design first." >&2
+param_file="proj3_fourth/data/generated/param_table.csv"
+test -f "${param_file}" && awk -F, '$6 == "\"mid_range\"" {
+  if ($1 != 15001 + n++) invalid = 1
+} END {exit (invalid || n != 5000)}' "${param_file}" || {
+  echo "Expected 5,000 mid_range rows with IDs 15001–20000. Transfer the prepared design first." >&2
   exit 2
 }
 # SLURM opens logs BEFORE the job script runs, so make this directory here.
 mkdir -p proj3_fourth/simulation_logs proj3_fourth/simulation_results
 
-submission_log="proj3_fourth/simulation_submissions.tsv"
+submission_log="proj3_fourth/simulation_submissions_mid_range.tsv"
 submit_limit=6000
 cluster_user=$(id -un)
 # The log records accepted submissions, not successful simulation outcomes.
@@ -27,7 +30,7 @@ previous_job=""
 if [[ -s "${submission_log}" ]]; then
   previous_job=$(awk 'END {print $1}' "${submission_log}")
 fi
-for offset in 0 1000 2000 3000 4000 5000 6000 7000 8000 9000 10000 11000 12000 13000 14000; do
+for offset in 15000 16000 17000 18000 19000; do
   if [[ -f "${submission_log}" ]] && \
      awk -v offset="${offset}" '$2 == offset {found=1} END {exit !found}' "${submission_log}"; then
     continue
@@ -57,4 +60,4 @@ for offset in 0 1000 2000 3000 4000 5000 6000 7000 8000 9000 10000 11000 12000 1
   printf '%s\t%s\n' "${previous_job}" "${offset}" \
     >> "${submission_log}"
 done
-echo "All 15 batches have been submitted. This does not mean all simulations completed."
+echo "All five mid_range batches have been submitted."

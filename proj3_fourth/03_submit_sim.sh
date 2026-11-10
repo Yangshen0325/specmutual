@@ -1,11 +1,11 @@
 #!/bin/bash
 ###############################################################################
-# One 1,000-task SLURM array. Each task runs ONE simulation, not 10 simulations.
+# One 1,000-task SLURM array of mid_range simulations. Each task runs one row.
 # Submit available batches with: bash proj3_fourth/04_submit_all_sim.sh
 # Rerun that command after queue slots are released to submit remaining batches.
 # Keep submissions rooted in the specmutual repository, as in the old workflow.
 ###############################################################################
-#SBATCH --job-name=proj4-range
+#SBATCH --job-name=proj4-mid-range
 #SBATCH --output=proj3_fourth/simulation_logs/sim-%A_%a.log
 #SBATCH --error=proj3_fourth/simulation_logs/sim-%A_%a.log
 #SBATCH --time=1-12:00:00
@@ -40,8 +40,8 @@ export PROJ3_FOURTH_SAVE_STATE="${PROJ3_FOURTH_SAVE_STATE:-false}"
 export PROJ3_FOURTH_FORCE="${PROJ3_FOURTH_FORCE:-false}"
 export PROJ3_FOURTH_RERUN_SAFETY_STOPPED="${PROJ3_FOURTH_RERUN_SAFETY_STOPPED:-false}"
 
-# Offsets 0,1000,...,14000 translate the local array task into the stable CSV ID.
-simulation_id=$(( ${PROJ3_FOURTH_BATCH_OFFSET:-0} + SLURM_ARRAY_TASK_ID ))
+# Offsets 15000,16000,...,19000 translate the local array task into the stable CSV ID.
+simulation_id=$(( ${PROJ3_FOURTH_BATCH_OFFSET:-15000} + SLURM_ARRAY_TASK_ID ))
 echo "Starting simulation ${simulation_id} at $(date --iso-8601=seconds)"
 echo "Host: $(hostname); job: ${SLURM_JOB_ID}; array task: ${SLURM_ARRAY_TASK_ID}"
 Rscript proj3_fourth/02_run_sim.R "${simulation_id}"
